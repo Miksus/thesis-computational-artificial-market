@@ -1,12 +1,12 @@
 
-mutable struct Investor
+mutable struct SingleAssetInvestor <: Investor
     name::String
     cash::Float64
     position::Int64
 
     decide::Function
 
-    function Investor(name, cash=0, position=0; quantity_expr, price_expr, order_expr)
+    function SingleAssetInvestor(name, cash=0, position=0; quantity_expr::Expr, price_expr::Expr, order_expr::Expr)
 
         max_quantity = :(order == SellLimitOrder ? position : order == BuyLimitOrder ? floor(cash/price) : throw(DomainError(order, "Not implmented placement")))
         max_price = :(order == SellLimitOrder ? Inf : order == BuyLimitOrder ? cash / quantity : throw(DomainError(order, "Not implmented placement")))
@@ -26,23 +26,30 @@ mutable struct Investor
         end
         new(name, cash, position, eval(decision_func))
     end
-    function Investor(name; quantity_expr, price_expr, cash=0, position=0)
+    function SingleAssetInvestor(name; quantity_expr, price_expr, cash=0, position=0)
         new(name, cash, position, price_expr, quantity_expr)
     end
 end
 
 
-function place!(trader::Investor, market::AbstractMarket)
+function place!(trader::SingleAssetInvestor, market::AbstractMarket)
     order = trader.decide(trader.cash, trader.position, market.last_price, trader, market)
+
+    # Keeping track of which order came when
+    curr_time = market.timestamp + 1
+    order.timestamp = curr_time
+    market.timestamp = curr_time
+
     if order == nothing
         return
     end
-    place!(market, order)
-end
+    if order.quantity > 0
+        place!(market, order)
+    elseif order.quantity == 0
+        # No need to add zero order to order book
+        return
+    elseif order.quantity < 0
+        throw(DomainError(order, "Quantity of below 0 not accepted"))
+    end
 
-
-function create_order(trader, market::AbstractMarket)
-
-    order
-    return order(trader, price, quantity)
 end

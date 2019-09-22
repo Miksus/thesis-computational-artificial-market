@@ -1,11 +1,12 @@
 mutable struct DoubleAuctionMarket <: AbstractMarket
-    name::String
+    asset::String
     last_price::Float64
     sell_limit_orders::Array{SellLimitOrder, 1}
     buy_limit_orders::Array{BuyLimitOrder, 1}
 
+    timestamp::Int64
     function DoubleAuctionMarket(name::String)
-        new(name, NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}())
+        new(name, NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}(), 1)
     end
 end
 
@@ -27,7 +28,7 @@ function maxprice(orders::Array{<:LimitOrder, 1})
 end
 
 
-getprice(buy::BuyLimitOrder, sell::SellLimitOrder) = mean([buy.price, sell.price])
+getprice(buy::BuyLimitOrder, sell::SellLimitOrder) = buy.timestamp < sell.timestamp ? buy.price : sell.price
 getquantity(buy::BuyLimitOrder, sell::SellLimitOrder) = min(buy.quantity, sell.quantity)
 
 
@@ -43,6 +44,7 @@ function settle!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOr
 
     trade_prices = Array{Float64, 1}()
     trade_quantities = Array{Int64, 1}()
+    orders_settled = 0
     while maxprice(buy_book) >= minprice(sell_book)
 
         index_sell = argmin(map(x -> x.price, sell_book))
@@ -67,8 +69,11 @@ function settle!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOr
 
         push!(trade_prices, price)
         push!(trade_quantities, quantity)
+        orders_settled += 1
     end
-    market.last_price = sum(trade_prices.* float(trade_quantities)) / sum(float(trade_quantities))
+    if orders_settled > 0
+        market.last_price = sum(trade_prices.* float(trade_quantities)) / sum(float(trade_quantities))
+    end
     return trade_prices, trade_quantities
 end
 

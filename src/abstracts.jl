@@ -1,6 +1,7 @@
 
 
 abstract type AbstractMarket end
+abstract type Investor end
 
 abstract type Order end
 
