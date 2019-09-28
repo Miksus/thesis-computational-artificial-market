@@ -1,3 +1,5 @@
+include("../utils/expressions.jl")
+using Distributions
 
 mutable struct SingleAssetInvestor <: Investor
     name::String
@@ -21,24 +23,20 @@ mutable struct SingleAssetInvestor <: Investor
                 $exp_1
                 $exp_2
                 $exp_3
-                return order(trader, price, quantity)
+                return order(trader, price=price, quantity=quantity)
             end
         end
         new(name, cash, position, eval(decision_func))
     end
-    function SingleAssetInvestor(name; quantity_expr, price_expr, cash=0, position=0)
-        new(name, cash, position, price_expr, quantity_expr)
+
+    function SingleAssetInvestor(name::String, cash::Float64, position::Int64, func::Function)
+        new(name, cash, position, func)
     end
 end
 
 
 function place!(trader::SingleAssetInvestor, market::AbstractMarket)
     order = trader.decide(trader.cash, trader.position, market.last_price, trader, market)
-
-    # Keeping track of which order came when
-    curr_time = market.timestamp + 1
-    order.timestamp = curr_time
-    market.timestamp = curr_time
 
     if order == nothing
         return
@@ -52,4 +50,13 @@ function place!(trader::SingleAssetInvestor, market::AbstractMarket)
         throw(DomainError(order, "Quantity of below 0 not accepted"))
     end
 
+end
+
+function place_and_clear!(trader::SingleAssetInvestor, market::AbstractMarket)
+    order = trader.decide(trader.cash, trader.position, market.last_price, trader, market)
+    if order.quantity > 0
+        trades = settle!(market, order)
+        return trades
+    end
+    return Array{Trade, 1}()
 end
