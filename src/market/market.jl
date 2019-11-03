@@ -1,14 +1,14 @@
 
 
 mutable struct DoubleAuctionMarket <: AbstractMarket
-    asset::String
+    asset::AbstractAsset
     last_price::Float64
     sell_limit_orders::Array{SellLimitOrder, 1}
     buy_limit_orders::Array{BuyLimitOrder, 1}
 
     timestamp::Int64
     function DoubleAuctionMarket(name::String)
-        new(name, NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}(), 1)
+        new(Stock(name), NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}(), 1)
     end
 end
 

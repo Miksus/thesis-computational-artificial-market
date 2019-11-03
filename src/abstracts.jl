@@ -1,7 +1,8 @@
 
 
 abstract type AbstractMarket end
-abstract type Investor end
+abstract type AbstractInvestor end
+abstract type AbstractAsset end
 
 abstract type Order end
 

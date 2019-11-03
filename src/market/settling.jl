@@ -13,7 +13,7 @@ function settle!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOr
         order_buy = buy_book[index_buy]
 
 
-        trade = settle!(order_buy, order_sell, method=:fair)
+        trade = settle!(order_buy, order_sell, market.asset, side=:equal)
 
         trade_quantity = getquantity(order_buy, order_sell)
         sell_book[index_sell].quantity -= trade.quantity
@@ -41,7 +41,7 @@ end
 function settle!(market::DoubleAuctionMarket, sell_order::SellLimitOrder)
     trades = Array{Trade, 1}()
     while (maxprice(market.buy_limit_orders) >= sell_order.price) & (sell_order.quantity > 0)
-        trade = _settle_trade!(market.buy_limit_orders, sell_order, method=:buy_side)
+        trade = _settle_trade!(market.buy_limit_orders, sell_order, market.asset, side=:buy)
         market.last_price = trade.price
         push!(trades, trade)
     end
@@ -57,7 +57,7 @@ end
 function settle!(market::DoubleAuctionMarket, buy_order::BuyLimitOrder)
     trades = Array{Trade, 1}()
     while (minprice(market.sell_limit_orders) <= buy_order.price) & (buy_order.quantity > 0)
-        trade = _settle_trade!(market.sell_limit_orders, buy_order, method=:sell_side)
+        trade = _settle_trade!(market.sell_limit_orders, buy_order, market.asset, side=:sell)
         market.last_price = trade.price
         push!(trades, trade)
     end
@@ -71,11 +71,11 @@ end
 
 
 "Settle One Trade"
-function _settle_trade!(book::Array{T, 1}, order::LimitOrder; method::Symbol) where T <: LimitOrder
+function _settle_trade!(book::Array{T, 1}, order::LimitOrder, stock::AbstractAsset; side::Symbol) where T <: LimitOrder
     index_best = best_order_index(book)# argmax(map(x -> x.price, buy_book))
     best_counter_order = book[index_best]
 
-    trade = settle!(order, best_counter_order, method=method)
+    trade = settle!(order, best_counter_order, stock, side=side)
     book[index_best].quantity -= trade.quantity
     order.quantity -= trade.quantity
 

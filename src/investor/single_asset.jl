@@ -1,7 +1,7 @@
 include("../utils/expressions.jl")
 using Distributions
 
-mutable struct SingleAssetInvestor <: Investor
+mutable struct SingleAssetInvestor <: AbstractInvestor
     name::String
     cash::Float64
     position::Int64
@@ -57,6 +57,7 @@ function place_and_clear!(trader::SingleAssetInvestor, market::AbstractMarket)
     if order.quantity > 0
         trades = settle!(market, order)
         return trades
+    else
+        return Array{Trade, 1}()
     end
-    return Array{Trade, 1}()
 end
