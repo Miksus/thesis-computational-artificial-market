@@ -5,6 +5,8 @@ __pycache__/
 
 .pytest_cache/
 
+# Log files
+*.log
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -26,3 +28,19 @@ venv.bak/
 
 # VS Code
 .vscode/
+
+# Thesis (Latex stuff)
+*.pdf
+*.blg
+*.bbl
+*.aux
+*.lof
+*.synctex.gz
+*.toc
+*.dvi
+*.fls
+*.nls
+*.nlo
+*.fdb_latexmk
+*.lot
+!*/figs/*.pdf
