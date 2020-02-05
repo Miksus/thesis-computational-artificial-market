@@ -1,0 +1,136 @@
+% Jouni Ritvanen
+% Lappeenranta University of Technology,
+% LUT Energy, P.O.Box 20,
+% FIN-53810 Lappeenranta, FINLAND.
+% ritvanen@lut.fi
+%
+% Compile to pdf, run at command prompt:
+% latex main
+% makeindex main_v2.nlo -s nomencl.ist -o main_v2.nls
+% bibtex main
+% latex main
+% latex main
+% dvipdfm main.dvi
+%
+% tested with MiKTeX and WinEdt
+
+\documentclass[a4paper,twoside,12pt,notitlepage,openright,12pt]{article}
+
+% Load relevant packages
+% ----------------------
+\usepackage[ansinew]{inputenc}
+\usepackage{graphicx} %[dvips] to used with .eps figures
+\usepackage{natbib}
+\usepackage{lastpage}   % page count
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage[intoc]{nomencl} % including table of content
+\usepackage{ifthen}
+\usepackage[hmargin=3.0cm,vmargin=3.6cm]{geometry} % setting marginals
+\usepackage{fancyhdr,extramarks}  % header ja footer manipulation
+\usepackage{times}  % to change font to times
+%\usepackage{uarial} % as similar as Arial as possible
+\usepackage{setspace} % for linespacing
+
+
+% Setup ??
+% --------
+\newcommand{\nomunit}[1]{\renewcommand{\nomentryend}{\hspace*{\fill}#1}} % Inserts units on the right at symbol list
+\renewcommand{\nomgroup}[1]{%
+ \ifthenelse{\equal{#1}{C}}{\item[\textbf{Latin alphabet}]\item}{%
+ \ifthenelse{\equal{#1}{G}}{\item\item[\textbf{Greek alphabet}]\item}{}}{%
+ \ifthenelse{\equal{#1}{L}}{\item\item[\textbf{Subscripts}]\item}{}}{%
+ \ifthenelse{\equal{#1}{H}}{\item\item[\textbf{Superscripts}]\item}{}}{%
+ \ifthenelse{\equal{#1}{W}}{\item\item[\textbf{Abbreviations}]\item}{}}{}}
+
+\singlespacing
+
+% HEADING
+% -------
+
+\pagestyle{empty} % Alternatives: fancy, empty
+\fancyhf{}% clearing the header and footer
+\fancyhead[RE,RO]{\thepage}
+
+%\renewcommand\sectionmark[1]
+%{\markboth{\thesection\ #1}{}}         % section name to header
+%\renewcommand\subsectionmark[1]
+%{\markright{\thesubsection\ #1}}       % subsection name to header
+\renewcommand{\headrulewidth}{0pt}    % ruler thickness between head and body
+\renewcommand{\footrulewidth}{0pt}      % no ruler between body and footer
+
+\setlength{\nomitemsep}{-\parsep}   % removing default extra skip between entries at nomenclature
+\linespread{1.25} % Set line spacing to 1.5 https://tex.stackexchange.com/a/65985
+\numberwithin{equation}{section}    % equation numbers with section numbers
+\numberwithin{table}{section}       % table numbers with section numbers
+\numberwithin{figure}{section}      % figure numbers with section numbers
+
+% makeindex command needs to run at command prompt to create nomenclature list file
+\makenomenclature % makeindex main_v2.nlo -s nomencl.ist -o main_v2.nls
+%\bibpunct{(}{)}{;}{a}{,}{,}%
+
+
+
+
+% Actual document
+% ---------------
+
+\begin{document}
+
+
+\include{cover} 
+\include{abstract}
+%\addtocontents{toc}{\contentsline {section}{Abstract}{}}
+
+\include{acknowledgments}
+%\addtocontents{toc}{\contentsline {section}{Acknowledgments}{}}%
+\input{preface}
+\cleardoublepage%
+\thispagestyle{empty}%
+% \addtocontents{toc}{\contentsline{section}{Contents}{}} % including contents to contents
+
+\tableofcontents%
+\listoffigures
+\listoftables
+
+\thispagestyle{empty}%
+%\cleardoublepage%
+\pagestyle{fancy}%
+
+%\addcontentsline{toc}{section}{List of publications}
+%\include{LOP} %List of publications
+
+
+%\cleardoublepage%
+\printnomenclature[2.0cm]%
+
+\setcounter{page}{1} % Set page numbering starting from 1 from here on
+
+% Content of the Thesis
+% ---------------------
+
+\include{content/introduction} %Introduction
+\include{content/microstructure}
+\include{content/artificial_stock_market}
+\include{content/literature_review}
+
+% References
+% ----------
+\renewcommand{\thepage}{} % Stop page numbering in references
+%\def\refname{what ever}% to change References title
+\addcontentsline{toc}{section}{References}%
+
+\fancyhead[LO]{\nouppercase{\bfseries\firstleftxmark}}%
+\fancyhead[RE]{\nouppercase{\bfseries\lastrightxmark}}%
+\extramarks{}{References}   % this will remove the "References" to be appearing at the header at first page of bibliography
+\extramarks{References}{References}
+\bibliography{ref}%
+%\bibliographystyle{LUTapa}%
+\bibliographystyle{LUTapa2}
+%\bibliographystyle{LUTapa1}% %This won't shorten 4 or more author to "et al." in reference list
+
+
+%\cleardoublepage %
+
+\end{document}
