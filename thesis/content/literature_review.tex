@@ -18,8 +18,84 @@ Since then there have been many more models being
 developed with various complexities. These models are often developed
 for achieving specific properties of a real market, 
 usually related to the price formation. In this section
-we take a look recent literature to describe some of the models
-that has been built and the design decisions in them.
+go through recent literature to describe some of the models
+that has been built and discuss the design decisions in them.
 
 
 \citep{Ben12}
+
+\subsection{Zero Intelligent Traders}
+\citet{God93} observed market efficiency in a market setting
+of minimal intelligence. They conducted a partly human and partly
+computational laboratory experiment to replicate the market
+efficiency of human traders with least intelligent computational
+trading agents. \\
+
+Their market is organized as a double auction with several
+specifications. The market is continuous in a sense that the 
+orders are continuously matched even though the trading was
+conducted in speicified sessions. The traders were divided 
+into buyers and sellers. Buyers profits were tied to their 
+individual redemption values that are gained at the end of
+each trading session for each bough unit and sellers' profits
+were tied to their individual cost of unit. Redemption values
+represent the demand function of each buyer and cost of units 
+the supply function of each seller for each session. The
+traders were allowed to submit orders with size of one unit
+and the trade price was taken from the price stated in the 
+first of the crossing orders. \\
+
+The computational trading agents were zero intelligent traders 
+who trade at random price from a predefined range. 
+The first simulation was run with budget constrain: only the bids
+under the redemption value and the asks over the cost of unit 
+were allowed. The second simulation was run without such limitation.
+These simulations were compared with the data from human traders. \\
+
+\citeauthor{God93} found that the budget constrain is enough to 
+achieve market efficiency very close to human traders. Their findings
+suggest that intelligence does not to play critical role in terms of 
+how to build an efficient artificial market. The more important aspect
+is the characteristics of the market, not the traders. \\
+
+
+% Continuation study from Jamal & Sunder
+\citet{Jam96} expanded \citeauthor{God93}'s work and added behavioural 
+elements to similar market structure. They tested the rationality of
+a market with three different trader populations: bayesian, empirical
+bayesian and heuristical traders. Bayesian and empirical bayesian acted
+as baselines for the market rationality and heuristical traders were
+the treatment populations for which the researchers added behavioural
+elements: representativeness bias and anchor-and-adjust. 
+
+The traders in all populations were zero intelligent in terms of what
+price they bid and ask. Most notable difference to \citet{God93}'s market
+is that instead of redemption value and cost of units determining the
+supply and demand values, \citeauthor{Jam96} used private dividend payouts 
+to act as such. The dividend payout is random but traders are informed
+about two possible dividends. There is also an imperfect signal that the
+traders can utilize to determine which of the payouts is more probable.
+
+
+% Another example of Intelligence vs Structure
+\citet{Raberto05} experimented with ZI investors in market setting
+where each computational traders can submit bid and ask offers. Their
+market was also a continuous double auction which has realistic order
+book setup. In their market, the traders issue random bid and ask limit
+orders with a price that follows normal distribution. The mean of this 
+normal distribution is the best price of the opposite book and the 
+standard deviation is constant in the first experiment and linearly 
+dependent on the volatility of the stock in the second experiment. The
+traders do have a budget constrain. \\
+
+\citeauthor{Raberto05} found that the fat tailed returns observed in
+real stock markets can be achieved in artificial settings using limit 
+order book in the price formation and it is not consequence of clearing 
+house mechanism itself. They also found that volatility clusters can
+be achieved with a simple dependency on the volatility. Their paper
+is furher evidence that the market microstructure may be more
+important than the complexity of the traders in effort to replicate
+many of the properties of real markets.
+
+% Counter Argument for usefullness of ZI
+\citet{Mil08} 
