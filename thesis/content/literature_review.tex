@@ -141,8 +141,9 @@ fixed interest based on the amount of cash each trader holds and companies
 pay dividend for each share. External world is a container of exogenous 
 information, such as paid dividends or news, that can be used by the traders for 
 their decision making. The researchers also discussed that the model could be
-simplfied by including banks', companies' and extrnal world's roles to the
-trader agents in case of less complex but less detailed model is required.
+simplfied to only trading agents and market agent by including banks', companies' 
+and extrnal world's roles to the trader agents in case of less complex but 
+less detailed model is required.
 
 The orders in their model requires the following information to be valid:
 stock name, time-stamp, volume and the quoted price. These orders are stored
@@ -154,8 +155,30 @@ also in the trader agents themselves for possible cancelling purposes.
 As they did not build a working software using the model, it is unclear
 how practical the model is and how easy it is to program. The model, 
 however, is detailed and served as an inspiration in this thesis even though
-its structure was not strictly followed.
+its structure and design decisions were not strictly followed.
 
 
 \subsubsection{Abstract ASM with Concrete Implementation}
 % Julien
+\citet{Julien07} built a simpler abstract representation of an ASM consisting
+only of the trading agents, market and external world. In their market model,
+only information is exchanged between agents: trading agent informs the market
+about its desires, market informs about its state to the trading agents, external
+world influences trading agents providing external information. In their abstract 
+model, also other the trading agents can influence each other decision directly. 
+
+\citeauthor{Julien07} also created a concrete version of their abstract model.
+Via translators, the trading agents can submit their orders with or without 
+the information about the order price allowing various types of trader agents 
+to work in same environment. In case of missing price the translators fulfill 
+the price with current market price making the order as market order. 
+
+trading agents can 
+take different forms. In case the trading agents 
+This model also has an additional component called simulation engine that handles
+the flow of the system. The simulation has six steps:
+\begin{enumerate}
+    \item First, all trading agents that are allowed 
+    \item Second
+    \item Etc.
+\end{enumerate}
