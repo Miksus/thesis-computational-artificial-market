@@ -122,7 +122,20 @@ to a market populated with human traders.
 
 \subsection{Generic ASM Frameworks}
 
-\subsubsection{Object Oriented Abtract ASM}
+Most of the literature in the field of artificial stock markets 
+focus on recreating phenomena from real markets in artificial settings
+and often these studies are lacking in details of how the model was created.
+They may include descriptions how the clearing is done or how the trading agents 
+come up with their decisions but usually they do not discuss about practical matters 
+such as how the interactions between the simulation components work, where the 
+information about traders' positions are stored or how the simulation is orchestrated. 
+Studies that describe how to actually build a realistic computational 
+market are quite rare. In this section discuss about some of the generic
+frameworks designed in the field in order to illustrate how to structure the computational
+environment.
+
+
+\subsubsection{Object Oriented ASM}
 % Gaia
 \citet{Ben12} developed a realistic but abstract artificial stock market
 model for continuous double auction using a modeling methodology known as 
@@ -158,27 +171,36 @@ however, is detailed and served as an inspiration in this thesis even though
 its structure and design decisions were not strictly followed.
 
 
-\subsubsection{Abstract ASM with Concrete Implementation}
-% Julien
+\subsubsection{ASM with a Concrete Implementation}
+% Testing double auction as a component within a generic market model architecture
 \citet{Julien07} built a simpler abstract representation of an ASM consisting
-only of the trading agents, market and external world. In their market model,
-only information is exchanged between agents: trading agent informs the market
-about its desires, market informs about its state to the trading agents, external
-world influences trading agents providing external information. In their abstract 
-model, also other the trading agents can influence each other decision directly. 
+only of the trading agents, market and external world. On top of this model, 
+they also created a more detailed concrete framework which they tested with
+zero intelligent traders and asynchronous continuous double auction as market
+model. The framework is modular in a way that it allows heterogenous traders
+that emit and accept different amount of information to live in the same 
+simulation environment. The researchers used translators in between the 
+trading agents and the market in order to transform the orders submitted by
+the trader agents and the information emitted by the market to a unified format.
+For example, in case a submitted order had only the direction and the quantity 
+defined, the translator fulfills the order price with the current market price 
+transforming the order essentially as market order. The framework also had a
+unit called simulation engine to handle the interactions between the components.
 
-\citeauthor{Julien07} also created a concrete version of their abstract model.
-Via translators, the trading agents can submit their orders with or without 
-the information about the order price allowing various types of trader agents 
-to work in same environment. In case of missing price the translators fulfill 
-the price with current market price making the order as market order. 
-
-trading agents can 
-take different forms. In case the trading agents 
-This model also has an additional component called simulation engine that handles
-the flow of the system. The simulation has six steps:
+The flow of the system consisted of six steps which can be summarized with three:
 \begin{enumerate}
-    \item First, all trading agents that are allowed 
-    \item Second
-    \item Etc.
+    \item The simulation engine let all or some of the trading agents submit their orders 
+            using the exogenous information provided by the external world and 
+            information about the balance between supply and demand provided by the market.
+    \item The simulation engine commands the market to clear.
+    \item The simulation engine commands external world to update its information.
 \end{enumerate}
+
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{diagrams/julien_market.png}
+    \caption{Framework defined by Derveeuw et al. (2007)}
+    %\label{fig:boat1}
+\end{figure}
+
+% Something to wrap up like where the positions are saved?
