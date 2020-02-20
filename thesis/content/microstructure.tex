@@ -66,11 +66,33 @@ financial markets. These statistical phenomena, called stylized facts in
 econometrics, have been observed in extensive amount of studies from 
 different assets, markets and time periods \citep{Shakeel18}. 
 % List of Stylized facts (Cont R. (2001) & Gould et al. (2013))
-Some of the common stylized facts of financial assets are \citep{StylizedFacts01} and \citep{lob13}:
+Some of these stylized facts are (\citet{StylizedFacts01} and \citet{lob13}):
 
 \begin{enumerate}
-    \item Fat-tailed distribution of returns: distribution of asset returns have fatter tails than normal distribution. Returns have positive excess kurtosis.
+    \item Fat-tailed distribution of returns: distribution of asset returns have fatter tails than normal distribution. Returns have positive excess kurtosis. 
+    \par
+    \begin{minipage}{\linewidth}
+        \centering
+        \includegraphics[width=10cm]{plots/S&P500_fat_tails.png}
+        \captionof{figure}{Example of fat-tailed of returns}
+    \end{minipage}
+
     \item Lack of autocorrelation: autocorrelation of returns in financial markets have shown to be statistically insignificant except in very short term. Previous return has no prediction power over the following. 
+    \par
+    \begin{minipage}{\linewidth}
+        \centering
+        \includegraphics[width=10cm]{plots/S&P500_autocorr.png}
+        \captionof{figure}{Example of absense of autocorrelation}
+    \end{minipage}
+
     \item Volatility clusters: volatility have measured to have positive autocorrelation. Strong price movement tend to follow additional exceptional price movements forming clusters of volatility in time.
-    \item Trading volume and volatility are positively correlated.
+    \par
+    \begin{minipage}{\linewidth}
+        \centering
+        \includegraphics[width=10cm]{plots/S&P500_vola_autocorr.png}
+        \captionof{figure}{Example of volatility clustering}
+    \end{minipage}
 \end{enumerate} 
+
+As has been done in the literature of artificial markets, the representativeness
+of the ASM built in this thesis is also validated using these stylized facts.
