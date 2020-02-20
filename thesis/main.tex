@@ -26,7 +26,7 @@
 \usepackage{times}  % to change font to times
 %\usepackage{uarial} % as similar as Arial as possible
 \usepackage{setspace} % for linespacing
-
+\usepackage{caption}
 
 % Setup ??
 % --------
@@ -72,7 +72,7 @@
 
 \begin{document}
 
-
+\bibliography{ref}%
 \include{cover} 
 \include{abstract}
 %\addtocontents{toc}{\contentsline {section}{Abstract}{}}
@@ -119,7 +119,7 @@
 \fancyhead[RE]{\nouppercase{\bfseries\lastrightxmark}}%
 \extramarks{}{References}   % this will remove the "References" to be appearing at the header at first page of bibliography
 \extramarks{References}{References}
-\bibliography{ref}%
+%\bibliography{ref}%
 %\bibliographystyle{LUTapa}%
 \bibliographystyle{LUTapa2}
 %\bibliographystyle{LUTapa1}% %This won't shorten 4 or more author to "et al." in reference list
