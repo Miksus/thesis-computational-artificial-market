@@ -27,6 +27,8 @@
 %\usepackage{uarial} % as similar as Arial as possible
 \usepackage{setspace} % for linespacing
 \usepackage{caption}
+\usepackage{booktabs}
+\usepackage[ruled,vlined]{algorithm2e}
 
 % Setup ??
 % --------
@@ -65,6 +67,35 @@
 %\bibpunct{(}{)}{;}{a}{,}{,}%
 
 
+\usepackage[T1]{fontenc}
+\usepackage{beramono}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+%%
+%% Julia definition (c) 2014 Jubobs
+%%
+\lstdefinelanguage{Julia}%
+  {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,%
+      end,export,false,for,function,immutable,import,importall,if,in,%
+      macro,module,otherwise,quote,return,switch,true,try,type,typealias,%
+      using,while},%
+   sensitive=true,%
+   alsoother={$},%
+   morecomment=[l]\#,%
+   morecomment=[n]{\#=}{=\#},%
+   morestring=[s]{"}{"},%
+   morestring=[m]{'}{'},%
+}[keywords,comments,strings]%
+
+\lstset{%
+    language         = Julia,
+    basicstyle       = \ttfamily,
+    keywordstyle     = \bfseries\color{blue},
+    stringstyle      = \color{magenta},
+    commentstyle     = \color{ForestGreen},
+    showstringspaces = false,
+}
 
 
 % Actual document
@@ -72,7 +103,7 @@
 
 \begin{document}
 
-\bibliography{ref}%
+\bibliography{ref}
 
 \include{cover} 
 \include{abstract}
@@ -80,7 +111,7 @@
 
 \include{acknowledgments}
 %\addtocontents{toc}{\contentsline {section}{Acknowledgments}{}}%
-\input{preface}
+%\input{preface}
 \cleardoublepage%
 \thispagestyle{empty}%
 % \addtocontents{toc}{\contentsline{section}{Contents}{}} % including contents to contents
@@ -109,7 +140,7 @@
 \include{content/microstructure}
 \include{content/artificial_stock_market}
 \include{content/literature_review}
-
+\include{content/empirics}
 % References
 % ----------
 \renewcommand{\thepage}{} % Stop page numbering in references

@@ -22,11 +22,12 @@ produce quotes \citep*{Kle99}. These quotes form the order book
 which is a collection of pending bid and ask offers. A trade 
 occurs between crossing and matching orders: each trade is formed between 
 a bid order with a higher or equal price and an ask order with a lower 
-or equal price \citep*{Ben12}. Double auctions varies in
-several aspects: when the orders are matched and how the orders are matched. 
-In some implementations, such as \citet*{God93}'s, a trade is 
-formed only when a buyer and a seller each agree on the exact trade 
-price but typically the matching of crossing orders is automated.
+or equal price \citep*{Ben12}. There are variations between double auction markets.
+They generally differ in when the clearing process takes place 
+and how the orders are matched. 
+%In some implementations, such as 
+%\citet*{God93}'s, a trade is formed only when a buyer and a seller 
+%each agree on the exact trade price but typically the matching of crossing orders is automated.
 
 % \subsubsection{Order Matching in Double Auction}
 
@@ -37,13 +38,15 @@ in some markets this process takes place after a specified time interval
 has passed, for example at the end of a trading day. \citep{boer05}
 In auction literature, there are various terms used to describe essentially 
 the same mechanics. \citet{boer05} used term 
-\textit{call-market} for the former and \textit{continuous session market}
+\textit{continuous session market} for the former and \textit{call-market}
 for the latter whereas \citet{ASt05} called them \textit{Itayose method}
-and \textit{Zaraba method} respectively. \citet{Moc15} used term 
-\textit{periodic double auction} to describe the same mechanics of call-markets as  which
-they described is an extension of a sealed-bid auction. Sealed-bid auctions
-is an auction model in which the bid and ask offers
-are submitted once and then the order matching is executed once. 
+and \textit{Zaraba method} respectively. \citet{Moc15} used term \textit{continuous 
+double auction} (CDA) for the former and \textit{periodic double auction} to describe 
+the same mechanics of call-markets as which they described is an extension of 
+a sealed-bid auction. Sealed-bid auctions is an auction model in which the bid and ask offers
+are submitted once and then the order matching is executed once. In this thesis
+the terms continuous double auction and call-markets are chosen to describe
+these types of markets.
 
 In artificial market literature...
 % More about Sealed-bid matching (supply-demand) and CDA matching
@@ -75,25 +78,89 @@ Most of the artificial markets found in the literature seem to be order-driven.
 
 \subsection{Price Formation}
 % Order book, matching and clearing
-The price formation in a quote-driven market is dependent on how the 
-intermediaries or dealers view the supply and demand of the traded
+% Why we don't go deeper to quote-driven:
+Price formation is direct product of the used execution system in the market
+\citep{boer05}. The price formation in a quote-driven market 
+is dependent on how the intermediaries view the supply and demand of the traded
 asset thus it is challenging to describe the processes from order submission
 to trade formation accurately maintaining a sufficient degree of generalization.
-As essentailly the order sizes are only submitted to the market, the market
-structure itself bears the responsibility to come up with prices that realistically
+As essentailly only the order sizes are submitted to the market, the market
+structure itself bears the complete responsibility to come up with prices that realistically
 represent the fair price of an asset at any given time. Because of these 
 factors, quote-driven was not considered for the market structure built in this
 thesis and its mechanics is not discussed with more details.
 
-On the otherhand, all order-driven markets share the same abstraction regarding
-to price formation. The submitted orders in order driven market form the limit order 
-book which is the key element for these markets. Limit order is an order that
-consists of quantity and price, and often also the issued timestamp.
-There of course exists other types of orders than limit orders but these can be seen as derivatives from limit
-orders: for example, a bid (an ask) market order is essentially a limit order 
-with an extremely high (low) price so that it does get matched regardless of the
-state of the order book. \citep{lob13} A simple order book is visualized in ~\ref{fig:lob_repr}
-with relevant terminology.
+% Why not the case with order-driven
+On the otherhand, order-driven markets are more transparent thus there is more
+to discuss about their price formation. As limit prices are also submitted with 
+the orders the supply and demand can be derived from the current state of the 
+order book which is a collection of bid and ask orders. There are several ways 
+to match the supply and demand, or bid and ask orders, but they practically differ 
+in how to distribute the surplus.
+
+% Limit order book and terms
+Limit order book is a core component in the price formation in order-driven markets.
+Limit order, on the other hand, is an order that consists of quantity to be sold or bought 
+and the worst accepted price known as limit price. Bids (asks) cannot be cleared with
+price higher (lower) than the limit price stated in the order. There are also
+other types of ordGod93ers, such as market and stop-loss orders, but these can be seen as 
+derivatives from limit orders: for example, a bid (an ask) market order is essentially a limit order 
+with an extremely high (low) price so that it does get matched during the clearing process 
+regardless of the state of the order book. \citep{lob13} A simple order book is visualized in 
+table ~\ref{fig:lob_repr}. 
+
+\input{tables/order_book.tex}% table.tex > \mytable
+
+% Basics of limit order book, supply and demand etc.
+A simple limit order book is presented in ~\ref{tbl:orderbook}. This table shows the
+quantity of asset bidded and asked per each price level: for example, with a price of 5.00
+there are 100 unit bidded and 200 unit asked. There, however, are more bids and asks that 
+accept this price. Those that bid 5.01 and those that asked 4.99 would obviously also accept
+this price. Therefore it is more informatic to calculate cumulative sum of bid and ask quantities
+and come up with total quantities of bid and ask per price level that can be matched, not just ordered.
+As all buyers are willing to accept a price lower than stated in the order, and all sellers a price higher
+than stated, bids should be ordered with ascending price and asks descending price for cumulative sum.  
+This order book with cumulative quantities is visualized in figure ~\ref{fig:lob_visual}. Cumulative bids
+are renamed as demand and cumulative asks as supply as these terms are more representative in this context.
+As there should not be matchable orders in the order book, except very temporarily, in continuous 
+double auction, this example represents more the state of the order book in call-market. Order book
+in continuous double auction is discussed in a moment.
+
+\begin{figure}
+    \begin{center}  
+        \includegraphics{plots/orderbook_visualized.png}
+        \caption{Visualized order book}
+        \label{fig:lob_visual}
+    \end{center}
+\end{figure}
+
+% Price formation in sealed bid/call market
+Call-markets typically clear at equilibrium price: at the point where
+supply and demand crosses. 
+To get the equlibrium price, first the maximum clearable quantity
+is calculated per price level. This quantity is simply the element-wise
+minimum from the supply and the demand vectors. Then the equilibrium volume
+can be determined by taking the maximum from the maximum clearable quantities
+per price level and equilibrium price is simply the price where the quantity
+equals the equilibrium volume. A pseudocode of this algorithm is illustrated in 
+algorithm ~\ref{alg:lob_equil}.
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \KwResult{Equilibrium price and quantity}
+     \For{price level}{
+      supply = sum(asks quantities where p $\leq$ price level)\;
+      demand = sum(bid quantities where p $\geq$ price level)\;
+      
+      matchable quantity = min(supply, demand)\;
+      matchable quantities.append(matchable quantity)\;
+     }
+    quantity at equilibrium = max(matchable quantities)\;
+    price at equilibrium = price level where quantity at equilibrium\;
+     \caption{Pseudo algorithm for finding market equilibrium}
+     \label{alg:lob_equil}
+\end{algorithm}
+
 
 \begin{figure}
     \begin{center}  
@@ -107,10 +174,15 @@ with relevant terminology.
 further generalize their explanation to include also periodical auctions.
 When clearing occurs, bid orders are matched with ask orders in a way that a 
 trade forms between a bid with a price p\textsubscript{b} and an ask with a price 
-p\textsubscript{a} where p\textsubscript{b} $\geq$ p\textsubscript{a}. However, it is likely
+p\textsubscript{a} where p\textsubscript{b} $\geq$ p\textsubscript{a}. No order
+should be executed with a worse price than stated in the order. However, it is likely
 that not all the bids that have higher price than the lowest ask and not all the asks that
 have lower price than the highest bid in the market can be matched due to the asymmetricity 
-of quantity per price level. A simple illustration of the order book evolution is presented
+of quantity per price level. Which of these orders gets executed and what price depends on 
+the details of the underlying algorithm used in the market. Before going into this with more
+detail, the problem is visually described for clarification.
+
+A simple illustration of the order book evolution is presented
 in the figure ~\ref{fig:lob_evo}: the order book receives two new bids in t, bids 1 and 2.
 On t + 1, clearing occurs and the bid 2 is matched with one of the equal sized best ask orders.
 Bid 1 is left in the order book and becomes the best bid order. As the order prices differ
@@ -126,6 +198,17 @@ example the ask order. % Something about supply demand price matching etc.
         \label{fig:lob_evo}
     \end{center}
 \end{figure}
+
+% Price formation in continuous settings
+Price formation in continuous double auction is rather straight forward. Continuous
+market do not allow clearable orders to stay in the limit order book thus the
+candidates for trades can be narrowed down only to the opposing orders with better
+or equal price than the newly arrived order. This is because the steps for 
+clearing is conducted each time a new order arrives.
+
+
+
+
 
 \subsection{Price Dynamics}
 % Stylized facts
