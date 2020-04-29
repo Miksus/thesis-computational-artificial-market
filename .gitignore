@@ -1,3 +1,10 @@
+
+# Thesis (Julia stuff)
+
+# Jupyter Notebook
+.ipynb_checkpoints
+prototype*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -8,9 +15,6 @@ __pycache__/
 # Log files
 *.log
 
-# Jupyter Notebook
-.ipynb_checkpoints
-prototype*
 
 # Scrapy stuff:
 .scrapy
@@ -29,6 +33,7 @@ venv.bak/
 # VS Code
 .vscode/
 
+
 # Thesis (Latex stuff)
 *.pdf
 *.blg
@@ -44,3 +49,9 @@ venv.bak/
 *.fdb_latexmk
 *.lot
 !*/figs/*.pdf
+
+# Diagrams (binary)
+*.dia
+
+# Proto and other specific non VCS files
+proto/
