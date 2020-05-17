@@ -23,16 +23,15 @@ end
 
 function place!(market::ContinuousDoubleAuctionMarket, order::LimitOrder)
     push!(market, order)
-    clear!(order, market.sell_limit_orders)
-
+    clear!(market)
 end
 
 function get_trade_price(buy::BuyLimitOrder, sell::SellLimitOrder; market::ContinuousDoubleAuctionMarket)
     # This is used in clearing two orders
     if buy.timestamp < sell.timestamp
-        return buy.price
+        return Int64(buy.price)
     elseif sell.timestamp < buy.timestamp
-        return sell.price
+        return Int64(sell.price)
     else
         throw
     end

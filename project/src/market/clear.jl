@@ -1,8 +1,8 @@
 
 
 function clear!(market::AbstractMarket)
-    sell_book = get_sell_book(market)
-    buy_book = get_buy_book(market)
+    sell_book = market.sell_limit_orders
+    buy_book = market.buy_limit_orders
 
     trades = Array{Trade, 1}()
 
@@ -22,14 +22,17 @@ function clear!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOrd
         order_buy = get_best(buy_book)
         
         trade_price = isnothing(clearing_price) ? get_trade_price(order_buy, order_sell, market=market) : clearing_price
-        trade = trade!(order_buy, order_sell, price=trade_price)
+
+        trade = trade!(order_buy, order_sell, price=trade_price, from=market.currency, to=market.asset)
 
         clear_empty!(sell_book)
         clear_empty!(buy_book)
 
         push!(trades, trade)
     end
-    market.last_price = trades[end].price
+    if ~isempty(trades)
+        market.last_price = trades[end].price
+    end
     return trades
 end
 

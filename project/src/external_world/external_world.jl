@@ -7,6 +7,6 @@ mutable struct ExternalWorld
     end
 end
 
-function update(world)
+function update!(world)
     
 end

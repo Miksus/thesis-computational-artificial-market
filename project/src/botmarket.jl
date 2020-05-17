@@ -1,6 +1,10 @@
 
+# Author: Mikael Koli
+# All rights reserved
 
 module BotMarket
+
+    # Functions and structs for the module
     export ContinuousDoubleAuctionMarket,
         # Structs
         ZeroIntelligentInvestor,
@@ -12,14 +16,19 @@ module BotMarket
         # Functions
         place!, 
         clear!, 
-        cancel!,
+        cancel_all!,
         get_interest,
         get_dividend,
+        update!,
 
         # Generics
         generic_currency,
         generic_stock
     
+    # Including the module files where the
+    # the above structs and functions come
+    # from
+
     include("abstracts.jl")
 
     include("market/orders.jl")
@@ -40,7 +49,8 @@ module BotMarket
     include("builtin/continuous_double_auction.jl")
     include("builtin/currency.jl")
 
+    # Defining some generics for easier use
     generic_currency = RandomWalkCurrency(0, 0, 0, 0)
     generic_stock = RandomWalkStock(0, 0, 0, 0)
 
-end # module
+end
