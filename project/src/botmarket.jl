@@ -5,8 +5,10 @@
 module BotMarket
 
     # Functions and structs for the module
-    export ContinuousDoubleAuctionMarket,
+    export AbstractInvestor, AbstractMarket,
         # Structs
+        ContinuousDoubleAuctionMarket,
+        
         ZeroIntelligentInvestor,
         ExternalWorld,
         SellLimitOrder, BuyLimitOrder, 
