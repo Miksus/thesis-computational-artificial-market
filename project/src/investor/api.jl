@@ -59,6 +59,11 @@ function release!(inv::AbstractInvestor, quantity::Float64, asset::AbstractAsset
     inv.reserved[asset] -= quantity
 end
 
+"Release all reserved asset"
+function release_all!(inv::AbstractInvestor)
+    inv.reserved = Dict{AbstractAsset, Int64}()
+end
+
 function Base.getindex(inv::AbstractInvestor, asset::AbstractAsset)
     get(inv.positions, asset, 0)
 end

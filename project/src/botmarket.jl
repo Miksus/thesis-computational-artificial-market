@@ -17,6 +17,7 @@ module BotMarket
         place!, 
         clear!, 
         cancel_all!,
+        release_all!,
         get_interest,
         get_dividend,
         update!,

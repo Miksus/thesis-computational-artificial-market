@@ -1,18 +1,38 @@
 
 using Distributions
 
+# Let defines new name space
+let state = 0
+    global _get_next_id() = (state += 1)
+ end
+
+
 mutable struct ZeroIntelligentInvestor <: AbstractInvestor
+    name::String
     positions::Dict{AbstractAsset, Int64}
     reserved::Dict{AbstractAsset, Int64}
     feasible_range::Tuple{Float64, Int64}
 
     function ZeroIntelligentInvestor(positions::Dict{AbstractAsset, Int64}; min=0, max=100) # , assets::Dict{}
-        new(positions, Dict(), (min, max))
+        new(
+            string(_get_next_id()),
+            positions, 
+            Dict(), 
+            (min, max)
+            )
     end
     function ZeroIntelligentInvestor(cash, stock; min=0, max=100) # , assets::Dict{}
-        new(Dict(generic_currency=>cash, generic_stock=>stock), Dict(), (0, 1000))
+        new(
+            _get_next_id(),
+            Dict(
+                    generic_currency=>cash, 
+                    generic_stock=>stock), 
+                    Dict(), 
+                    (0, 1000)
+                )
     end
 end
+
 
 function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     prev_position = trader[market.asset]
@@ -26,7 +46,7 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     max_price = trader.feasible_range[2]
 
     mean_price = isnan(market.last_price) ? rand(Uniform(min_price, max_price)) : market.last_price
-    std_price = mean([min_price, max_price]) / 10
+    std_price = mean([min_price, max_price]) / 100
     order_price = rand(truncated(Normal(mean_price, std_price), min_price, max_price))
 
     max_quantity = side == SellLimitOrder ? prev_position : side == BuyLimitOrder ? floor(cash / order_price) : throw(DomainError(side, "Not implmented placement"))
@@ -34,6 +54,6 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
 
     price = Int64(floor(order_price))
     quantity = Int64(floor(order_quantity))
-    println("Creating order $side $price * $quantity")
+    #println("Creating order $side $price * $quantity")
     return side(trader, price=price, quantity=quantity, market=market)
 end
