@@ -26,7 +26,10 @@ module BotMarket
 
         # Generics
         generic_currency,
-        generic_stock
+        generic_stock,
+
+        # For debugging
+        get_order
     
     # Including the module files where the
     # the above structs and functions come
@@ -53,7 +56,7 @@ module BotMarket
     include("builtin/currency.jl")
 
     # Defining some generics for easier use
-    generic_currency = RandomWalkCurrency(0, 0, 0, 0)
-    generic_stock = RandomWalkStock(0, 0, 0, 0)
+    generic_currency = RandomWalkCurrency(0, 0, 0, 0, "ccy")
+    generic_stock = RandomWalkStock(0, 0, 0, 0, "stock")
 
 end

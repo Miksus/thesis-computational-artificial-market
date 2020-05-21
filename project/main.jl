@@ -23,7 +23,8 @@ function save_positions(investors, path, assets=nothing)
         name = [inv.name for inv in investors], 
     )
     for asset in assets
-        df[:, asset] = [inv.positions[eval(asset)] for inv in investors]
+        df[:, string(asset) * "_position"] = [get(inv.positions, eval(asset), 0) for inv in investors]
+        df[:, string(asset) * "_reserve"] = [get(inv.reserved, eval(asset), 0) for inv in investors]
     end
     CSV.write(path, df) # "results/pos_start.csv"
     df
@@ -57,15 +58,15 @@ function run_simulation(investors, markets, trading_days)
         trades = vcat(trades, trades_day)
         update!(world)
         #println("Price: $(markets[1].last_price), Trades: $(length(trades_day))")
-        for market in markets
-            cancel_all!(market)
-            
-        end
-        for inv in investors
+        #for market in markets
+        #    cancel_all!(market)
+        #    
+        #end
+        #for inv in investors
             # Otherwise they cannot trade
-            release_all!(inv)
-        end
-
+        #    release_all!(inv)
+        #end
+    
     end
 
 

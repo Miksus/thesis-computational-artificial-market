@@ -9,6 +9,7 @@ mutable struct RandomWalkStock <: AbstractAsset
     ϕ::Float64 # Phi of the random walk (1=stationary)
     σ::Float64 # Standard deviation of a step 
 
+    name::String
 end
 
 mutable struct RandomWalkCurrency <: AbstractCurrency
@@ -19,6 +20,7 @@ mutable struct RandomWalkCurrency <: AbstractCurrency
     ϕ::Float64 # Phi of the random walk (1=stationary)
     σ::Float64 # Standard deviation of a step 
 
+    name::String
 end
 
 function get_interest(currency::RandomWalkCurrency)

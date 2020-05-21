@@ -42,5 +42,5 @@ end
 function cancel_all!(market::ContinuousDoubleAuctionMarket)
     market.sell_limit_orders = typeof(market.sell_limit_orders)()
     market.buy_limit_orders = typeof(market.buy_limit_orders)()
-    
+
 end

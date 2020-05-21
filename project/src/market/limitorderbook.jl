@@ -34,6 +34,7 @@ end
 best_order_index(book::Array{BuyLimitOrder, 1}) = argmax(map(x -> x.price, book))
 best_order_index(book::Array{SellLimitOrder, 1}) = argmin(map(x -> x.price, book))
 
+"Clear empty orders (orders with quantity of 0)"
 function clear_empty!(book::Array{<:LimitOrder, 1})
     empty_orders = findall(x -> x.quantity <= 0, book)
     deleteat!(book, empty_orders)
