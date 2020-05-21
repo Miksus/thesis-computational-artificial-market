@@ -60,8 +60,11 @@ mutable struct SellLimitOrder <: LimitOrder
     end
 end
 
-"Get amount of asset the order requires from the investor, aka what the order has reserved"
-function get_reserved(order)
+"Get amount of asset commited in the order (seller commits the asset and buyer currency)¨
+This is side independent;
+    BuyLimitOrder: returned amount in traded currency
+    SellLimitOrder: returned amount in traded asset"
+function get_amount_commited(order)
     if order isa BuyLimitOrder
         return order.price * order.quantity
     elseif order isa SellLimitOrder

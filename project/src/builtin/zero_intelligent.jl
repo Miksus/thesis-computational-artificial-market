@@ -36,27 +36,21 @@ mutable struct ZeroIntelligentInvestor <: AbstractInvestor
     end
 end
 
+
 "Decide the side of the order the trader does"
 function get_side(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     return rand([SellLimitOrder, BuyLimitOrder, nothing])
 end
 
+
 "Not strictly the order quantity but the quantity of 
 the asset the investor is trading away"
 function get_order_quantity(trader::ZeroIntelligentInvestor, market::AbstractMarket, asset::AbstractAsset)
 
-    # Here is a problem: the max_tradeable should be amount of
-    # unreserved + reserved by the active order for this market.
-    # The active order does get cancelled if this order passes
-    # which is the reason it should not have impact here.
-    # We must use unreserved because of multiasset scenario.
-    active_quantity = (
-        # Active order makes 
-        market ∈ keys(trader.active_orders) && market.from == asset ? 
-        get_reserved(trader.active_orders[market]) 
-        : 0
-    ) # BUG: should be the quantity only if the active order is same side as the current chosen
-    max_tradeable = get_unreserved(trader, asset) + active_quantity
+    
+    max_tradeable = get_unreserved(trader, asset, exclude=market)
+    # Note: max_tradeable is automatically in the asset which
+    # is traded away (Sell => stock, buy => currency)
 
     if max_tradeable < 0
         throw(DomainError(max_tradeable, "Max quantity cannot be <0: $trader"))
@@ -66,23 +60,18 @@ function get_order_quantity(trader::ZeroIntelligentInvestor, market::AbstractMar
     return rand(distr)
 end
 
-function get_order_price(trader::ZeroIntelligentInvestor, market::AbstractMarket)
-    min_price = trader.feasible_range[1]
-    max_price = trader.feasible_range[2]
+
+function get_order_price(trader::ZeroIntelligentInvestor, market::AbstractMarket, asset::AbstractAsset, min_price::Union{Int64,Float64}, max_price::Union{Int64,Float64})
+
 
     # Define the order price
     if isnan(market.last_price)
-        mean_price = rand(
-            Uniform(
-                # This range should start
-                # from market's tick (which is set to 1 for now)
-                1, trader.positions[market.currency]
-            )
-        )
+        # We pick something
+        mean_price = mean([min_price, get_unreserved(trader, asset, exclude=market)])
     else
         mean_price = market.last_price
     end
-    std_price = 100 #mean([min_price, max_price]) / 100
+    std_price = 10 #mean([min_price, max_price]) / 100
 
     distr = truncated(Normal(mean_price, std_price), min_price, max_price)
 
@@ -91,50 +80,50 @@ end
 
 "Decide the order to do to the market"
 function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
-    available_ = trader[market.asset]
-    cash = trader[market.currency]
 
+    # Define side
     side = get_side(trader, market)
     if isnothing(side)
         return
     end
 
+    # Define price limits and assets
+    min_price = 1
     if side == SellLimitOrder
         from_asset = market.asset
         to_asset = market.currency
+        max_price = Inf
 
     elseif side == BuyLimitOrder
         from_asset = market.currency
         to_asset = market.asset
+        max_price = get_unreserved(trader, from_asset, exclude=market) # Absolute maximum is such that the investor can buy one unit
+
     else
         throw(DomainError(side, "Not implmented placement"))
     end
 
+
     # Max quantity the trader can trade the asset it
     # is transacting away; either the market currency
     # or market asset
+    
+    # First we define the price from normal distribution
+    # then the quantity from uniform distribution
+    order_price = get_order_price(trader, market, from_asset, min_price, max_price)
     order_quantity = get_order_quantity(trader, market, from_asset)
 
-    order_price = get_order_price(trader, market)
-
+    price = Int64(round(order_price))
     if side == BuyLimitOrder
-        # The quantity the investor
-        # is trading away is the
-        # amount in currency
-        # so it is turned as the
-        # market asset. LimitOrders
-        # does not accept the amount
-        # in currency for earlier
-        # design decisions.
-        #println("$order_price * $order_quantity")
-        order_quantity = order_quantity / order_price
+        # Convert the allocating currency
+        # to the quantity of the order 
+        # (amount of stock to buy)
 
-        # BUG? does not treat buy symmetrically
-        # if order_price > order_quantity,
-        # the buy order gets 0 and not inserted
+        order_quantity = order_quantity / price
+
     end
 
-    price = Int64(floor(order_price))
+    
     quantity = Int64(floor(order_quantity))
 
     #println("Creating order $side $price * $quantity (has $(trader.positions))")

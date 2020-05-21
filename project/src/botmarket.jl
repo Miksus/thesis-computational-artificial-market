@@ -29,7 +29,11 @@ module BotMarket
         generic_stock,
 
         # For debugging
-        get_order
+        get_order,
+        get_order_quantity,
+        get_order_price,
+        get_unreserved
+
     
     # Including the module files where the
     # the above structs and functions come
@@ -45,6 +49,7 @@ module BotMarket
 
     include("investor/api.jl")
     include("investor/generic.jl")
+    include("investor/position.jl")
 
     include("asset/api.jl")
     include("external_world/external_world.jl")
