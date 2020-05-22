@@ -1,24 +1,26 @@
 \section{Market Microstructure and Characteristics}
 
-Market microstructure is the study of the mechanics of trading in place 
+Market microstructure is the study of the trading mechanics that are in place 
 in real markets. It describes why trading occurs, the rules of trading 
 and the protocols to form a trade. \citep[p. 3-4]{Has07}
-Understanding market microstructure in designing an artificial market
-is vital as without realistic trading settings the artifical market 
-has limited practicality. In addition to microstructure, it is important
-to understand the general price dynamics in order to validate representativeness
-of the artifical market model. In this section, the most common 
-properties of real markets and price phenomena are presented. 
+Understanding market microstructure is cruicial in designing an artificial market
+as without realistic trading settings the representativeness of the market may be
+poor and the model has limited practicality. The goal of an artificial market often
+is to recreate phenomena from the real world in a well understood and controlled 
+settings thus the link to the real world should be maintained. In addition to the
+common properties that markets often share and the general distinctions between
+them, the common price phenomena is discussed. These price phenomena, called
+stylished facts, are often used in validating the artificial models.
 
-% Maybe extend with behavioural aspects?
+% TODO: Maybe extend with behavioural aspects?
 
 \subsection{Double Auction}
 % Call-market (Itayose, Sealed-bid) vs CDA (Zaraba)
 
-Double auction market is widely used market structure in real 
-financial markets. It is a form of auction 
-in which both sides of the markets, buyers and sellers, are able to 
-produce quotes \citep*{Kle99}. These quotes form the order book 
+Financial markets are most often organized as double auction markets.
+Double auction market (DA) is a special type of auction in which both sides 
+of the market, buyers and sellers, are able to 
+produce quotes and are treated symmetrically \citep*{Kle99}. These quotes form the order book 
 which is a collection of pending bid and ask offers. A trade 
 occurs between crossing and matching orders: each trade is formed between 
 a bid order with a higher or equal price and an ask order with a lower 
@@ -43,7 +45,7 @@ for the latter whereas \citet{ASt05} called them \textit{Itayose method}
 and \textit{Zaraba method} respectively. \citet{Moc15} used term \textit{continuous 
 double auction} (CDA) for the former and \textit{periodic double auction} to describe 
 the same mechanics of call-markets as which they described is an extension of 
-a sealed-bid auction. Sealed-bid auctions is an auction model in which the bid and ask offers
+a type of auction called sealed-bid. In sealed-bid auctions the bid and ask offers
 are submitted once and then the order matching is executed once. In this thesis
 the terms continuous double auction and call-markets are chosen to describe
 these types of markets.
@@ -81,36 +83,37 @@ Most of the artificial markets found in the literature seem to be order-driven.
 % Why we don't go deeper to quote-driven:
 Price formation is direct product of the execution system in place in a market
 \citep{boer05}. In order-driven markets it is direct result of the order book and
-the matching algorithm in place but in quote-driven markets it
+the matching algorithm in place whereas in quote-driven markets it
 is dependent on how the intermediaries view the supply and demand of the traded
-asset thus it is challenging to describe the processes from order submission
-to trade formation accurately maintaining a sufficient degree of generalization.
+asset. Therefore the price formation in order-driven markets is less transparent 
+and harder to describe maintaining sufficient level of generalization and accuracy.
 As essentially only the order sizes are submitted to the market, the market
 structure itself bears the complete responsibility to come up with prices that realistically
 represent the fair price of an asset at any given time. Because of these 
 factors, quote-driven was not considered for the market structure built in this
-thesis and its mechanics is not discussed with more details.
+thesis and it is not discussed with more details.
 
 % Why not the case with order-driven
 On the otherhand, order-driven markets are more transparent thus there is more
 to discuss about their price formation. As the limit prices are also submitted with 
 the orders the supply and demand can be derived from the current state of the 
-order book. Order book is a collection of bid and ask orders. There are several ways 
+order book itself. Order book is a collection of bid and ask orders. There are several ways 
 to match the supply and demand, or bid and ask orders, but they practically differ 
 in how to distribute the surplus.
 
 % Limit order book and terms
 Limit order book is a core component in the price formation in order-driven markets.
-Limit order book consists of limit orders which are simply orders that have quantity and 
-a limit price stated. Limit price is the maximum price, in case of bid, or the minimum
+Limit order book consists of limit orders which are simply orders that contain the quantity and 
+the limit price stated by the submitter. Limit price is the maximum price, in case of bid, or the minimum
 price, in case of ask, that the order is allowed to be cleared with. In other words,
 bids (asks) cannot be cleared with a price higher (lower) than the limit price stated 
 in the order. There are also other types of orders, such as market and 
 stop-loss orders, but these can be seen as derivatives from limit orders: 
 for example, a bid (an ask) market order is essentially a limit order 
 with an extremely high (low) limit price so that it does get matched 
-during the clearing process regardless of the state of the order book. 
-\citep{lob13}
+during the clearing process as long as there are opposing limit orders in the 
+order book. \citep{lob13}2 %TODO: What if only market orders?
+
 
 \input{tables/order_book.tex}% table.tex > \mytable
 
