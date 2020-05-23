@@ -12,7 +12,7 @@ struct Trade
 end
 
 "Trade limit orders"
-function trade!(buy::BuyLimitOrder, sell::SellLimitOrder; price::Int64, from::AbstractAsset, to::AbstractAsset)
+function trade!(buy::BidLimitOrder, sell::AskLimitOrder; price::Int64, from::AbstractAsset, to::AbstractAsset)
     
     quantity = get_clearable_quantity(buy, sell)
     # Both order's quantity is reduced by trade quantity
@@ -34,4 +34,4 @@ function trade!(buy::BuyLimitOrder, sell::SellLimitOrder; price::Int64, from::Ab
 end
 
 # Allow argument order insensitive
-trade!(sell::SellLimitOrder, buy::BuyLimitOrder; side=:equal, asset::Union{Nothing, AbstractAsset}=nothing) = trade!(buy, sell, asset, side=side, asset=asset)
+trade!(sell::AskLimitOrder, buy::BidLimitOrder; side=:equal, asset::Union{Nothing, AbstractAsset}=nothing) = trade!(buy, sell, asset, side=side, asset=asset)

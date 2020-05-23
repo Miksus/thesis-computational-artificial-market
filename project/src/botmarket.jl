@@ -11,7 +11,7 @@ module BotMarket
         
         ZeroIntelligentInvestor,
         ExternalWorld,
-        SellLimitOrder, BuyLimitOrder, 
+        AskLimitOrder, BidLimitOrder, 
         RandomWalkStock,
         RandomWalkCurrency,
 

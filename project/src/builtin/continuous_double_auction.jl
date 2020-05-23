@@ -4,19 +4,19 @@ mutable struct ContinuousDoubleAuctionMarket <: AbstractMarket
     traded_asset::AbstractAsset
     currency::AbstractCurrency
     last_price::Float64
-    sell_limit_orders::Array{SellLimitOrder, 1}
-    buy_limit_orders::Array{BuyLimitOrder, 1}
+    ask_limit_orders::Array{AskLimitOrder, 1}
+    bid_limit_orders::Array{BidLimitOrder, 1}
 
     function ContinuousDoubleAuctionMarket()
-        new(generic_stock, generic_currency, NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}()) # , Array{BuyLimitOrder, 1}()
+        new(generic_stock, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 
     function ContinuousDoubleAuctionMarket(asset::AbstractAsset)
-        new(asset, generic_currency, NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}()) # , Array{BuyLimitOrder, 1}()
+        new(asset, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 
     function ContinuousDoubleAuctionMarket(asset::AbstractAsset, currency::AbstractCurrency)
-        new(asset, currency, NaN, Array{SellLimitOrder, 1}(), Array{BuyLimitOrder, 1}()) # , Array{BuyLimitOrder, 1}()
+        new(asset, currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 end
 
@@ -26,7 +26,7 @@ function place!(market::ContinuousDoubleAuctionMarket, order::LimitOrder)
     clear!(market)
 end
 
-function get_trade_price(buy::BuyLimitOrder, sell::SellLimitOrder; market::ContinuousDoubleAuctionMarket)
+function get_trade_price(buy::BidLimitOrder, sell::AskLimitOrder; market::ContinuousDoubleAuctionMarket)
     # This is used in clearing two orders
     if buy.timestamp < sell.timestamp
         return Int64(buy.price)
@@ -40,7 +40,7 @@ end
 # Market matching
 "Cancel all orders"
 function cancel_all!(market::ContinuousDoubleAuctionMarket)
-    market.sell_limit_orders = typeof(market.sell_limit_orders)()
-    market.buy_limit_orders = typeof(market.buy_limit_orders)()
+    market.ask_limit_orders = typeof(market.ask_limit_orders)()
+    market.bid_limit_orders = typeof(market.bid_limit_orders)()
 
 end

@@ -1,8 +1,8 @@
 
 
 function clear!(market::AbstractMarket)
-    sell_book = market.sell_limit_orders
-    buy_book = market.buy_limit_orders
+    sell_book = market.ask_limit_orders
+    buy_book = market.bid_limit_orders
 
     trades = Array{Trade, 1}()
 
@@ -11,7 +11,7 @@ end
 
 
 "Clear limit order books"
-function clear!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOrder, 1}; market)
+function clear!(buy_book::Array{BidLimitOrder, 1}, sell_book::Array{AskLimitOrder, 1}; market)
 
     
 

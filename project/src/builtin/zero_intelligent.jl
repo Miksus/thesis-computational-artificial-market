@@ -39,7 +39,7 @@ end
 
 "Decide the side of the order the trader does"
 function get_side(trader::ZeroIntelligentInvestor, market::AbstractMarket)
-    return rand([SellLimitOrder, BuyLimitOrder, nothing])
+    return rand([AskLimitOrder, BidLimitOrder, nothing])
 end
 
 
@@ -89,12 +89,12 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
 
     # Define price limits and assets
     min_price = 1
-    if side == SellLimitOrder
+    if side == AskLimitOrder
         from_asset = market.traded_asset
         to_asset = market.currency
         max_price = Inf
 
-    elseif side == BuyLimitOrder
+    elseif side == BidLimitOrder
         from_asset = market.currency
         to_asset = market.traded_asset
         max_price = get_unreserved(trader, from_asset, exclude=market) # Absolute maximum is such that the investor can buy one unit
@@ -114,7 +114,7 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     order_quantity = get_order_quantity(trader, market, from_asset)
 
     price = Int64(round(order_price))
-    if side == BuyLimitOrder
+    if side == BidLimitOrder
         # Convert the allocating currency
         # to the quantity of the order 
         # (amount of stock to buy)

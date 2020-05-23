@@ -24,14 +24,14 @@ function place!(trader::AbstractInvestor, market::AbstractMarket)
     return trades
 end
 
-function is_valid_order(order::BuyLimitOrder, market::AbstractMarket, trader::AbstractInvestor)
+function is_valid_order(order::BidLimitOrder, market::AbstractMarket, trader::AbstractInvestor)
     is_not_over_reserved = get_unreserved(order.dealer, order.from, exclude=market) >= get_amount_commited(order)
     is_not_none = order != nothing
     is_positive = order.quantity > 0
     return is_not_none && is_positive && is_not_over_reserved
 end
 
-function is_valid_order(order::SellLimitOrder, market::AbstractMarket, trader::AbstractInvestor)
+function is_valid_order(order::AskLimitOrder, market::AbstractMarket, trader::AbstractInvestor)
     
     is_not_over_reserved = get_unreserved(order.dealer, order.from, exclude=market) >= get_amount_commited(order)
     is_not_none = order != nothing
@@ -60,7 +60,7 @@ function reserve!(inv::AbstractInvestor, order::LimitOrder)
 
     quantity = get_amount_commited(order)
     #println("Reserving $quantity of $(asset.name) for $(inv.name) ($(get(inv.reserved, asset, 0)))")
-    #quantity = order isa BuyLimitOrder ? order.quantity * order.price : order.quantity
+    #quantity = order isa BidLimitOrder ? order.quantity * order.price : order.quantity
     # ∉ is same as "not in" Python
     if asset ∉ keys(inv.reserved)
         inv.reserved[asset] = quantity
