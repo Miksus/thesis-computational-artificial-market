@@ -11,7 +11,7 @@ end
 
 
 "Clear limit order books"
-function clear!(buy_book::Array{BidLimitOrder, 1}, sell_book::Array{AskLimitOrder, 1}; market)
+function clear!(bid_book::Array{BidLimitOrder, 1}, ask_book::Array{AskLimitOrder, 1}; market)
 
     
 
@@ -20,36 +20,36 @@ function clear!(buy_book::Array{BidLimitOrder, 1}, sell_book::Array{AskLimitOrde
     # Clear empty orders before the clearing
     # ie. if an investor has set quantity
     # of an order to zero, it will be cleaned now
-    clear_empty!(sell_book)
-    clear_empty!(buy_book)
+    clear_empty!(ask_book)
+    clear_empty!(bid_book)
 
     # The clearing price is defined here
     # in case of call market. Nothing
     # should be returned if the price
     # is defined per order pair basis
     clearing_price = get_trade_price(market)
-    while maxprice(buy_book) >= minprice(sell_book)
+    while maxprice(bid_book) >= minprice(ask_book)
 
-        order_sell = get_best(sell_book)
-        order_buy = get_best(buy_book)
+        order_ask = get_best(ask_book)
+        order_bid = get_best(bid_book)
         
         # trade_price is clearing_price if defined,
         # else calculated per order pairs
         trade_price = (
             ~isnothing(clearing_price) ? 
             clearing_price
-            : get_trade_price(order_buy, order_sell, market=market)
+            : get_trade_price(order_bid, order_ask, market=market)
         )
 
         trade = trade!(
-            order_buy, order_sell, 
+            order_bid, order_ask, 
             price=trade_price, 
             from=market.currency, 
             to=market.traded_asset
         )
 
-        clear_empty!(sell_book)
-        clear_empty!(buy_book)
+        clear_empty!(ask_book)
+        clear_empty!(bid_book)
 
         push!(trades, trade)
     end
