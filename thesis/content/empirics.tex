@@ -104,8 +104,11 @@ artificial market and these are also discussed.
 \subsubsection{Trader Behaviour}
 % How the investors make decisions actually
 
-As mentioned, the traders of this model are zero intelligent
-traders.
+As mentioned, the traders of this model are zero-intelligent
+traders. They trade picking orders randomly limiting their
+ability to speculate. They however are budget constrained
+in order to achieve allocative efficiency as proposed by
+\citet{God93}.
 
 The placement decision requires three things to be defined: 
 side of the order, quantity of the order and price of the order. 
@@ -142,13 +145,65 @@ is rounded to nearest integer.
 
 
 
-\subsubsection{Order Placement}
-% How the orders are set to the markets, validated
-% and how 
 
-\subsubsection{Clearing Mechanics}
+
+\subsubsection{Market Mechanics}
 % How the market is cleared actually 
+The market is continuous and double auction in nature.
+The clearing mechanics themselves are, however, 
+rather the same as could be for a call market: 
+the orders are cleared until there
+are no bid orders with price equal or exceeding the
+ask order with lowest price. 
+Continuity is achieved by launching the clearing process
+every time an order arrives to the market but this is
+detached from the actual clearing function. 
+The clearing mechanics are defined in 
+the abstraction layer in a way that the same body
+of code works for call markets and continuous markets
+by calling the parametrized functions that are 
+defined explicitly for each market type and are defined
+in the concrete layer. The main body of the clearing function, 
+as written in the source code, is shown in the listing ~\ref{lst:clearing}.
+In the listing the clearing price resembles the clearing
+session price which is calculated in call markets but not in
+continuous markets.
 
+
+\begin{lstlisting}[caption={Clearing process},label={lst:clearing}]
+...
+# The clearing price is defined here
+# in case of call market. Nothing
+# should be returned if the price
+# is defined per order pair basis
+clearing_price = get_trade_price(market)
+while maxprice(buy_book) >= minprice(sell_book)
+
+    order_sell = get_best(sell_book)
+    order_buy = get_best(buy_book)
+    
+    # trade_price is clearing_price if defined,
+    # else calculated per order pairs
+    trade_price = (
+        ~isnothing(clearing_price) ? 
+        clearing_price
+        : get_trade_price(order_buy, order_sell, market=market)
+    )
+
+    trade = trade!(
+        order_buy, order_sell, 
+        price=trade_price, 
+        from=market.currency, 
+        to=market.traded_asset
+    )
+    ...
+\end{lstlisting}
+
+The price formation of the continuous market is implemented
+on the order pair basis. The trade price is simply the price
+stated in the older of the paired orders. % SOURCE: find a source to describe why this way the price
+The quantity of the trade is picked from the smaller of the two orders
+and the bigger order is partially cleared.
 
 \subsubsection{Handling of Assets}
 % Why use integers as units for assets
@@ -202,3 +257,8 @@ lie.
     \caption{Illustration of buyer-seller asymmetricity}
     \label{fig:buy_sell_asym}
 \end{figure}
+
+
+\subsubsection{Interactions}
+% How trader communicates with the market
+% and vice versa
