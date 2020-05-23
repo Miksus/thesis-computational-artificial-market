@@ -13,7 +13,7 @@ end
 "Clear limit order books"
 function clear!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOrder, 1}; market)
 
-    clearing_price = get_trade_price(market)
+    
 
     trades = Array{Trade, 1}()
 
@@ -23,21 +23,30 @@ function clear!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOrd
     clear_empty!(sell_book)
     clear_empty!(buy_book)
 
+    # The clearing price is defined here
+    # in case of call market. Nothing
+    # should be returned if the price
+    # is defined per order pair basis
+    clearing_price = get_trade_price(market)
     while maxprice(buy_book) >= minprice(sell_book)
 
         order_sell = get_best(sell_book)
         order_buy = get_best(buy_book)
         
-        trade_price = isnothing(clearing_price) ? get_trade_price(order_buy, order_sell, market=market) : clearing_price
+        # trade_price is clearing_price if defined,
+        # else calculated per order pairs
+        trade_price = (
+            ~isnothing(clearing_price) ? 
+            clearing_price
+            : get_trade_price(order_buy, order_sell, market=market)
+        )
 
-        #println("")
-        #println("------")
-        #println("Trade")
-        #println("Before buy $(order_buy.dealer.active_orders[market].quantity), sell $(order_sell.dealer.active_orders[market].quantity). Traders: $(order_buy.dealer.name) and $(order_sell.dealer.name)")
-        trade = trade!(order_buy, order_sell, price=trade_price, from=market.currency, to=market.asset)
-        #println("After buy $(order_buy.dealer.active_orders[market].quantity), sell $(order_sell.dealer.active_orders[market].quantity)")
-        #println("------")
-        #println("")
+        trade = trade!(
+            order_buy, order_sell, 
+            price=trade_price, 
+            from=market.currency, 
+            to=market.asset
+        )
 
         clear_empty!(sell_book)
         clear_empty!(buy_book)
