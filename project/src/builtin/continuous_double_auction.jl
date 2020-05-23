@@ -1,7 +1,7 @@
 
 
 mutable struct ContinuousDoubleAuctionMarket <: AbstractMarket
-    asset::AbstractAsset
+    traded_asset::AbstractAsset
     currency::AbstractCurrency
     last_price::Float64
     sell_limit_orders::Array{SellLimitOrder, 1}

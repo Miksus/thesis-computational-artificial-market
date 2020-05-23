@@ -45,7 +45,7 @@ function clear!(buy_book::Array{BuyLimitOrder, 1}, sell_book::Array{SellLimitOrd
             order_buy, order_sell, 
             price=trade_price, 
             from=market.currency, 
-            to=market.asset
+            to=market.traded_asset
         )
 
         clear_empty!(sell_book)

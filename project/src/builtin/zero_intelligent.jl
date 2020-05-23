@@ -90,13 +90,13 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     # Define price limits and assets
     min_price = 1
     if side == SellLimitOrder
-        from_asset = market.asset
+        from_asset = market.traded_asset
         to_asset = market.currency
         max_price = Inf
 
     elseif side == BuyLimitOrder
         from_asset = market.currency
-        to_asset = market.asset
+        to_asset = market.traded_asset
         max_price = get_unreserved(trader, from_asset, exclude=market) # Absolute maximum is such that the investor can buy one unit
 
     else

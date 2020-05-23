@@ -24,7 +24,7 @@ mutable struct BuyLimitOrder <: LimitOrder
             price, 
             quantity, 
             market.currency, 
-            market.asset, 
+            market.traded_asset, 
             get_time()
         )
     end
@@ -53,7 +53,7 @@ mutable struct SellLimitOrder <: LimitOrder
         new(
             dealer, 
             price, quantity, 
-            market.asset, 
+            market.traded_asset, 
             market.currency, 
             get_time()
         )
