@@ -12,8 +12,7 @@ module BotMarket
         ZeroIntelligentInvestor,
         ExternalWorld,
         AskLimitOrder, BidLimitOrder, 
-        RandomWalkStock,
-        RandomWalkCurrency,
+        RandomWalkAsset,
 
         # Functions
         place!, 
@@ -32,7 +31,10 @@ module BotMarket
         get_order,
         get_order_quantity,
         get_order_price,
-        get_unreserved
+        get_unreserved,
+        # Abstracts
+        AbstractAsset,
+        Trade
 
     
     # Including the module files where the
@@ -61,7 +63,7 @@ module BotMarket
     include("builtin/currency.jl")
 
     # Defining some generics for easier use
-    generic_currency = RandomWalkCurrency(0, 0, 0, 0, "ccy")
-    generic_stock = RandomWalkStock(0, 0, 0, 0, "stock")
+    generic_currency = RandomWalkAsset(0, 0, 0, 0, "ccy")
+    generic_stock = RandomWalkAsset(0, 0, 0, 0, "stock")
 
 end

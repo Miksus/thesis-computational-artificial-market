@@ -1,7 +1,7 @@
 
 using Distributions
 
-mutable struct RandomWalkStock <: AbstractAsset
+mutable struct RandomWalkAsset <: AbstractAsset
     last_dividend::Float64
 
     # Random Walk Parameters
@@ -12,32 +12,15 @@ mutable struct RandomWalkStock <: AbstractAsset
     name::String
 end
 
-mutable struct RandomWalkCurrency <: AbstractCurrency
-    last_interest::Float64
-
-    # Random Walk Parameters
-    α::Float64 # Drift
-    ϕ::Float64 # Phi of the random walk (1=stationary)
-    σ::Float64 # Standard deviation of a step 
-
-    name::String
-end
-
-function get_interest(currency::RandomWalkCurrency)
+"Get cashflow of the RandomWalkAsset. 
+The cashflow would be interest in case of currency
+and dividend in case of stock"
+function get_cashflow(asset::RandomWalkAsset)
     return get_random_walk_step(
-        currency.α, 
-        currency.ϕ,
-        currency.σ,
-        currency.last_interest
-    )
-end
-
-function get_dividend(stock::RandomWalkStock)
-    return get_random_walk_step(
-        stock.α, 
-        stock.ϕ,
-        stock.σ,
-        stock.last_dividend
+        asset.α, 
+        asset.ϕ,
+        asset.σ,
+        asset.last_interest
     )
 end
 

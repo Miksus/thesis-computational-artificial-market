@@ -103,6 +103,10 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
         throw(DomainError(side, "Not implmented placement"))
     end
 
+    if max_price <= min_price
+        println("Seems investor $(trader.name) is out of asset $from_asset: $(get_unreserved(trader, from_asset, exclude=market)) (min: $min_price max: $max_price)")
+        return
+    end
 
     # Max quantity the trader can trade the asset it
     # is transacting away; either the market currency
