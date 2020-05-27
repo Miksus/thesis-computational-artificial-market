@@ -12,7 +12,7 @@ module BotMarket
         ZeroIntelligentInvestor,
         ExternalWorld,
         AskLimitOrder, BidLimitOrder, 
-        RandomWalkAsset,
+        RandomWalkAsset, FixedAsset,
 
         # Functions
         place!, 
@@ -22,6 +22,7 @@ module BotMarket
         get_interest,
         get_dividend,
         update!,
+        pay_cashflows!,
 
         # Generics
         generic_currency,

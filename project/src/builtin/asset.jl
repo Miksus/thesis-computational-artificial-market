@@ -2,7 +2,7 @@
 using Distributions
 
 mutable struct RandomWalkAsset <: AbstractAsset
-    last_dividend::Float64
+    last_rate::Float64
 
     # Random Walk Parameters
     α::Float64 # Drift
@@ -12,10 +12,24 @@ mutable struct RandomWalkAsset <: AbstractAsset
     name::String
 end
 
+mutable struct FixedAsset <: AbstractAsset
+    last_rate::Float64
+
+    rate::Float64
+
+    name::String
+    function FixedAsset(rate::Float64; name::String="asset")
+        new(NaN, rate, name) # , Array{BidLimitOrder, 1}()
+    end
+    function FixedAsset(name::String="asset")
+        new(NaN, 0.0, name) # , Array{BidLimitOrder, 1}()
+    end
+end
+
 "Get cashflow of the RandomWalkAsset. 
 The cashflow would be interest in case of currency
 and dividend in case of stock"
-function get_cashflow(asset::RandomWalkAsset)
+function get_rate(asset::RandomWalkAsset)
     return get_random_walk_step(
         asset.α, 
         asset.ϕ,
@@ -28,4 +42,9 @@ function get_random_walk_step(α::Float64, ϕ::Float64, σ::Float64, x_prev::Flo
     μ = 0
     u = rand(Normal(μ, σ))
     return α + ϕ * x_prev + u
+end
+
+
+function get_rate(asset::FixedAsset)
+    return asset.rate
 end
