@@ -53,7 +53,8 @@ function get_order_quantity(trader::ZeroIntelligentInvestor, market::AbstractMar
     # is traded away (Sell => stock, buy => currency)
 
     if max_tradeable < 0
-        throw(DomainError(max_tradeable, "Max quantity cannot be <0: $trader"))
+        return NaN
+        #throw(DomainError(max_tradeable, "Max quantity cannot be <0: $trader"))
     end
     distr = 0:Int(max_tradeable)
     #println(max_tradeable)
@@ -116,6 +117,11 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     # then the quantity from uniform distribution
     order_price = get_order_price(trader, market, from_asset, min_price, max_price)
     order_quantity = get_order_quantity(trader, market, from_asset)
+
+    if isnan(order_price) | isnan(order_quantity)
+        # Cannot make order
+        return nothing
+    end
 
     price = Int64(round(order_price))
     if side == BidLimitOrder

@@ -19,8 +19,6 @@ module BotMarket
         clear!, 
         cancel_all!,
         release_all!,
-        get_interest,
-        get_dividend,
         update!,
         pay_cashflows!,
 

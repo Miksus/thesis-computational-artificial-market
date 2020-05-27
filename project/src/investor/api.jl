@@ -88,13 +88,13 @@ function release!(inv::AbstractInvestor, quantity::Int64, asset::AbstractAsset)
         inv.reserved[asset] = 0
         return
     end
-    if inv.positions[asset] < inv.reserved[asset]
-        throw(DomainError(inv.reserved[asset], "The reserve is more ($(inv.reserved[asset])) than there is in the positions ($(inv.positions[asset]))"))
-    elseif inv.positions[asset] < quantity
-        throw(DomainError(quantity, "Cannot release more asset ($quantity) than there is in the positions ($(inv.positions[asset]))"))
-    elseif inv.reserved[asset] < quantity
-        throw(DomainError(quantity, "Cannot release more asset ($quantity) than there is in the reserve ($(inv.reserved[asset]), Investor $(inv.name))"))
-    end
+    # if inv.positions[asset] < inv.reserved[asset]
+    #     throw(DomainError(inv.reserved[asset], "The reserve is more ($(inv.reserved[asset])) than there is in the positions ($(inv.positions[asset]))"))
+    # elseif inv.positions[asset] < quantity
+    #     throw(DomainError(quantity, "Cannot release more asset ($quantity) than there is in the positions ($(inv.positions[asset]))"))
+    # elseif inv.reserved[asset] < quantity
+    #     throw(DomainError(quantity, "Cannot release more asset ($quantity) than there is in the reserve ($(inv.reserved[asset]), Investor $(inv.name))"))
+    # end
     inv.reserved[asset] -= quantity
     #println(inv.reserved[asset])
 end
