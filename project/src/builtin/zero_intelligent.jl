@@ -11,26 +11,26 @@ mutable struct ZeroIntelligentInvestor <: AbstractInvestor
     name::String
     positions::Dict{AbstractAsset, Int64}
     reserved::Dict{AbstractAsset, Int64}
-    feasible_range::Tuple{Float64, Int64}
+    std_price::Float64
 
     active_orders:: Dict{AbstractMarket, LimitOrder}
-    function ZeroIntelligentInvestor(positions::Dict{AbstractAsset, Int64}; min=0, max=100) # , assets::Dict{}
+    function ZeroIntelligentInvestor(positions::Dict{AbstractAsset, Int64}; deviation::Union{Int64, Float64}=10) # , assets::Dict{}
         new(
             string(_get_next_id()),
             positions, 
             Dict(), 
-            (min, max),
+            Float64(deviation),
             Dict()
             )
     end
-    function ZeroIntelligentInvestor(cash, stock; min=0, max=100) # , assets::Dict{}
+    function ZeroIntelligentInvestor(cash, stock; deviation::Union{Int64, Float64}) # , assets::Dict{}
         new(
             _get_next_id(),
             Dict(
                     generic_currency=>cash, 
                     generic_stock=>stock), 
                     Dict(), 
-                    (0, 1000),
+                    Float64(deviation),
                     Dict()
                 )
     end
@@ -46,7 +46,6 @@ end
 "Not strictly the order quantity but the quantity of 
 the asset the investor is trading away"
 function get_order_quantity(trader::ZeroIntelligentInvestor, market::AbstractMarket, asset::AbstractAsset)
-
     
     max_tradeable = get_unreserved(trader, asset, exclude=market)
     # Note: max_tradeable is automatically in the asset which
@@ -72,7 +71,7 @@ function get_order_price(trader::ZeroIntelligentInvestor, market::AbstractMarket
     else
         mean_price = market.last_price
     end
-    std_price = 10 #mean([min_price, max_price]) / 100
+    std_price = trader.std_price #mean([min_price, max_price]) / 100
 
     distr = truncated(Normal(mean_price, std_price), min_price, max_price)
 
