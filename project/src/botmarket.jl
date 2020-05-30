@@ -7,7 +7,7 @@ module BotMarket
     # Functions and structs for the module
     export AbstractInvestor, AbstractMarket,
         # Structs
-        ContinuousDoubleAuctionMarket,
+        DoubleAuctionMarket,
         
         ZeroIntelligentInvestor,
         ExternalWorld,
@@ -58,7 +58,7 @@ module BotMarket
     # Built in
     include("builtin/zero_intelligent.jl")
     include("builtin/asset.jl")
-    include("builtin/continuous_double_auction.jl")
+    include("builtin/double_auction.jl")
     include("builtin/currency.jl")
 
     # Defining some generics for easier use

@@ -4,7 +4,7 @@ let state = 0
     global _get_next_market_id() = (state += 1)
  end
 
-mutable struct ContinuousDoubleAuctionMarket <: AbstractMarket
+mutable struct DoubleAuctionMarket <: AbstractMarket
     name::String
 
     traded_asset::AbstractAsset
@@ -13,32 +13,32 @@ mutable struct ContinuousDoubleAuctionMarket <: AbstractMarket
     ask_limit_orders::Array{AskLimitOrder, 1}
     bid_limit_orders::Array{BidLimitOrder, 1}
 
-    function ContinuousDoubleAuctionMarket(; name::Union{String, Nothing}=nothing)
+    function DoubleAuctionMarket(; name::Union{String, Nothing}=nothing)
         name = isnothing(name) ? _get_next_market_id() : name
         new(name, generic_stock, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 
-    function ContinuousDoubleAuctionMarket(ccy::AbstractAsset, asset::AbstractAsset; name::Union{String, Nothing}=nothing)
+    function DoubleAuctionMarket(ccy::AbstractAsset, asset::AbstractAsset; name::Union{String, Nothing}=nothing)
         name = isnothing(name) ? _get_next_market_id() : name
         new(name, ccy, asset, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 
-    function ContinuousDoubleAuctionMarket(asset::AbstractAsset)
+    function DoubleAuctionMarket(asset::AbstractAsset)
         new(asset, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 
-    function ContinuousDoubleAuctionMarket(asset::AbstractAsset, currency::AbstractAsset)
+    function DoubleAuctionMarket(asset::AbstractAsset, currency::AbstractAsset)
         new(asset, currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
     end
 end
 
 
-function place!(market::ContinuousDoubleAuctionMarket, order::LimitOrder)
+function place!(market::DoubleAuctionMarket, order::LimitOrder)
     push!(market, order)
-    clear!(market)
+    #clear!(market)
 end
 
-function get_trade_price(buy::BidLimitOrder, sell::AskLimitOrder; market::ContinuousDoubleAuctionMarket)
+function get_trade_price(buy::BidLimitOrder, sell::AskLimitOrder; market::DoubleAuctionMarket)
     # This is used in clearing two orders
     if buy.timestamp < sell.timestamp
         return Int64(buy.price)
@@ -51,7 +51,7 @@ end
 
 # Market matching
 "Cancel all orders"
-function cancel_all!(market::ContinuousDoubleAuctionMarket)
+function cancel_all!(market::DoubleAuctionMarket)
     market.ask_limit_orders = typeof(market.ask_limit_orders)()
     market.bid_limit_orders = typeof(market.bid_limit_orders)()
 
