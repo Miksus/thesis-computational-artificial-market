@@ -59,3 +59,48 @@ mechanics in this thesis as it is closer to the mechanics
 used in western markets. This decision should also make 
 the simulations more dynamic but opens up the possibility 
 to leverage from the order book.
+
+
+
+
+
+
+% Junk?
+\citet{lob13} explained thorougly the price mechanics in continuous market. I 
+further generalize their explanation to include also periodical auctions.
+When clearing occurs, bid orders are matched with ask orders in a way that a 
+trade forms between a bid with a price p\textsubscript{b} and an ask with a price 
+p\textsubscript{a} where p\textsubscript{b} $\geq$ p\textsubscript{a}. No order
+should be executed with a worse price than stated in the order. However, it is likely
+that not all the bids that have higher price than the lowest ask and not all the asks that
+have lower price than the highest bid in the market can be matched due to the asymmetricity 
+of quantity per price level. Which of these orders gets executed and what price depends on 
+the details of the underlying algorithm used in the market. Before going into this with more
+detail, the problem is visually described for clarification.
+
+A simple illustration of the order book evolution is presented
+in the figure ~\ref{fig:lob_evo}: the order book receives two new bids in t, bids 1 and 2.
+On t + 1, clearing occurs and the bid 2 is matched with one of the equal sized best ask orders.
+Bid 1 is left in the order book and becomes the best bid order. As the order prices differ
+between the bid 2 and the corresponding ask, it is not entirely obvious which price to pick
+for the trade: bid's price, ask's price or the average. Especially in continuous markets,
+the trade price is set according to the order that was in the order book already, in this
+example the ask order. % Something about supply demand price matching etc.
+
+\begin{figure}
+    \begin{center}  
+        \includegraphics[width=15cm]{diagrams/lob_evolution.png}
+        \caption{Evolution of a limit order book}
+        \label{fig:lob_evo}
+    \end{center}
+\end{figure}
+
+% Price formation in continuous settings
+Price formation in continuous double auction is rather straight forward. Continuous
+market do not allow clearable orders to stay in the limit order book thus the
+candidates for trades can be narrowed down only to the opposing orders with better
+or equal price than the newly arrived order. This is because the steps for 
+clearing is conducted each time a new order arrives.
+
+
+

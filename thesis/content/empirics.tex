@@ -1,6 +1,6 @@
 
 \section{Methodology}
-
+PLACEHOLDER
 \subsection{Julia Language}
 Julia is relatively new dynamic programming language, 
 reaching stable release of 1.0 in August 2018 \citep{JuliaV1}.
@@ -104,47 +104,93 @@ artificial market and these are also discussed.
 \subsubsection{Trader Behaviour}
 % How the investors make decisions actually
 
-As mentioned, the traders of this model are zero-intelligent
-traders. They trade picking orders randomly limiting their
-ability to speculate. They however are budget constrained
+As mentioned, the traders of this ASM model are zero-intelligent
+traders in order to minimize the degrees of freedom introduced with
+the model. The traders' rationality is reduced to minimum effectively
+making them unable to speculate or manage risks. They do not
+possess ability to seek profit, observe the markets or learn
+from their previous actions, and they are only able to submit random orders. 
+The zero-intelligent traders' mechanics are implemented in a way that
+they are given sets of allowed ranges and options in which they choose
+values randomly. This way the zero-intelligent behaviour is maintained
+in addition to have similar decisions that there are present in real markets 
+concerning to order placement. They are also budget constrained
 in order to achieve allocative efficiency as proposed by
 \citet{God93}.
 
-The placement decision requires three things to be defined: 
-side of the order, quantity of the order and price of the order. 
-These decisions are isolated as much as possible but there 
-are some unavoidable dependencies in between. In order to
-define the limits for the quantity, one must know 
+An order placement decision in the model requires three components 
+to be defined by a trader: order side, order quantity and order price. 
+There are obviously two possible sides of an order: bid and ask, but
+not submitting an order is also a choice. Therefore, the traders
+have three options, submitting bid limit order, submitting ask limit order
+and not submitting an order, in which they pick one randomly with equal
+weights. 
 
-The side of the order is determined picking randomly
-between nothing, bid order and ask order. Nothing
-represents that the trader did not want to create 
-an order.
+Determining the order price and order quantity are not as straight
+forward as their feasible ranges cannot be determined completely independently
+and the calculation of the ranges differ between bids and asks. A bid order's
+value cannot exceed the amount of currency the trader possess thus this is 
+a limiting factor for both, order quantity and order price of a bid. In addition,
+the maximum order quantity is inversely proportional to the order price and
+therefore if order price is set first, the maximum order quantity the trader
+can set for a bid equals to its amount of currency divided by the price and vice versa. 
+However, the ask order does not include such restrictions: the value of the order
+does not reflect to the amount of assets the trader must allocate for the order. The
+price of an ask order can, in theory, be infinite and the trader has no issues
+fulfil the trade even though the counterparty may have. The only limit for the
+trader placing an ask is the amount of the traded asset it possess: the trader
+cannot sell more of the asset than it has. To summarize, an ask order's feasible
+ranges for quantity and price can be determined independently but this is not the
+case for bid orders. These feasible ranges are shown in ~\ref{eq:feasible_ranges}
 
-The quantity of the order is initially defined as the
-amount of asset to allocate or commit for the order. 
-In case of bid order, this amount of asset is the one that acts
-like a currency in the market. For ask orders, this 
-is the amount of traded asset, for example stocks. In 
-case of bid order, this amount is converted to the 
-amount of stocks when the price is decided. The quantity
-of the asset to allocate is picked from a uniform distribution
-in which the minimum is one and maximum is the total 
-amount of the said asset the trader has unallocated in the
-position. 
+\begin{equation}
+\begin{aligned}
+% Bid
+p_{bid} &= \left[1, pos_{ccy} / q \right] \\
+p_{ask} &= \left[1, \infty \right] \\
+q_{bid} &= \left[1, pos_{ccy} / p\right] \\
+q_{ask} &= \left[1, pos_{asset}\right] \\
+\end{aligned}
+\label{eq:feasible_ranges}
+\end{equation}
 
-The price picked from a normal distribution in which the
-mean price is the last market price and the standard
-deviation is a constant parameter for the simulation.
-The distribution is truncated in a way that the minimum
-value is one and the maximum is the unallocated amount
-in case of bid order and infinite in case of ask order.
-This is due to buyer-seller asymmetricity which is discussed
-in the handling of assets with more detail. The price
-is rounded to nearest integer.
+To overcome this and to maintain symmetricity between the placement of bids and asks, 
+the traders decide the amount of an asset to allocate with an order instead of deciding 
+the order quantity directly. This decision is independent on the order price for both
+sides and can be handled the same way for both cases. Therefore a trader placing a bid order 
+need to define the amount of currency to allocate with the trade and a trader placing an ask
+order need to define the amount of the traded asset to allocate, the order quantity in this case. 
+The order quantity for a bid is calculated after the amount of asset to allocate 
+and the order price have been set. The amount of asset to allocate is drawn from a uniform
+distribution in which the minimum is one and maximum is the amount of the asset the trader
+has and is free for allocation. The order price is drawn from a normal distribution in which 
+the mean is the last market price. The standard deviation of the distribution is set to a 
+constant and the distribution is truncated between one and infinity.
 
+An example of the distribution of order prices and quantities
+is show in ~\ref{fig:generated_orders}. The figure contains simulation
+of 10 000 orders created by a zero-intelligent trader. 
+The last market price was set to 1 000 units and the standard deviation of the price to 10. 
+The trader possessed 10 000 000 units of currency and 100 000 
+units of stock.
 
-
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{plots/order_distr_bid.png}
+      \caption{Distribution of random bids}
+      \label{fig:gener_bids}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{plots/order_distr_ask.png}
+      \caption{Distribution of random asks}
+      \label{fig:gener_asks}
+    \end{subfigure}
+    \caption{Distribution of random orders}
+    \label{fig:generated_orders}
+\end{figure}
 
 
 \subsubsection{Market Mechanics}
@@ -202,8 +248,9 @@ while maxprice(buy_book) >= minprice(sell_book)
 The price formation of the continuous market is implemented
 on the order pair basis. The trade price is simply the price
 stated in the older of the paired orders. % SOURCE: find a source to describe why this way the price
-The quantity of the trade is picked from the smaller of the two orders
-and the bigger order is partially cleared.
+The quantity of the trade is chosen from the smaller of the two orders
+and the bigger order is partially cleared in case they were not 
+equally sized.
 
 \subsubsection{Handling of Assets}
 % Why use integers as units for assets
@@ -218,23 +265,53 @@ The asset symmetricity means that there is no universal or central currency
 and the currencies are handled as any other asset. In theoretical sense, 
 currencies are also just investment options and there is no inherent reason why other 
 asset classes, such as stocks, could not operate as the definition 
-of value. This feature caused the model to be somewhat complex but 
-abstracted the structure in a way that it handles natively cross currency
+of value. This feature creates complexity to the model compared to a model
+with a central currency acting as a baseline but it also enables an
+abstracted structure that handles natively cross currency
 markets or ecosystems where there exists markets between assets A and 
-B and between B and C but not between A and C. 
+B and between B and C but not between A and C. It is also a better 
+representation of theoretical markets.
 
 Asset symmetricity is constructed via storing all the owned and reserved
 assets in the same data structures, in dictionaries in this case. In addition
 to the traded asset, the markets contains also the information about the asset
 that the traded asset is traded with, which is most often some sort of currency. 
 
+% Asset allocation, reserve & active orders
+In single asset markets where only one order is allowed to be on the markets
+per trader, disallowing orders that would require more assets to execute
+than there is in the position should be enough. However, in case of multi-market
+ecosystem this is not enough. The assets that are already allocated to 
+a market must be kept track of. There most likely is a structure in a multi-market
+simulations where the same asset is traded in more than one markets. If the
+total commited amount of the asset is not tracked, there is a risk that the
+same asset is commited in two separate orders and if both executes,
+there is a chance that the trader's position goes negative. To prevent this,
+this ASM model keeps track of all of the commited assets, called reserved
+asset in the simulation, in addition to the actual position values. It also
+accepts only one order per trader per market as it makes little sense that
+the traders are allowed to express multiple different opinions to the market 
+simultaenously: especially having a bid and an ask orders on the same market
+at the same time may lead to a confusing pattern where a trader is trading with
+itself. 
+
+In addition to this, the order that a trader has already placed
+to a market is tracked in the trader's data structure to make cancellation easy
+but also implement relevant additional feature: active order lookup. To prevent that
+the placing of a new order is not limited with the trader's existing order in the market,
+the effect of this previous order, called active order, in the asset reverse is excluded. 
+This active order will be cancelled as soon as the this new order is validated and this new order
+will become the active order thus it is not a valid reason to make the trader's placing 
+options more conservative.
+
+% Integers & bid-ask asymmetricity
 All quantities of assets are stored as integers to prevent wealth leakage
 or creation because of the floating point arithmetics. Using integers also
 conveniently act as the tick size for all the markets. This also has the side effect
 of that also all the prices must be represented as integers as one piece
 of traded asset must equal exact quantity of the asset used as a currency
 in the market. Furthermore, this creates deficency in the market if the quantities
-of owned assets are small and also a phenomenon of asymmetricity between buyers and sellers
+of owned assets are small and also a phenomenon of asymmetricity between bidders and askers
 araises. The price set by an asker can be virtually anything: they can set
 arbitrary positive price for their order as the only limitation is the amount
 of traded asset they can commit to the order which is independent on the price. 
@@ -245,10 +322,9 @@ The maximum price the bidder can set equals to the quantity of the asset
 that behaves as currency in the market but the minimum price is one. This is
 illustrated in the figure ~\ref{fig:buy_sell_asym} in which the all possible
 combinations of quantities and prices are shown. The buyer owns
-ten units of currency and the seller owns ten units of traded stock in
+ten units of currency and the seller respectively owns ten units of traded stock in
 this example. The colored areas represent where the possible combinations
 lie.
-% About how this integer acts like tick in the market (1 unit of price = 1 tick)
  % And what this causes etc.
  % Price can be anything for seller but for buyer, there are boundaries
 
@@ -258,7 +334,34 @@ lie.
     \label{fig:buy_sell_asym}
 \end{figure}
 
+The bid-ask asymmetricity may become issue when the price of the market
+approaches one. Near one the tick size start to reduce the efficiency
+of the markets: for example, only one tick drop for a market price 
+of four is 25\%. In addition, there may be an issue that the efficient
+price cannot be reached if it lies under the price of one. Probably
+the simplest solution to avoid this while still having integers for quantities 
+of assets is to make sure the traded asset has sufficiently high value
+compared to the currency of the market. This can be achieved simply injecting
+enough currency to the ecosystem to inflate the price. Another interesting 
+solution to solve the problem of the potentially unreachable efficient price 
+is to have two markets for the same asset pairs but opposing direction. 
+The first market trades an asset A with an asset B but the 
+other market trades the asset B with the asset A. The price of the other market
+should always be multiplicative inverse of the other so the.
+This solution is shown in the figure ~\ref{fig:opposing_markets}. The total
+amount of stock is increasing, thus inflating, and the total amount of
+currency is decreasing, thus deflating, in constant rates.
 
-\subsubsection{Interactions}
-% How trader communicates with the market
-% and vice versa
+\begin{figure}
+    \includegraphics[width=\linewidth]{plots/opposing_markets.png}
+    \caption{Two markets with inverse assets}
+    \label{fig:opposing_markets}
+\end{figure}
+
+
+The efficient price of the market cannot be reached if it
+lies below one. Therefore the simplest solution to the problem probably
+is to make sure that the price of the traded asset is never close to one
+To avoid any side effects from the bid-ask asymmetricity, there are two solutions:
+either have two opposing markets for same asset pairs or have a balance between the 
+assets in a way that orders with a price of one are unlikely. 
