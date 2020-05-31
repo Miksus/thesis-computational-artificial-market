@@ -48,6 +48,7 @@ venv.bak/
 *.nlo
 *.fdb_latexmk
 *.lot
+*.synctex(busy)
 !*/figs/*.pdf
 
 # Diagrams (binary)
