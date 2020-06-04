@@ -67,7 +67,8 @@ function get_order_price(trader::ZeroIntelligentInvestor, market::AbstractMarket
     # Define the order price
     if isnan(market.last_price)
         # We pick something
-        mean_price = mean([min_price, get_unreserved(trader, asset, exclude=market)])
+        #mean_price = mean([min_price, get_unreserved(trader, asset, exclude=market)])
+        mean_price = get_unreserved(trader, market.currency, exclude=market) / get_unreserved(trader, market.traded_asset, exclude=market)
     else
         mean_price = market.last_price
     end
