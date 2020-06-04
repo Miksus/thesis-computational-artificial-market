@@ -39,3 +39,32 @@ function clear_empty!(book::Array{<:LimitOrder, 1})
     empty_orders = findall(x -> x.quantity <= 0, book)
     deleteat!(book, empty_orders)
 end
+
+function get_prices(orders::Array{<:LimitOrder, 1})
+    return [order.price for order in orders]
+end
+
+function get_equlibrium(bids::Array{BidLimitOrder, 1}, asks::Array{AskLimitOrder, 1})
+    clearable_quantities = Dict{Int64, Int64}()
+    
+    prices = Set(vcat(get_prices(bids), get_prices(asks)))
+    
+    for price_level in prices
+        println(price_level)
+        bids_clearable = [bid.quantity for bid in bids if bid.price >= price_level]
+        
+        asks_clearable = [ask.quantity for ask in asks if ask.price <= price_level]
+        clearable_quantity = minimum([sum(bids_clearable), sum(asks_clearable)])
+        
+        #clearable_quantities = vcat(clearable_quantities, [price_level clearable_quantity])
+        clearable_quantities[price_level] = clearable_quantity
+    end
+    
+    #eq_quantity = findmax(clearable_quantities, dims=2)
+    val, ind = findmax(clearable_quantities)
+    eq_prices = [key for (key, val) in clearable_quantities if val == eq_quantity]
+
+    eq_quantity = val
+    eq_price = round(mean([minimum(eq_prices), maximum(eq_prices)]))
+    return eq_quantity, eq_price
+end

@@ -12,23 +12,24 @@ mutable struct DoubleAuctionMarket <: AbstractMarket
     last_price::Float64
     ask_limit_orders::Array{AskLimitOrder, 1}
     bid_limit_orders::Array{BidLimitOrder, 1}
+    continuous::Bool
 
     function DoubleAuctionMarket(; name::Union{String, Nothing}=nothing)
         name = isnothing(name) ? _get_next_market_id() : name
-        new(name, generic_stock, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
+        new(name, generic_stock, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}(), true) # , Array{BidLimitOrder, 1}()
     end
 
     function DoubleAuctionMarket(ccy::AbstractAsset, asset::AbstractAsset; name::Union{String, Nothing}=nothing)
         name = isnothing(name) ? _get_next_market_id() : name
-        new(name, ccy, asset, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
+        new(name, ccy, asset, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}(), true) # , Array{BidLimitOrder, 1}()
     end
 
     function DoubleAuctionMarket(asset::AbstractAsset)
-        new(asset, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
+        new(asset, generic_currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}(), true) # , Array{BidLimitOrder, 1}()
     end
 
     function DoubleAuctionMarket(asset::AbstractAsset, currency::AbstractAsset)
-        new(asset, currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}()) # , Array{BidLimitOrder, 1}()
+        new(asset, currency, NaN, Array{AskLimitOrder, 1}(), Array{BidLimitOrder, 1}(), true) # , Array{BidLimitOrder, 1}()
     end
 end
 
@@ -52,7 +53,19 @@ end
 # Market matching
 "Cancel all orders"
 function cancel_all!(market::DoubleAuctionMarket)
+    # TODO: release assets from traders
     market.ask_limit_orders = typeof(market.ask_limit_orders)()
     market.bid_limit_orders = typeof(market.bid_limit_orders)()
 
+end
+
+function get_trade_price(market::DoubleAuctionMarket)
+    if market.continuous
+        # Continuous is matched per order basis (not per book)
+        return nothing
+    else
+        # Call is matched per book basis
+        (q, p) = get_equlibrium(market.bid_limit_orders, market.ask_limit_orders)
+        return p
+    end
 end
