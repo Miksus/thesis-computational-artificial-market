@@ -43,12 +43,14 @@ function save_trades(trades, trd_day_of_trade)
     df
 end
 
-function save_trades(trades, trd_day_of_trade, placements)
+function save_trades(trades, trd_day_of_trade; path)
     df_main = DataFrame()
     for market in keys(trades)
 
         df = DataFrame(
             market = market.name,
+            from = market.currency.name, 
+            to = market.traded_asset.name, 
             timestamp = [trade.timestamp for trade in trades[market]], 
             price = [trade.price for trade in trades[market]],
             quantity = [trade.quantity for trade in trades[market]],
@@ -59,48 +61,107 @@ function save_trades(trades, trd_day_of_trade, placements)
     end
     sort!(df_main, [:timestamp]);
     begin
-        df_main[:trading_day] = trd_day_of_trade
-        df_main[:placement_num] = placements
+        df_main[!, :trading_day] .= trd_day_of_trade
     end
-    CSV.write("results/trades.csv", df_main)
+    CSV.write(path, df_main)
     df_main
 end
 
+function get_market_books(markets::Array{T, 1} where {T<:AbstractMarket})
+    df_books = DataFrame()
+    for market in markets
+        for (side, book) in (("bid", market.bid_limit_orders), ("ask", market.ask_limit_orders))
+            if isempty(book)
+                continue
+            end
+            df = DataFrame(
+                [(side, order.dealer.name, order.from.name, order.to.name, order.price, order.quantity) for order in book],
+            )
+            rename!(df, [:side, :trader, :from, :to, :price, :quantity])
+            df_books = vcat(df_books, df)
+        end
+    end
+    return df_books
+end
 
-function run_simulation(investors::Array{T, 1} where {T<:AbstractInvestor}, markets::Array{T, 1} where {T<:AbstractMarket}, assets::Array{T, 1} where {T<:AbstractAsset}, trading_days::Int64)
-    save_positions(investors, "results/pos_start.csv")
+
+function run_price_discovery(investors::Array{T, 1} where {T<:AbstractInvestor}, markets::Array{T, 1} where {T<:AbstractMarket})
+    
+    # Placing
+    for investor in investors, market in markets
+            
+        place!(investor, market)
+    end
+
+    # Clearing
     trades = Dict{AbstractMarket, Array{Trade, 1}}(market => [] for market in markets)
-    trd_day_of_trade, placements = [], []
-    orderbook = []
-    n_placement = 1
+    for market in markets
+        trds = clear!(market)
+        if ~isempty(trds)
+            append!(trades[market], trds)
+        end
+    end
+    return trades
+end
+
+function run_day(investors::Array{T, 1} where {T<:AbstractInvestor}, markets::Array{T, 1} where {T<:AbstractMarket})
+    trades = Dict{AbstractMarket, Array{Trade, 1}}(market => [] for market in markets)
+    for investor in investors, market in markets[shuffle(1:end)]
+            
+        place!(investor, market)
+        trds = clear!(market)
+        if ~isempty(trds)
+            append!(trades[market], trds)
+        end
+    end
+    
+    return trades
+end
+
+
+function run_simulation(
+        investors::Array{T, 1} where {T<:AbstractInvestor}, 
+        markets::Array{T, 1} where {T<:AbstractMarket}, 
+        assets::Array{T, 1} where {T<:AbstractAsset}, 
+        trading_days::Int64, speak_ratio::Float64,
+        name::String
+    )
+    save_positions(investors, "results/$name/pos_start.csv")
+    trades = Dict{AbstractMarket, Array{Trade, 1}}(market => [] for market in markets)
+    df_books = DataFrame()
+
+    day_index = []
     for day in 1:trading_days
         # Trading day
         #println("Trading day ", day)
-        trades_day = []
-        
-        for investor in investors, market in markets
-            
-            trds = place!(investor, market)
-            
-            if isnothing(trds)
-                # Do nothing, cannot put to the same
-                # check as below because the there
-                # is no method isempty with nothing
-            elseif ~isempty(trds)
-                append!(trades[market], trds)
-                trades_day = vcat(trades_day, trds)
-                trd_day_of_trade = vcat(trd_day_of_trade, repeat([day], length(trds)))
-                placements = vcat(placements, repeat([n_placement], length(trds)))
-            end
-            n_placement += 1
+
+        if day == 1
+            session_trades = run_price_discovery(investors, markets)
+        else
+            session_trades = run_day(sample(investors, Int64(round(length(investors) * speak_ratio)), replace = false), markets)
         end
         pay_cashflows!(investors, assets)
         update!(world)
-    
+
+        for market in keys(session_trades)
+            trades[market] = vcat(trades[market], session_trades[market])
+            end_price = length(session_trades[market]) > 0 ? session_trades[market][end].price : "<no trades>"
+            println("Price of the day: $(end_price) ($(market.name))")
+        end
+        n_trades = sum([length(val) for val in values(session_trades)])
+        day_index = vcat(day_index, repeat([day], n_trades))
+
+        # Order book and its content
+        df_book = get_market_books(markets)
+        if ~isempty(df_book)
+            df_book[!, :day] .= day
+            df_books = vcat(df_books, df_book)
+        end
     end
 
 
-    save_positions(investors, "results/pos_end.csv")
+    save_positions(investors, "results/$name/pos_end.csv")
 
-    save_trades(trades, trd_day_of_trade, placements)
+    save_trades(trades, day_index, path="results/$name/trades.csv")
+    CSV.write("results/$name/books.csv", df_books)
 end
