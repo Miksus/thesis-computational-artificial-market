@@ -51,11 +51,11 @@ function get_order_quantity(trader::ZeroIntelligentInvestor, market::AbstractMar
     # Note: max_tradeable is automatically in the asset which
     # is traded away (Sell => stock, buy => currency)
 
-    if max_tradeable < 0
+    if max_tradeable <= 0
         return NaN
         #throw(DomainError(max_tradeable, "Max quantity cannot be <0: $trader"))
     end
-    distr = 0:Int(max_tradeable)
+    distr = 1:Int(max_tradeable)
     #println(max_tradeable)
     return rand(distr)
 end
