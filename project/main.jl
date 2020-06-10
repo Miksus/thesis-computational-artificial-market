@@ -135,11 +135,7 @@ function run_simulation(
         # Trading day
         #println("Trading day ", day)
 
-        if day == 1
-            session_trades = run_price_discovery(investors, markets)
-        else
-            session_trades = run_day(sample(investors, Int64(round(length(investors) * speak_ratio)), replace = false), markets)
-        end
+        session_trades = run_day(sample(investors, Int64(round(length(investors) * speak_ratio)), replace = false), markets)
         pay_cashflows!(investors, assets)
         update!(world)
 
