@@ -1,6 +1,6 @@
 
 \section{Methodology}
-PLACEHOLDER
+
 \subsection{Julia Language}
 Julia is relatively new dynamic programming language, 
 reaching stable release of 1.0 in August 2018 \citep{JuliaV1}.
@@ -23,42 +23,37 @@ and good productivity makes it viable language for
 prototyping simulation systems. 
 
 
-\begin{lstlisting}
-#= This is a code sample for the Julia language
-(adapted from http://julialang.org) =#
-struct Market
-    
-\end{lstlisting}
 
 
 \subsection{Generic Structure of the Model}
 % Describe the generic structure (Type hierarchy, layers etc.)
 % Kind of the static side of the simulation
 The ASM model has three layers: abstraction layer, concrete 
-layer and simulation layer. The fist layer contains the 
-generic parts of the framework that are independent on the concrete
-type of the elements. For example, this layer defines how 
-to get traders' positions, how the trades are formed from
-orders and all the abstract types. The main purpose of this layer
+layer and simulation layer. The fist layer, abstraction layer, contains the 
+generic parts of the framework that are independent and obvious in terms
+of functionality. For example, how to get traders' positions, how to
+transfer assets from a trader to another or how to cancel an order are
+functionalities that are independent on the type of the traders 
+and type of the markets and therefore these functionalities have little
+far reaching decisions to make. The main purpose of this layer
 is to separate generic and obvious functionality from blocks of code
-that has more degrees of freedom.
+that has more degrees of freedom and less obvious decisions to make.
 
 The second layer, the concrete layer, defines the actual types and
-functionalities that are require less clear and more heuristic
+functionalities that require less clear and more heuristic
 approach than the abstract layer. This layer also include significant
-portion of choices to make choices to make. Some of the components
-on this layer include the zero intelligent investor and its
+portion of choices to make. Some of the components
+on this layer include the zero intelligent trader and its
 functions that defines its behaviour, the continuous double auction
-market, its price mechanics and the interaction between investors
-and markets.
+market and its price formation mechanics.
 
 The third layer, simulation layer, manages the simulation as a whole.
-This layer defines ecosystem where the simulation takes place including
+This layer defines the ecosystem where the simulation takes place including
 the initiation of the components, interating over the time periods, asking
-each investor to make their decisions et cetera. Also the number of investors,
-initial conditions such as amount of assets the investors own and how the 
-simulation results are saved are defined here. This layer mostly calls
-the functionalities created in the lower layers.
+each trader to make their decisions and ask the market to clear. 
+Also, the number of investors, initial conditions such as amount of assets 
+the investors own and how the simulation results are saved are defined here. 
+This layer mostly calls the functionalities created in the lower layers.
 
 
 
@@ -365,3 +360,4 @@ is to make sure that the price of the traded asset is never close to one
 To avoid any side effects from the bid-ask asymmetricity, there are two solutions:
 either have two opposing markets for same asset pairs or have a balance between the 
 assets in a way that orders with a price of one are unlikely. 
+% implmenentation of payoffs (dividend, interests etc)
