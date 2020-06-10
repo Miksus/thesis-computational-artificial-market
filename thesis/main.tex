@@ -142,8 +142,8 @@
 % ---------------
 
 \begin{document}
+\pagenumbering{gobble}
 
-\bibliography{ref}
 
 \include{cover} 
 \include{abstract}
@@ -152,8 +152,8 @@
 \include{acknowledgments}
 %\addtocontents{toc}{\contentsline {section}{Acknowledgments}{}}%
 %\input{preface}
-\cleardoublepage%
-\thispagestyle{empty}%
+%\cleardoublepage%
+%\thispagestyle{empty}%
 % \addtocontents{toc}{\contentsline{section}{Contents}{}} % including contents to contents
 
 \tableofcontents%
@@ -171,6 +171,7 @@
 %\cleardoublepage%
 \printnomenclature[2.0cm]%
 
+\pagenumbering{arabic}
 \setcounter{page}{1} % Set page numbering starting from 1 from here on
 
 % Content of the Thesis
@@ -184,6 +185,7 @@
 
 \include{content/empirics}
 \include{content/results}
+\bibliography{ref}
 
 %\include{content/conculsion}
 % References
