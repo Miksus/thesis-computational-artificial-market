@@ -54,6 +54,7 @@ venv.bak/
 # Diagrams (binary)
 *.dia
 *.dia~
+*.dia.autosave
 
 # Proto and other specific non VCS files
 proto/
