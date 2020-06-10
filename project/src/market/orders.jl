@@ -60,16 +60,14 @@ mutable struct AskLimitOrder <: LimitOrder
     end
 end
 
-"Get amount of asset commited in the order (seller commits the asset and buyer currency)¨
-This is side independent;
-    BidLimitOrder: returned amount in traded currency
-    AskLimitOrder: returned amount in traded asset"
-function get_amount_commited(order)
-    if order isa BidLimitOrder
-        return order.price * order.quantity
-    elseif order isa AskLimitOrder
-        return order.quantity
-    end
+"Get amount of asset commited in the order (commits currency)"
+function get_amount_commited(order::BidLimitOrder)
+    return order.price * order.quantity
+end
+
+"Get amount of asset commited in the order (commits the asset)"
+function get_amount_commited(order::AskLimitOrder)
+    return order.quantity
 end
 
 
