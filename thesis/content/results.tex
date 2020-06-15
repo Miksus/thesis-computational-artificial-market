@@ -80,9 +80,86 @@ simulation starting with higher market price.
 
 
 % stylized facts
-The stylized facts are also inline with the literature. There is no autocorrelation
-in the relative changes in the market price as seen in figure n. In addition, with
-current setup there are some volatility clusters with 10 trade window.
+% Somethging about filtering fist 100 out and now inspecting stylized facts
+As stated before, the representativeness of real markets is inspected using
+stylized facts. In order to have represenative data set to test the facts, the
+sessions before reaching the price equilibrium are filtered out. 
+As observed in ~\ref{fig:basic_trades}, the model reaches the equlibrium 
+price before the 100th trading session and after that both of the initiations 
+yield similar price and quantity processes. Therefore, for simplicity the
+the first 100 trading sessions are filtered out from the simulation with
+lower initiated market price and the data produced from it is used for 
+studying the stylized facts in the model.
 
+The autocorrelation function (ACF) and partial autocorrelation function (PACF) for the last prices of
+each session are plotted in the figure ~\ref{fig:basic_autocorr}. ACF and PACF indicate that there is 
+an autoregressive (AR) process for up to 15 lags and a moving average (MA) process to the third lag. Therefore
+there is a clear autocorrelation in the model with the stated simulation parameters. This
+observation is possibly caused by option for doing nothing which occurs with slightly higher than
+one-third probability due to slight chance for invalid order submission. As the price in each order
+is dependent on the market price which was when the order was created and as there is a chance that
+this order will stay in the order book for some time, the price in the past has influence on the
+current structure of the order book and therefore a past market prices has effect on the upcoming prices.
+This indicates that if the zero intelligent traders are given the option to not change their orders and
+the market is structured as continuous double auction, autocorrelation may be inevitable. Either the
+rationality of the traders regarding to when they decide to do nothing should be increased, the option
+to do nothing should be taken off or limit the lifetime of an order in order to reduce the autocorrelation.
+In addition, \citet{StylizedFacts01} also discussed that in the real markets there may be autocorrelation 
+of returns for small intraday time periods, such as 20 minutes, due to market microstructure and therefore
+one trading session in the simulation may be more closer, in terms of interpretation, to a smaller period 
+than one day.
+% Something about intra day autocorrelation in real markets. Maybe if a trading session is considered as
+% trading hour, the simulation is more realistic?
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{plots/basic_autocorrelation.png}
+    \caption{Autocorrelation of the simulation after 100 session}
+    \label{fig:basic_autocorr}
+\end{figure}
+
+% Fat-tailed returns
+The returns are, however, fat-tailed as can be observed from figure 
+~\ref{fig:basic_return_fitdistr}. The distribution of returns decay
+initially rapidly when moving from the mean compared to the fitted
+normal distribution but the tails of the distributions stretch
+further due to high kurtosis. However, the distribution does have
+significantly higher spike in the mean than what is observed, for 
+example, in the figure~\ref{fig:sp_fat_tails} regarding to S\&P500's
+fat tails. 
+% basic_fat_tails_cumdist
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{plots/basic_fat_tails.png}
+      \caption{Return distribution}
+      \label{fig:basic_return_fitdistr}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{plots/basic_fat_tails_cumdist.png}
+      \caption{Return cumulative distribution}
+      \label{fig:basic_return_cumdistr}
+    \end{subfigure}
+    \caption{Return distributions after 100 sessions}
+    \label{fig:basic_return_distr}
+\end{figure}
+
+
+% Volatility clusters
+The autocorrelation of the volatilities in figure ~\ref{fig:basic_volaclusters}
+indicate there are some volatility clusters in short term. Both, ACF and PACF, shows slow
+decay indicating that there are both of the autocorrelation terms, AR and MA,
+present in the volatility of the market price. The effect is, however, rather short term
+as it is not carried over trading sessions as shown in the appendix ~\ref{app:basic_volaclusters_per_session}
+
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{plots/basic_volaclusters_intraday.png}
+    \caption{Volatility Clusters}
+    \label{fig:basic_volaclusters}
+\end{figure}
 
 \subsection{Multi asset simulation}
