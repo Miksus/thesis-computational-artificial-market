@@ -30,6 +30,7 @@ module BotMarket
         get_order,
         get_order_quantity,
         get_order_price,
+        get_side,
         get_unreserved,
         # Abstracts
         AbstractAsset,
