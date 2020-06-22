@@ -58,7 +58,9 @@ ask side of the market is almost completely missing initially in the run that
 starts with lower market price while the opposite is true for the run with higher
 initial market price. The side emerges rapidly after few trading session
 and the market price approaches near equilibrium price and vice versa for the 
-simulation starting with higher market price.
+simulation starting with higher market price. An example of the market depth 
+when the equilibrium is reached is shown in ~\ref{fig:basic_market_depth_equilibrium}.
+
 
 \begin{figure}
     \centering
@@ -78,6 +80,11 @@ simulation starting with higher market price.
     \label{fig:market_depths}
 \end{figure}
 
+\begin{figure}
+    \includegraphics[width=\linewidth]{plots/basic_market_depth_in_equilibrium.png}
+    \caption{Market depth when equilibrium reached (last 50 sessions)}
+    \label{fig:basic_market_depth_equilibrium}
+\end{figure}
 
 % stylized facts
 % Somethging about filtering fist 100 out and now inspecting stylized facts
@@ -97,9 +104,16 @@ an autoregressive (AR) process for up to 15 lags and a moving average (MA) proce
 there is a clear autocorrelation in the model with the stated simulation parameters. This
 observation is possibly caused by option for doing nothing which occurs with slightly higher than
 one-third probability due to slight chance for invalid order submission. As the price in each order
-is dependent on the market price which was when the order was created and as there is a chance that
-this order will stay in the order book for some time, the price in the past has influence on the
-current structure of the order book and therefore a past market prices has effect on the upcoming prices.
+is dependent on the market price which existed when the order was created and as there is a chance that
+this order will stay in the order book for some time, the market price in the past has influence on the
+current structure of the order book and therefore a past market prices have effect on the upcoming prices.
+This phenomenon can be interpret from the figure ~\ref{fig:basic_market_depth_equilibrium}: the valley
+formed by the sides of the order book resembles river. In case of no autocorrelation, one would expect
+that there would be no clear continuous valley formed by the order book and the spread would change
+its location more intensively. 
+% NOT TRUE, autocorrelation found when there is no option for "inaction"
+% Maybe the reason is that when the price gets lower, less has 
+
 This indicates that if the zero intelligent traders are given the option to not change their orders and
 the market is structured as continuous double auction, autocorrelation may be inevitable. Either the
 rationality of the traders regarding to when they decide to do nothing should be increased, the option
@@ -162,4 +176,6 @@ as it is not carried over trading sessions as shown in the appendix ~\ref{app:ba
     \label{fig:basic_volaclusters}
 \end{figure}
 
-\subsection{Multi asset simulation}
+\subsection{Arbitrage simulation}
+
+To 
