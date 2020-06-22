@@ -75,9 +75,9 @@ function get_market_books(markets::Array{T, 1} where {T<:AbstractMarket})
                 continue
             end
             df = DataFrame(
-                [(side, order.dealer.name, order.from.name, order.to.name, order.price, order.quantity) for order in book],
+                [(side, order.dealer.name, order.from.name, order.to.name, order.price, order.quantity, market.name) for order in book],
             )
-            rename!(df, [:side, :trader, :from, :to, :price, :quantity])
+            rename!(df, [:side, :trader, :from, :to, :price, :quantity, :market])
             df_books = vcat(df_books, df)
         end
     end
