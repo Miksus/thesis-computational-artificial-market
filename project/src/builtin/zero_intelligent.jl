@@ -1,5 +1,6 @@
 
 using Distributions
+using StatsBase
 
 # Let defines new name space
 let state = 0
@@ -13,13 +14,16 @@ mutable struct ZeroIntelligentInvestor <: AbstractInvestor
     reserved::Dict{AbstractAsset, Int64}
     std_price::Float64
 
+    side_weights::Dict{Type, Union{Int64, Float64}}
+
     active_orders:: Dict{AbstractMarket, LimitOrder}
-    function ZeroIntelligentInvestor(positions::Dict{AbstractAsset, Int64}; deviation::Union{Int64, Float64}=10) # , assets::Dict{}
+    function ZeroIntelligentInvestor(positions::Dict{AbstractAsset, Int64}; deviation::Union{Int64, Float64}=10, bid_weight::Real=1, ask_weight::Real=1, na_weight::Real=1) # , assets::Dict{}
         new(
             string(_get_next_id()),
             positions, 
             Dict(), 
             Float64(deviation),
+            Dict{Type, Union{Int64, Float64}}(BidLimitOrder=>bid_weight, AskLimitOrder=>ask_weight, Nothing=>na_weight),
             Dict()
             )
     end
@@ -31,6 +35,7 @@ mutable struct ZeroIntelligentInvestor <: AbstractInvestor
                     generic_stock=>stock), 
                     Dict(), 
                     Float64(deviation),
+                    Dict{Type, Union{Int64, Float64}}(),
                     Dict()
                 )
     end
@@ -39,7 +44,9 @@ end
 
 "Decide the side of the order the trader does"
 function get_side(trader::ZeroIntelligentInvestor, market::AbstractMarket)
-    return rand([AskLimitOrder, BidLimitOrder, nothing])
+    options = [AskLimitOrder, BidLimitOrder, Nothing]
+    weights = Weights([get(trader.side_weights, option, 1) for option in options]) #[Dict("a" => 5, "b" => 10, "c" => 1)[elem] for elem in ["a", "b", "c"]]
+    return sample(options, weights)
 end
 
 
@@ -84,7 +91,7 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
 
     # Define side
     side = get_side(trader, market)
-    if isnothing(side)
+    if side == Nothing
         return
     end
 
