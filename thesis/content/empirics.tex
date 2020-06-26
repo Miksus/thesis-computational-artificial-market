@@ -1,28 +1,36 @@
 
 \section{Methodology}
 
+The artificial stock market created in this thesis was written in Julia
+programming language and it took some inspiration from previous literature.
+The literature is lacking on practical studies about how to actually create
+an artifical stock market and therefore the structure of the market is explained
+with more detail. The decisions about the microstructure and the trader behaviour
+is most closely to the work of \citet{Mil08} and \citet{Raberto05}.
+In this section the rationale for the programming choice is discussed
+and the model's structure, mechanics and generic characteristics are 
+explained.
+
+
 \subsection{Julia Language}
 Julia is relatively new dynamic programming language, 
 reaching stable release of 1.0 in August 2018 \citep{JuliaV1}.
 It is a performant language with an empahsis
-on productivity. Even though Julia has focus on scientific 
+on productivity. Even though Julia has a focus on scientific 
 computing it considered as a general purpose programming
 language. Some of its features include
 multiple dispatch, just-in-time compilation and built-in
 matrix data types \citep{Julia}.
 
-Julia fits well for building an artificial market.
-Artificial markets can be seen as a set of objects
+Julia fits well in building an artificial market.
+Artificial markets can be seen as sets of objects
 and interactions in between, as described \citet{Ben12},
 and in such models object-oriented programming (OOP)
-is required. Even though Julia is more functional, OOP
-architecture can be constructed with use of Julia's 
-structs and type annotated functions. Also, the 
-speed of code execution, support for matrix operations 
-and good productivity makes it viable language for 
-prototyping simulation systems. 
-
-
+is preferred. Even though Julia is more functional in nature, 
+OOP behaviour can be constructed with Julia's structs and 
+type annotated functions. Also, the speed of code execution, 
+support for matrix operations and good productivity makes 
+it viable language for prototyping simulation systems. 
 
 
 \subsection{Generic Structure of the Model}
@@ -99,31 +107,34 @@ artificial market and these are also discussed.
 \subsubsection{Trader Behaviour}
 % How the investors make decisions actually
 
-As mentioned, the traders of this ASM model are zero-intelligent
-traders in order to minimize the degrees of freedom introduced with
-the model. The traders' rationality is reduced to minimum effectively
-making them unable to speculate or manage risks. They do not
-possess ability to seek profit, observe the markets or learn
-from their previous actions, and they are only able to submit random orders. 
-The zero-intelligent traders' mechanics are implemented in a way that
-they are given sets of allowed ranges and options in which they choose
-values randomly. This way the zero-intelligent behaviour is maintained
-in addition to have similar decisions that there are present in real markets 
-concerning to order placement. They are also budget constrained
+As mentioned, the traders of the ASM model are zero-intelligent
+traders. The reason for this is to minimize the degrees of freedom introduced with
+the model and provide as generic structure as possible. The traders' rationality 
+for making decisions is reduced to minimum effectively making them unable to speculate, 
+manage risks or optimize portfolio. They do not possess ability to seek profit, 
+observe the markets or learn from their previous actions or peers and
+they are only able to submit random orders. The mechanics of zero-intelligent traders
+are implemented in a way that they are given sets of allowed ranges 
+and options in which they choose values randomly. This way the zero-intelligent behaviour is maintained
+in addition to have similar options that there are present in real markets 
+concerning to order placement such as the order quantity, order price and whether
+to submit an ask order or bid order. The traders are also budget constrained
 in order to achieve allocative efficiency as proposed by
 \citet{God93}.
+
 
 An order placement decision in the model requires three components 
 to be defined by a trader: order side, order quantity and order price. 
 There are obviously two possible sides of an order: bid and ask, but
 not submitting an order is also a choice. Therefore, the traders
-have three options, submitting bid limit order, submitting ask limit order
-and not submitting an order, in which they pick one randomly with equal
-weights. 
+have three options: submitting bid limit order, submitting ask limit order
+and not submitting an order. Submitting an order also cancels any previous
+order made by the trader to the same market but not submitting an order doe not. 
+The traders pick one of these options randomly and each option has equal weight. 
 
 Determining the order price and order quantity are not as straight
 forward as their feasible ranges cannot be determined completely independently
-and the calculation of the ranges differ between bids and asks. A bid order's
+from each other and the calculation of the ranges differ between bids and asks. A bid order's
 value cannot exceed the amount of currency the trader possess thus this is 
 a limiting factor for both, order quantity and order price of a bid. In addition,
 the maximum order quantity is inversely proportional to the order price and
@@ -132,11 +143,11 @@ can set for a bid equals to its amount of currency divided by the price and vice
 However, the ask order does not include such restrictions: the value of the order
 does not reflect to the amount of assets the trader must allocate for the order. The
 price of an ask order can, in theory, be infinite and the trader has no issues
-fulfil the trade even though the counterparty may have. The only limit for the
+fulfill the trade even though the counterparty may have. The only limit for the
 trader placing an ask is the amount of the traded asset it possess: the trader
 cannot sell more of the asset than it has. To summarize, an ask order's feasible
 ranges for quantity and price can be determined independently but this is not the
-case for bid orders. These feasible ranges are shown in ~\ref{eq:feasible_ranges}
+case for bid orders. These feasible ranges are shown in ~\ref{eq:feasible_ranges}.
 
 \begin{equation}
 \begin{aligned}
@@ -164,7 +175,7 @@ constant and the distribution is truncated between one and infinity.
 
 An example of the distribution of order prices and quantities
 is show in ~\ref{fig:generated_orders}. The figure contains simulation
-of 10 000 orders created by a zero-intelligent trader. 
+of 1 000 000 orders created by a zero-intelligent trader. 
 The last market price was set to 1 000 units and the standard deviation of the price to 10. 
 The trader possessed 10 000 000 units of currency and 100 000 
 units of stock.
@@ -188,8 +199,28 @@ units of stock.
 \end{figure}
 
 
+
+In the literature, zero-intelligent traders are often implemented differently. For example, in the studies conducted by 
+\citet{God93}, \citet{Jam96} and \citet{Mil08} the traders were initially divided to buyers and
+sellers, traders could only trade one quantity of a stock per order and the prices
+were drawn from uniform distribution. However, these markets did not aim for
+realistic market microstructure. The trader behaviour in this model is close with the Genoa Market
+created by \citet{Raberto05} as in this model the prices are also drawn from normal distribution and
+the order quantities are derived from the required amount of asset. However, in Genoa Market the
+normal distribution's mean is 10\% higher for ask orders and 10\% lower for bid orders from the
+latest market price due to increase liquidity. For maintaining simplicity, the mean of the distribution
+is set to the last market price in this mode. Also, the option of to not make an order seems not to be
+implemented in the literature. However, \citet{Raberto05} implemented waiting times and order cancellation
+after specified times which may produce similar behaviour. 
+
+\subsubsection{Time Handling}
+
+The time in the simulation took inspiration from \citet{Julien07}. As in their ASM model, in this model
+the traders are randomly given the ability to speak and make their trading decisions. The 
+
 \subsubsection{Market Mechanics}
 % How the market is cleared actually 
+
 The market is continuous and double auction in nature.
 The clearing mechanics themselves are, however, 
 rather the same as could be for a call market: 
@@ -197,18 +228,21 @@ the orders are cleared until there
 are no bid orders with price equal or exceeding the
 ask order with lowest price. 
 Continuity is achieved by launching the clearing process
-every time an order arrives to the market but this is
-detached from the actual clearing function. 
+every time an order arrives to the market. 
 The clearing mechanics are defined in 
 the abstraction layer in a way that the same body
 of code works for call markets and continuous markets
-by calling the parametrized functions that are 
-defined explicitly for each market type and are defined
-in the concrete layer. The main body of the clearing function, 
+and the distinction between the markets, such as how 
+the market price is formed, is handled inside the clearing
+mechanics by calling the parametrized functions that are 
+defined explicitly for each concrete market type. 
+The main body of the clearing function, 
 as written in the source code, is shown in the listing ~\ref{lst:clearing}.
-In the listing the clearing price resembles the clearing
-session price which is calculated in call markets but not in
-continuous markets.
+In the listing the clearing price resembles the market price
+of the clearing session which is calculated in call markets but not in
+continuous markets. This is so that in future experiments
+that study call markets could utilize the same code without modifications 
+even though call markets are not studied in this thesis.
 
 
 \begin{lstlisting}[caption={Clearing process},label={lst:clearing}]
@@ -246,6 +280,9 @@ stated in the older of the paired orders. % SOURCE: find a source to describe wh
 The quantity of the trade is chosen from the smaller of the two orders
 and the bigger order is partially cleared in case they were not 
 equally sized.
+
+% About literature
+
 
 \subsubsection{Handling of Assets}
 % Why use integers as units for assets
@@ -361,3 +398,7 @@ To avoid any side effects from the bid-ask asymmetricity, there are two solution
 either have two opposing markets for same asset pairs or have a balance between the 
 assets in a way that orders with a price of one are unlikely. 
 % implmenentation of payoffs (dividend, interests etc)
+
+% How the literature
+%Most of the ASM literature study only ecosystems in which
+%the traders can only trade a stock with a cash.
