@@ -21,3 +21,53 @@ def calc_supply_demand(df):
     df["supply"] = df["ask"].sort_index(ascending=True).cumsum()
     df["demand"] = df["bid"].sort_index(ascending=False).cumsum()
     return df
+
+
+def get_positions(trades, pos_start):
+
+    trades["value"] = trades["quantity"] * df_trades["price"]
+
+    # Stock transactions
+
+    df_stock = trades.pivot_table(
+        index="trading_day",
+        columns="buyer",
+        values="quantity",
+        aggfunc="sum"
+    ).fillna(0) - trades.pivot_table(
+        index="trading_day",
+        columns="seller",
+        values="quantity",
+        aggfunc="sum"
+    ).fillna(0)
+
+
+    # Currency
+    df_curr = -trades.pivot_table(
+        index="trading_day",
+        columns="buyer",
+        values="value",
+        aggfunc="sum"
+    ).fillna(0) + trades.pivot_table(
+        index="trading_day",
+        columns="seller",
+        values="value",
+        aggfunc="sum"
+    ).fillna(0)
+
+
+    df_main = pd.concat([df_stock, df_curr], axis=1, keys=["stock", "ccy"])
+
+
+    pos_start["trading_day"] = 0
+    pos_start = pos_start.rename({"generic_currency_position": "ccy", "generic_stock_position": "stock"}, axis=1)
+    df_start = pos_start.pivot_table(
+        index="trading_day",
+        columns="name",
+        values=["ccy", "stock"],
+        aggfunc="sum"
+    ).fillna(0)
+
+    df_main = pd.concat([df_start, df_main], axis=0)
+    df_main = df_main.fillna(0).cumsum(axis=0)
+    return df_main

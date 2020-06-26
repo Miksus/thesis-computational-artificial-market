@@ -44,17 +44,17 @@ def plot_order_book_heatmap(df, ax=None):
     df_bid = df_map["bid"].reindex(price_range, axis=0)
 
 
-    df_ask = df_ask.sort_index(axis=0, ascending=True).cumsum(axis=0).sort_index(axis=0)
+    df_ask = -df_ask.sort_index(axis=0, ascending=True).cumsum(axis=0).sort_index(axis=0)
     df_bid = df_bid.sort_index(axis=0, ascending=False).cumsum(axis=0).sort_index(axis=0)
 
     book_matrix = df_ask.add(df_bid, fill_value=0).sort_index(axis=0, ascending=False).sort_index(axis=1, ascending=True)
 
     book_matrix = book_matrix.replace(0, np.nan)
 
-    sns.heatmap(book_matrix.sort_index(axis=1, ascending=True), cmap='coolwarm', vmin=0, ax=ax)
+    sns.heatmap(book_matrix.sort_index(axis=1, ascending=True), cmap='RdYlGn', center=0, ax=ax)
 
 
-def plot_market_depth(df_book, price_range=None):
+def plot_market_depth(df_book, price_range=None, view=None):
     #%matplotlib notebook
     
     df = df_book.pivot_table(
@@ -100,7 +100,8 @@ def plot_market_depth(df_book, price_range=None):
     plt.ylabel("Price")
     plt.gca().set_zlabel('Quantity')
 
-    plt.gca().view_init(60, -30)
+    view = (60, -30) if view is None else view
+    plt.gca().view_init(*view)
     plt.margins(0, 0, 0)
     return fig
 
@@ -132,16 +133,32 @@ def plot_timeseries_two_scenarios(df_a, df_b, equilibrium, names):
 
     axs[2, 0].set_xlabel("Trading session")
     axs[2, 1].set_xlabel("Trading session")
+    return fig
 
 
-def plot_autocorrelation(df):
-    fig, axs = plt.subplots(2, 1, figsize=[10,10], sharex='col', sharey='row')
+def plot_autocorrelation(df, intrasession=False, figsize=None, absolute_return=False, rate_return=False, absolute_values=False, lags=30):
+    n_cols = sum([absolute_return, rate_return, absolute_values])
+    if figsize is None:
+        figsize = [15,10]
+    fig, axs = plt.subplots(2, n_cols, figsize=figsize, sharex='col', sharey='row')
     df_trd = df.sort_values("timestamp") # [df["trading_day"] >= 100]
-    df_trd = df_trd.groupby("trading_day").last()
+    if not intrasession:
+        df_trd = df_trd.groupby("trading_day").last()
     #df_prices = df_trd.sort_values("timestamp").groupby("trading_day")["price"].last().iloc[50:]
 
-    plot_acf(df_trd["price"], lags=30, title=f"ACF of Prices (per trading session)", ax=axs[0]);
-    plot_pacf(df_trd["price"], lags=30, title=f"PACF of Prices (per trading session)", ax=axs[1]);
+    cols = [
+        (name, data)
+        for name, val, data in 
+        [
+            ("absolute returns", absolute_return, df_trd["price"].diff().dropna()),
+            ("rate of returns", rate_return, df_trd["price"].pct_change().dropna()),
+            ("absolute values", absolute_values, df_trd["price"].dropna()),
+        ]
+        if val
+    ]
+    for i, (col, data) in enumerate(cols):
+        plot_acf(data, lags=lags, title=f"ACF of {col} ({'per trading session' if not intrasession else 'intrasession'})", ax=axs[0, i]);
+        plot_pacf(data, lags=lags, title=f"PACF of {col} ({'per trading session' if not intrasession else 'intrasession'})", ax=axs[1, i]);
     return fig
 
 def plot_volaclusters(df, clusters):
@@ -154,6 +171,7 @@ def plot_volaclusters(df, clusters):
         df_plot = df_trd.groupby(df_trd.index // cluster).std().dropna()
         plot_acf(df_plot, lags=20, title=f"ACF of volatility ({cluster} sessions)", ax=axs[i, 0])
         plot_pacf(df_plot, lags=20, title=f"PACF of volatility ({cluster} sessions)", ax=axs[i, 1])
+    return fig
 
 def plot_volaclusters_per_session(df, clusters):
 
@@ -172,17 +190,42 @@ def plot_volaclusters_per_session(df, clusters):
         #df_plot = df_trd.groupby("trading_day")["price"].std().dropna()
         plot_acf(df_plot, lags=10, title=f"ACF of volatility ({cluster} sessions)", ax=axs[i, 0])
         plot_pacf(df_plot, lags=10, title=f"PACF of volatility ({cluster} sessions)", ax=axs[i, 1])
+    return fig
 
-def plot_fat_tails(df):
+def plot_volaclusters_intrasession(df, clusters):
+
+    df_trd = df.sort_values("timestamp").set_index("timestamp") # [df_trd["trading_day"] >= 100]
+
+    fig, axs = plt.subplots(len(clusters), 2, figsize=[10,10], sharex='col', sharey='col')
+
+    #df_plot = df_trd.groupby(df_trd.index // cluster).std().dropna()
+    #plot_acf(df_plot, lags=10, title=f"ACF of volatility (per session)", ax=axs[0, 0])
+    #plot_pacf(df_plot, lags=10, title=f"PACF of volatility (per session)", ax=axs[0, 1])
+
+    #df_trd = df_trd.groupby("trading_day")["price"].last().dropna() # .pct_change()
+    for i, cluster in enumerate(clusters):
+        df_plot = df_trd.groupby(df_trd.index // cluster).std()["price"].dropna()
+        #df_plot = df_trd.groupby("trading_day")["price"].std().dropna()
+        plot_acf(df_plot, lags=10, title=f"ACF of volatility ({cluster} trades)", ax=axs[i, 0])
+        plot_pacf(df_plot, lags=10, title=f"PACF of volatility ({cluster} trades)", ax=axs[i, 1])
+    return fig
+
+def plot_fat_tails(df, absolute=False):
     df_trd = df.sort_values("timestamp") # [df_trd["trading_day"] >= 100]
     df_trd = df_trd["price"].dropna() # .pct_change()
 
+    if absolute:
+        returns = df_trd.diff().dropna()
+    else:
+        returns = df_trd.pct_change().dropna()
+
     fig = plt.figure()
 
-    ax = sns.distplot(df_trd.pct_change().dropna(), fit=norm, kde=False)
-    ax.set_title(f"Distribution of returns & fitted normal distribution")
+    ax = sns.distplot(returns, fit=norm, kde=False)
+    ax.set_title(f"Distribution of returns")
     plt.legend(["Fitted normal distribution", "Simulation"])
     ax.set_xlabel("Rate of returns")
+    return fig
 
 def plot_fat_tails_per_session(df):
     df_trd = df.sort_values("timestamp") # [df["trading_day"] >= 100]
@@ -191,9 +234,10 @@ def plot_fat_tails_per_session(df):
     fig = plt.figure()
 
     ax = sns.distplot(df_trd.pct_change().dropna(), fit=norm, kde=False)
-    ax.set_title(f"Distribution of returns & fitted normal distribution")
+    ax.set_title(f"Distribution of returns")
     plt.legend(["Fitted normal distribution", "Simulation"])
     ax.set_xlabel("Rate of returns")
+    return fig
 
 def plot_fat_tails_cumul(df):
     df_trd = df.sort_values("timestamp") # [df_trd["trading_day"] >= 100]
