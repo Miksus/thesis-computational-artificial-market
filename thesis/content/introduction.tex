@@ -1,45 +1,58 @@
 \section{Introduction}
 
-Due to the chaotic elements and lack of control in financial markets, 
-empirical research faces variety of challenges in effort to study the 
-behaviour of markets. Lack of data, spurious relations and changing market 
-conditions are serious is-sues that empirical researchers often 
-face, and the researchers are simply lim-ited with the conditions 
-that the real markets currently have or have had in the past. 
-There are seldom obvious and robust ways to test alternative scenarios with real data. \\ 
+% What's problematic with empirical research?
+Due to the chaotic elements of the financial markets and lack of control, 
+empirical research often face serious challenges in effort to study the 
+dynamics of markets. The empirical researchers cannot control the market conditions 
+and the thinking, intentions and actions of the market participants are often completely out of reach
+for the researchers. The researchers may also encounter various practical challenges, such as 
+lack of available data, spurious relations or changing market environment, 
+which may furher limit their ability to produce robust and accurate results. 
 
-However, the mechanics of how markets work are well 
+% Solution for problems for empirics
+However, the mechanics of how financial markets work are well 
 understood as they are inherently artificial structures 
-even though the behaviour of the participants is not. 
-Therefore, it is possible to build a controlled environment 
-in which the asset positions and optimal trades and outcomes 
-are completely known whereas all the unknown elements are reduced 
-to the participants? behaviour. These kinds of environments can be 
-used to support theoretical arguments and empirical findings.\\
+even though the behaviour of the market participants is not. 
+The mechanics of trading exchanges are simply sets of predefined rules 
+that the exchanges follow and the market clearing, the procedure 
+that matches the orders and produce trades, can be described with 
+deterministic algorithms. Therefore the infrastructure for trading
+could be accurately recreated and used to conduct laboratory 
+experiments in which the unknowns could be reduced to the market participants
+themselves. Such an experiment could produce complete information about
+the individual orders, formed trades and positions of each trader at any given time
+and the market conditions and information available for each market participants could
+be controlled in order to minimize noise or to create a desired state of the market to
+study. Moreover, the impact of the market mechanics itself to the trading prices and volumes 
+is possible to extract and study. 
 
-Such controlled environments can have human or artificial participants. 
-(Some-thing about human control environment studies?).\\
+% Why artificial markets
+These experiments often complement empirical research. They aim to find the
+conditions in which empirically proven phenomena may form and close the gap
+between theory and empirics. 
 
-Artificial participants are often used for determining the minimum required intel-ligence 
-for various phenomena in markets and for substituting human 
-partici-pants in cases where having them would be impractical. 
-The simplest form of ar-tificial participants is zero-intelligence (ZI) traders. 
-ZI traders trade completely randomly with underlying statistical distribution. 
-Even though ZI traders cannot be considered rational, markets formed with such 
-traders are shown to be able to reach near perfect allocation when there is a 
-budget constrain. These kinds of markets are also shown to be far from the 
-competitive equilibrium of which hu-man participants could achieve when demand is seasonal but determined.\\
+% Types of artificial markets
+Such laboratory experiments are often referred as artificial markets, or artificial
+stock market (ASM). \citet{Boer05} discovered three categories of artificial markets: 
+experimental, computational and analytical. In experimental artificial markets human traders
+are the market participants and they most often trade using a software act as
+the market system. Analytical markets are simply sets of mathematical equations that
+form the market mechanics. Most often however, artificial markets are associated with 
+computational artificial markets. These markets are computer simulations in which 
+also the roles of market participants are performed by software agents. The focus in this
+thesis is on the computational artificial markets and the term is used interchangeably
+with the term \textit{artificial market}. 
 
-Agent based traders are often used to simulate the human behaviour. 
-Most of-ten this term is associated with types of traders that follow predefined, 
-hardcod-ed set of rules. There rules are often based on theoretical 
-frameworks such as utility theory and they are often used for 
-Most of such traders have a set of rules built into them that \\
+% Generic overview of ASM
+After the first computational artificial market developed in Santa-Fe Institute
+(\citet{SantaFe94}) variety of models have been developed since. Some of the
+models have advanced trading agents while others aim for minimal design 
+regarding to the behaviour of the traders in order to study the market
+mechanics. Some studies, such as \citet{GOYKHMAN20181729}, \citet{IZUMI200535},
+\citet{Reinforcement09} and \citet{YEH20102089}, use learning algorithms in the decision making of 
+their agents while some, such as \citet{God93}, \citet{Jam96}, \citet{Genoa01} and \citet{Raberto05}, 
+aim for minimizing the intelligence of the traders to build a market settings in which
+specific attributes emerge. % TODO: Continue with 
 
 
-
-
-Even though financial markets are essential part of modern economy, their be-haviour is relatively poorly understood.\\ 
-
-Santa-Fe Institute?s simulation environment is often seen as the first artificial stock market?\\
 

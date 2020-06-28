@@ -22,9 +22,18 @@ go through recent literature to describe some of the models
 that has been built and discuss the design decisions in them.
 
 
-\citep{Ben12}
+%\citep{Ben12}
 
 \subsection{Zero Intelligent Markets}
+
+% What are zero intelligence traders?
+Zero-intelligent markets are type of computational markets
+which are populated with minimal rationality traders, called
+zero-intelligent traders. 
+
+Zero-intelligent traders are preferred in studying microstructures
+in ASM literature as they introduce less parameters to tune and
+less complexity to the market.  % TODO
 
 \subsubsection{Gode's and Sunder's Market}
 \citet{God93} observed market efficiency in a market setting
@@ -85,26 +94,6 @@ to steer the double auction market away from the bayesian equilibrium.
 They highlight the role of the market microstructure in the rationality 
 of the artificial markets. \\
 
-\subsubsection{Raberto's and Cincotti's Market}
-% Another example of Intelligence vs Structure
-\citet{Raberto05} experimented with ZI investors in market setting
-where each computational traders can submit bid and ask offers. Their
-market was also a continuous double auction which has realistic order
-book setup. In their market, the traders issue random bid and ask limit
-orders with a price that follows normal distribution. The mean of this 
-normal distribution is the best price of the opposite book and the 
-standard deviation is constant in the first experiment and linearly 
-dependent on the volatility of the stock in the second experiment. The
-traders do have a budget constrain. \\
-
-\citeauthor{Raberto05} found that the fat tailed returns observed in
-real stock markets can be achieved in artificial settings using limit 
-order book in the price formation and it is not consequence of clearing 
-house mechanism itself. They also found that volatility clusters can
-be achieved with a simple dependency on the volatility. Their paper
-is furher evidence that the market microstructure may be more
-important than the complexity of the traders in effort to replicate
-many of the properties of real markets.
 
 % Counter Argument for usefullness of ZI
 \subsubsection{Counter Argument against ZI markets}
@@ -214,6 +203,71 @@ gone through in this section.
 % 
 \subsubsection{Genoa Market}
 
-\citet{Genoa01} created double auction market with zero
-intelligent traders. Their price formation follows supply and 
-demand matching instead 
+\citet{Genoa01} created a double auction market with zero-intelligent 
+traders. Their price formation follows supply and demand matching meaning 
+that the type of the market is a call market. The traders draw their 
+order prices from a normal distribution in which the mean price is 10 \%
+higher for bids and 10 \% lower for asks from the last market price. The
+rationale of this is to encourage the traders to do orders that gets fulfilled.
+They also implemented a volatility feedback: the standard deviation for 
+the distribution used for drawing the order prices is derived from the 
+historical volatility of the asset and the time window for which this
+volatility is calculated is independent for each trader. In addition,
+they also introduced option networking between the traders: the traders
+form clusters by randomly pairing with each other. Clusters are activated
+randomly and when one is activated, all of the traders belonging to it
+submit same sided orders either bids or asks. After activation the cluster is destroyed.
+
+Using this architecture they were able to produce some of the stylized facts
+including fat tailed returns and volatility clusters. However, the also discussed
+that the volatility clusters are prone for increasing the size of the model and
+that the produced volatility clusters are exponentially decaying while empirics have
+observed a power law decay.
+
+\subsubsection{Limit Order Market}
+% Another example of Intelligence vs Structure
+\citet{Raberto05} experimented with ZI investors in market setting
+in which each computational trader can submit bid and ask offers. They
+implemented a continuous double auction market with a realistic order
+book setup. In their market, the traders issue random bid and ask limit
+orders with prices drawn from normal distribution. The mean of this 
+normal distribution is the best price of the opposite book and the 
+standard deviation is constant in the first experiment and linearly 
+dependent on the volatility of the stock in the second experiment. The
+traders also are budget constrained. \\
+
+They found that the fat tailed returns observed in
+real stock markets can be achieved in artificial settings using limit 
+order book in the price formation and it is not consequence of clearing 
+house mechanism itself. They also found that volatility clusters can
+be achieved with a simple dependency on the volatility. Their paper
+is furher evidence that the market microstructure may be more
+important than the complexity of the traders in effort to replicate
+many of the properties of real markets.
+
+\subsubsection{Market Clearing And Minority Game}
+
+\citet{LIU20082535} discussed stylized facts with two experiments: with
+a market populated by zero-intelligent traders and with a market formed using 
+model called \textit{Minority Game}. The first experiment focused on studying
+the market microstructure by observing the impact of clearing frequency for 
+stylized facts in a call market. The traders were not restricted with budget 
+constrain and they traded using order prices drawn from a normal distribution 
+in which the mean and standard deviation were set to constants. The reason 
+for these decisions were that they were not interested in the converge to 
+the equilibrium thus the fair value of the stock was not important. They 
+observed that the autocorrelation diminishes and fat tailed returns emerge 
+when the frequency of clearing the call market is increased. Moreover,
+they discussed that these phenomena are caused by the market microstructure
+as the increase in clearing frequency decrease the density of orders and 
+increase the market price spread.
+
+Their second experiment was more specific. The intention of the experiment 
+was to observe the effect of the behavioural elements using a model called
+Minority Game. Minority Game is a simplistic decision-making system in
+which each trader has a set of behavioral rules. From these rules each
+trader picks the one that has highest score in terms of predicting 
+historical outcomes of the prices. If a rule did not predict correctly,
+its score is decreased. With this experiment they found out that the
+behavioural elements can also cause fat tailed returns, cross correlation 
+of returns and volume and absence of autocorrelation.

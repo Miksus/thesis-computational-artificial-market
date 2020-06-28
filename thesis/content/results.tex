@@ -151,9 +151,11 @@ trades are plotted in the figure ~\ref{fig:basic_autocorr}. There is some negati
 (AR) process in the absolute returns as the ACF plot shows negative and slowly decaying lags 
 the line of significance. There are numerous significant lags in the AR process as can be observed from 
 the PACF plot. In addition, the prices themselves are positively autocorrelated with an AR process.
-These findings are inline with the experiments conducted by \citet{Raberto05}. They also observed
+These findings are inline with the experiments conducted by \citet{Raberto05}: they also observed
 some negative autocorrelation in intraday returns and long lasting autocorrelation in the absolute
-values with their simulation.
+values with their simulation. However, it should be noted that this figure shows very short term
+autocorrelation and the time between the lags may not be fixed: one lag is simply derived from one
+trade. 
 % https://www.youtube.com/watch?v=R-oWTWdS1Jg
 
 
@@ -164,8 +166,10 @@ values with their simulation.
 \end{figure}
 
 Figure ~\ref{fig:basic_autocorr_per_session} suggests that the the autocorrelation is carried over one
-session for the absolute returns and four sessions in terms of prices. Therefore there is an AR(1) 
-process in the absolute returns per session and AR(4) for prices. 
+session for the absolute returns and four sessions in terms of prices. One lag in the first column of the 
+figure is the absolute return between the end of sessions and in the second column the last price per session. 
+As can be interpret from the figure, there is an AR(1) process in the absolute returns per session and AR(4) 
+for prices on session basis.
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/basic_autocorrelation.png}
@@ -177,16 +181,19 @@ process in the absolute returns per session and AR(4) for prices.
 
 % Fat-tailed returns
 The distribution of the returns are plotted in ~\ref{fig:basic_return_distr}. As observed in the plot, the fat-tailed returns
-clearly exists in the intrasession period but not necessarily per session basis. There is a clear spike in the mean of the 
-distribution of returns between trades but this is not visible in the per session distribution. The per session distribution
+clearly exists in the intrasession period but not necessarily per session basis. For intrasession returns, there is a clear spike in the mean of the 
+distribution and the tails spread out but these are not visible in the returns between session. In addition, the per session distribution
 is not smooth even though the sample consists of 22 million trades. The cause for this may be that the prices are not 
 continuous because of the tick size: the minimum possible amount for the price to go up or down is one. Furthermore, prices are
-stationary thus the returns are produced by a set of prices. Therefore the returns are also moderately discrete. One option
+stationary thus the returns are produced by a set of prices. Therefore the returns are also discrete. One option
 to mitigate this would be to increase the the amount of currency in order to increase the price and increase the typical
 variation of the prices. Jarque-Bera goodness of fit test suggests that both of the time periods are not normally distributed,
 as the p-values are practically zero in both cases thus the zero hypothesis is rejected which is a joint hypothesis that the
 distribution has no skewness and excess kurtosis. However, as discussed the distributions are not convincingly continuous thus
-it is unclear how robust these results are.
+it is unclear how robust these results are. The kurtosis of the distributions are 5.0 for intrasession and -0.5 for session basis
+and therefore this indicates that the intrasession returns are leptokurtic while the returns between sessions the distribution is
+. In other words do have fatter tails than normal distribution, 
+but is not the case for per session.
 
 
 % \citet{Raberto05} found fat tails in intra day
@@ -197,7 +204,7 @@ it is unclear how robust these results are.
     \begin{subfigure}{.5\textwidth}
         \centering
         \includegraphics[width=\linewidth]{plots/basic_fat_tails_per_session.png}
-        \caption{Last price of each session}
+        \caption{Between last prices of sessions}
         \label{fig:basic_return_distr_per_session}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
@@ -206,7 +213,7 @@ it is unclear how robust these results are.
         \caption{Between trades}
         \label{fig:basic_return_distr_intrasession}
     \end{subfigure}
-    \caption{Distributions of returns after 100 sessions}
+    \caption{Distributions of rate of returns}
     \label{fig:basic_return_distr}
 \end{figure}
 
@@ -233,7 +240,19 @@ Furthermore, the order book evolution may play a role in the creating the volati
     \label{fig:basic_volaclusters}
 \end{figure}
 
+These findings are somewhat inline with previous literature. \citet{Genoa01}, \citet{Raberto05} and \citet{LIU20082535} 
+discussed that the microstructure is the cause for the fat tailed returns. This is probably also the cause for the
+fat tails observed in this thesis. However, the autocorrelation is different than what \citet{LIU20082535} observed
+with high call market clearing frequencies. Regardless, the autocorrelations of returns observed in this thesis and in their model
+are both short term. Even thought a call market has different mechanics than a continuous market, a call market with
+very high clearing frequency behaves similar than a continuous market. \citet{Genoa01} and \citet{Raberto05} only discussed
+about forming volatility clusters in the context of their model which had volatility feedback mechanism thus it is unclear
+whether the volatility clusters observed in the model created in this thesis are to be expected.
+
 \subsection{Arbitrage simulation}
 
-To contribute to \citet{Mil08}'s work on situations in which a market populated with zero-intelligent
-traders do not produce efficient results, the second experiment is 
+To contribute to \citet{Mil08}'s work to expand situations in which a market populated with zero-intelligent
+traders do not produce efficient results, the second experiment is about to study the arbitrage in 
+zero-intelligent markets. The 
+conducted with similar settings as the
+first experiment but instead of one market there are two indentical markets. The se

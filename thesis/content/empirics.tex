@@ -5,8 +5,12 @@ The artificial stock market created in this thesis was written in Julia
 programming language and it took some inspiration from previous literature.
 The literature is lacking on practical studies about how to actually create
 an artifical stock market and therefore the structure of the market is explained
-with more detail. The decisions about the microstructure and the trader behaviour
-is most closely to the work of \citet{Mil08} and \citet{Raberto05}.
+in depth. The decisions about the microstructure and the trader behaviour
+is most closely to the work of \citet{Genoa01} and \citet{Raberto05}
+and for the structure and practical implementation the inspiration
+was taken from \citet{Ben12}. The goal was to create a generic artificial market 
+model with empahsis on flexibility and practicality. Many of the features
+of the model are not tested in this thesis because of the scope.
 In this section the rationale for the programming choice is discussed
 and the model's structure, mechanics and generic characteristics are 
 explained.
@@ -205,7 +209,7 @@ In the literature, zero-intelligent traders are often implemented differently. F
 sellers, traders could only trade one quantity of a stock per order and the prices
 were drawn from uniform distribution. However, these markets did not aim for
 realistic market microstructure. The trader behaviour in this model is close with the Genoa Market
-created by \citet{Raberto05} as in this model the prices are also drawn from normal distribution and
+created by \citet{Genoa01} as in this model the prices are also drawn from normal distribution and
 the order quantities are derived from the required amount of asset. However, in Genoa Market the
 normal distribution's mean is 10\% higher for ask orders and 10\% lower for bid orders from the
 latest market price due to increase liquidity. For maintaining simplicity, the mean of the distribution
@@ -215,8 +219,9 @@ after specified times which may produce similar behaviour.
 
 \subsubsection{Time Handling}
 
-The time in the simulation took inspiration from \citet{Julien07}. As in their ASM model, in this model
-the traders are randomly given the ability to speak and make their trading decisions. The 
+The time in the simulation took inspiration from the asynchronous model created by \citet{Julien07}. 
+As in their ASM model, in this model the traders are randomly given the ability to speak and make 
+their trading decisions. The 
 
 \subsubsection{Market Mechanics}
 % How the market is cleared actually 
