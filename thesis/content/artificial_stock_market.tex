@@ -1,4 +1,4 @@
-\section{Artificial Market}
+\section{Computational Artificial Market}
 % What is ASM, what kinds of structures they have
 Artificial markets are simulation environments for analyzing, 
 reproducing and gaining understanding of the dynamics of the 
@@ -12,14 +12,49 @@ models it is done by software agents. Analytical models are a
 set of mathematical equations for describing the market
 mechanics. \citet{boer05} noted that 
 
-\subsection{Synchronous and Asynchronous ASM}
+\subsection{Time Handling in ASM}
 
-The interaction between the agents and markets can be synchronous
-or asynchronous. In synchronous artificial markets, the orders
-submission takes turns and each agent has identical opportunity
-to state their orders. In asynchronous artificial markets
-the time handling is more realistic: traders' decisions are 
-relayed to market independently. \citep{Julien07} 
+Implementing the meaning of time to an ASM is a non-trivial problem.
+One may do the simple assumption that the trades occur in fixed
+intervals in stock markets. This is however rarely the case in real markets
+and the issue of nonsynchronous trading, also known as nontrading, emerges. 
+For instance, an asset may be traded in minute basis when there is
+public information released while other times it may not be traded much.
+There may even be days without any trade. \citep{Econometrics} 
 
-% Floating ? 
-% Supply-demand matching?
+In ASM literature time handling is typically divided into two implementations:
+synchronous and asynchronous. \citet{Julien07} summarized the difference as that in synchronous
+trading all the traders are given the same opportunity to make their placements
+while in asynchronous trading the simulation engine gives the traders the opportunity to
+make decisions in disorganized manner, possibly by picking traders randomly.
+\citet{Ben17} argued the issue to be more about discrete versus continuous time handling.
+According to him, synchronous trading takes place in fixed time intervals whereas in 
+asynchronous trading an order submission can occur in any point in time. Unarguably, 
+asynchronous trading is more realistic as the time is continuous and traders make
+their decisions in their individual frequencies.
+
+Nonsynchronous trading phenomenon may emerge also in synchronous
+
+\subsection{Trading Agents}
+
+There are multitude types of trading agents used in ASM models with varying degree
+of rationality. Some models use as simplistic agents as possible to implement as
+little complexity to the model as possible while some try to emulate rational 
+markets with more advanced but complex traders. The most simplistic trading agents
+used in the literature are traders that submit random orders. Such traders
+lack the ability to do informed and rational decisions hence they are often called
+zero-intelligent traders. On the other end of the spectrum, there are traders
+that learn and evolve. 
+
+% ZI traders
+Term zero-intelligent traders was initially used by \citet{God93}. Zero-intelligent
+traders do not aim for maximizing profit or any other function and they do not 
+possess the abilities to remember or learn. The limit prices they submit are
+often drawn either from a uniform distribution with a specified range (\citet{God93}, \citet{Mil08}) 
+or from normal distribution with a mean of the last market price or the
+best price of opposite book (\citet{Genoa01}, \citet{LIU20082535}).
+
+% Learning & evolving
+
+
+% Heterogenous vs Homogenous traders
