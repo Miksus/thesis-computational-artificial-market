@@ -10,8 +10,8 @@ lack of available data, spurious relations or changing market environment,
 which may furher limit their ability to produce robust and accurate results. 
 
 % Solution for problems for empirics
-However, the mechanics of how financial markets work are well 
-understood as they are inherently artificial structures 
+However, the mechanics of how financial markets work, also known as market
+microstructure, are well understood as they are inherently artificial structures 
 even though the behaviour of the market participants is not. 
 The mechanics of trading exchanges are simply sets of predefined rules 
 that the exchanges follow and the market clearing, the procedure 
@@ -23,7 +23,7 @@ themselves. Such an experiment could produce complete information about
 the individual orders, formed trades and positions of each trader at any given time
 and the market conditions and information available for each market participants could
 be controlled in order to minimize noise or to create a desired state of the market to
-study. Moreover, the impact of the market mechanics itself to the trading prices and volumes 
+study. Moreover, the impact of the market microstructure itself to the trading prices and volumes 
 is possible to extract and study. 
 
 % Why artificial markets
@@ -37,7 +37,7 @@ stock market (ASM). \citet{boer05} discovered three categories of artificial mar
 experimental, computational and analytical. In experimental artificial markets human traders
 are the market participants and they most often trade using a software act as
 the market system. Analytical markets are simply sets of mathematical equations that
-form the market mechanics. Most often however, artificial markets are associated with 
+form the market microstructure. Most often however, artificial markets are associated with 
 computational artificial markets. These markets are computer simulations in which 
 also the roles of market participants are performed by software agents. The focus in this
 thesis is on the computational artificial markets and the term is used interchangeably
@@ -54,5 +54,41 @@ their agents while some, such as \citet{God93}, \citet{Jam96}, \citet{Genoa01} a
 aim for minimizing the intelligence of the traders to build a market settings in which
 specific attributes emerge. % TODO: Continue with 
 
+% Microstructure
+
+\subsection{Motivation}
+
+As discussed, there is fair amount of existing literature about artificial market models for various
+purposes. However, the previous literature is lacking on generic studies about how to design
+and build such models and therefore the main purpose of this thesis is to build a generic and abstract 
+artificial market model with emphasis on the market microstructure. The design principles are to create flexible 
+and well structured system to address possible further questions and ideas emerged after the project. 
+The basis of the model is in the literature of market mechanics and in auction literature. The choice for the
+market type was influenced by the most dominant market mechanics of real stock markets and therefore
+continuous double auction, or limit order book market, was chosen as the microstructure. As the 
+role of the market participants for this thesis' purpose is in little importance, they are designed
+simplistic and with as few assumptions as practical. Therefore, the traders are chosen to act randomly
+with limited intelligence. Such traders are also known as zero-intelligent traders. 
+
+Second purpose of this thesis is to complement the literature of artificial markets to study 
+the behaviour of the created market and discuss the dynamics formed by the market and reasons for them.
+The well known and empirically proven characteristics of real financial market dynamics, known as 
+stylized facts, are used to study how well the model resembles the dynamics of real markets.
+
+Third purpose of this thesis is to demonstrate the capabilities of Julia programming language.
+Julia language is relatively new general purpose language but the main focus of the language is 
+on scientific computing.
 
 
+\subsection{Structure of the Thesis}
+% TODO: There may be additional part if artificial market is left
+The thesis consists of multiple parts. First, the market microstructure including the theoretical 
+background of the real financial markets, price dynamics, clearing mechanics and stylized facts 
+are explained and after this, some general principles and components of artificial markets are 
+discussed. Then relevant examples of computational artificial markets from the literature
+are presented. 
+
+The empirical section of this thesis is divided into three sections. First, the mechanics and
+structure of the created artificial market model are described and then the model is tested
+with several scenarios. Finally conclusions of the study are presented and the limitations and
+possible further research topics are discussed.

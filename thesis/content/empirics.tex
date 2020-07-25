@@ -1,18 +1,22 @@
 
 \section{Methodology}
 
+As discussed, the market type for the artifical market was chosen 
+to be continuous double auction or more specifically limit order market.
 The artificial stock market created in this thesis was written in Julia
 programming language and it took some inspiration from previous literature.
 The literature is lacking on practical studies about how to actually create
-an artifical stock market and therefore the structure of the market is explained
+an artifical stock market and therefore the actual structure of the market is explained
 in depth. The decisions about the microstructure and the trader behaviour
 is most closely to the work of \citet{Genoa01} and \citet{Raberto05}
-and for the structure and practical implementation the inspiration
-was taken from \citet{Ben12}. The goal was to create a generic artificial market 
+whereas for the structure and practical implementation the inspiration
+was taken from the work of \citet{Ben12}. The goal was to create a generic artificial market 
 model with empahsis on flexibility and practicality. Many of the features
-of the model are not tested in this thesis because of the scope.
-In this section the rationale for the programming choice is discussed
-and the model's structure, mechanics and generic characteristics are 
+of the model are not tested in this thesis because of the scope of the thesis.
+The plotting and analysis of the results were conducted using Python and its scientific
+computing stack including Numpy, Pandas, Statsmodels, Matplotlib, Seaborn and Scipy library.
+In this section the rationale for the programming choice of the model is discussed
+and its structure, mechanics and generic characteristics are 
 explained.
 
 
@@ -31,8 +35,8 @@ Artificial markets can be seen as sets of objects
 and interactions in between, as described \citet{Ben12},
 and in such models object-oriented programming (OOP)
 is preferred. Even though Julia is more functional in nature, 
-OOP behaviour can be constructed with Julia's structs and 
-type annotated functions. Also, the speed of code execution, 
+features of OOP could be constructed with Julia's mutable structs 
+and type annotated functions. Also, the speed of code execution, 
 support for matrix operations and good productivity makes 
 it viable language for prototyping simulation systems. 
 
@@ -177,6 +181,8 @@ has and is free for allocation. The order price is drawn from a normal distribut
 the mean is the last market price. The standard deviation of the distribution is set to a 
 constant and the distribution is truncated between one and infinity.
 
+% TODO: Show and discuss about the ranges of the orders
+
 An example of the distribution of order prices and quantities
 is show in ~\ref{fig:generated_orders}. The figure contains simulation
 of 1 000 000 orders created by a zero-intelligent trader. 
@@ -218,7 +224,7 @@ implemented in the literature. However, \citet{Raberto05} implemented waiting ti
 after specified times which may produce similar behaviour. 
 
 \subsubsection{Time Handling}
-
+% TODO
 The time in the simulation took inspiration from the asynchronous model created by \citet{Julien07}. 
 As in their ASM model, in this model the traders are randomly given the ability to speak and make 
 their trading decisions. The 
