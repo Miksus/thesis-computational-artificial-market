@@ -1,16 +1,14 @@
 \section{Computational Artificial Market}
 % What is ASM, what kinds of structures they have
 Artificial markets are simulation environments for analyzing, 
-reproducing and gaining understanding of the dynamics of the 
-real markets \citet{Julien07}. 
+reproducing and gaining understanding of the dynamics of 
+real markets \citet{Julien07}. However, there are several 
+characteristics in real markets that cannot be replicated
+in artificial setting in an obvious way. Some of these artificial
+market specific issues, such as how the meaning of time is 
+implemented and how the decision making of the trading agents
+works, are presented in this chapter.
 
-Based on the market mechanics, \citet{boer05} distinguished 
-three types of artificial markets: experinental, computational and analytical. 
-Experimental models are controlled laboratories 
-where trading is conducted by humans whereas in computational
-models it is done by software agents. Analytical models are a
-set of mathematical equations for describing the market
-mechanics. \citet{boer05} noted that 
 
 \subsection{Time Handling in ASM}
 
@@ -44,17 +42,66 @@ markets with more advanced but complex traders. The most simplistic trading agen
 used in the literature are traders that submit random orders. Such traders
 lack the ability to do informed and rational decisions hence they are often called
 zero-intelligent traders. On the other end of the spectrum, there are traders
-that learn and evolve. 
+that use artificial intelligence (AI) in their decision making. The models using
+more advanced trading agents are often referred as \emph{agent-based computational
+economics} (ACE).
 
 % ZI traders
-Term zero-intelligent traders was initially used by \citet{God93}. Zero-intelligent
+Term zero-intelligent (ZI) traders was initially used by \citet{God93}. Zero-intelligent
 traders do not aim for maximizing profit or any other function and they do not 
-possess the abilities to remember or learn. The limit prices they submit are
+possess the abilities to remember or learn. Zero intelligent traders are also unable
+to manage risks, balance portfolio or speculate. The limit prices they submit are
 often drawn either from a uniform distribution with a specified range (\citet{God93}, \citet{Mil08}) 
 or from normal distribution with a mean of the last market price or the
-best price of opposite book (\citet{Genoa01}, \citet{LIU20082535}).
+best price of opposite book (\citet{Genoa01}, \citet{LIU20082535}). ASM models using
+zero intelligent traders are discussed with more detail in literature review. 
 
-% Learning & evolving
+% ACE
+\citet{LeBranon2000} argumented that the design decision on more advanced traders 
+lies in whether the traders should be evolving or learning. However, literature
+generally does not make clear distinction between the terms and the term \emph{learning}
+is often used to describe also evolving models. An extensive review of ACE literature 
+is presented by \citet{ACE12}.
+
+% Evolutionary
+In evolutionary models the agents converge to the optimal strategy using evolutionary algorithms typically
+genetic algorithms or genetic programming. Evolutionary models are characterized by 
+a mutation and selection mechanics: sets of parameters for the model are created 
+using random mutation between the best performing sets of parameters from last 
+round, ie. trading session. The worst performing sets of parameters are discarded.
+\citet{GenAlgASM18} and \citet{GenAlgBTCASM19} used genetic algorithm to select 
+best performing strategies from a set of predefined trading rules. The predefined
+rules were combined to form strategies using random mutation. \citet{FieldGA05} developed
+similar model except instead of rules defined by the researchers they derived the rules 
+by interviewing actual traders. \citet{LeBranon2001} combined evolutionary model with 
+learning algorithm: the trading rules were formed using a simple feed forward neural network.
+
+% Learning
+Learning ASM models use machine learning for the agents to adopt the optimal strategies.
+However, such models are somewhat rarer in the literature than evolutionary
+models. \citet{Reinforcement09} used reinforcement 
+learning, more specifically Q-learning, to predict the fundamental value of a 
+dividend paying stock. This predicted fundamental value is used in the agents' 
+decision making: if the predicted fundamental value is smaller than the market price
+the trader will sell the stock and if it is higher the trader will buy it. They 
+also tested the model with an evolutionary selection to replace worst performing
+traders with best performing.
+
+% TODO: something about Agent-based economic models and econometrics?
 
 
-% Heterogenous vs Homogenous traders
+% Another example of evolutionary: \citet{CHEN2001363} 
+% There seems to be no pure machine learning agents even though topic mentioned in 
+% LeBranon2000 and Chen S. et al (2012) Agent-based economic models and econometrics
+% Used search words: 
+%   Agent based computational economics & (machine learning | neural network)
+%   artificial stock market & (machine learning | neural network)
+
+% TODO: Heterogenous vs Homogenous traders
+
+ACE models are generally specific and their goal is often to simulate a specific behaviour.
+They also introduce higher amount of design decisions to validate and model parameters 
+to tune compared to zero intelligent agents. Due to these factors zero intelligent traders
+were chosen as the trader type in this thesis. The goal of the introduced model is to be as 
+generic as possible and the focus is on the market microstructure and therefore the more 
+simplistic approach is more suited.
