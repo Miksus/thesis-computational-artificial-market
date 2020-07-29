@@ -224,10 +224,14 @@ implemented in the literature. However, \citet{Raberto05} implemented waiting ti
 after specified times which may produce similar behaviour. 
 
 \subsubsection{Time Handling}
-% TODO
+
 The time in the simulation took inspiration from the asynchronous model created by \citet{Julien07}. 
 As in their ASM model, in this model the traders are randomly given the ability to speak and make 
-their trading decisions. The 
+their trading decisions. First a proportion of traders specified in the speak ratio are chosen,
+then these traders are shuffled and finally they are asked to do trading decisions one by one
+for each market. However, it is unclear how the interval between placement decisions should be
+interpret in terms of real time units such as seconds or minutes. In addition, the issue of 
+nontrading is also inherently present in the model: the time interval between trades is non fixed.
 
 \subsubsection{Market Mechanics}
 % How the market is cleared actually 
