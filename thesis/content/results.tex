@@ -248,6 +248,67 @@ are both short term. Even thought a call market has different mechanics than a c
 very high clearing frequency behaves similar than a continuous market. \citet{Genoa01} and \citet{Raberto05} only discussed
 about forming volatility clusters in the context of their model which had volatility feedback mechanism thus it is unclear
 whether the volatility clusters observed in the model created in this thesis are to be expected.
+% TODO: how does the autocorrelation differ from LIU20082535?
+
+\subsection{Shock injection}
+
+To gain better understanding of the order book dynamics of the model the next set of experiments are about injecting shocks 
+to the order book. This is done by changing the weights the trading agents use pick the order type. The experiment is started
+in equilibrium and then the probability of picking ask order is increased from 33\% to 43\% whereas the probability for bid
+order is reduced from 33\% to 23\%. The probability for inaction is kept at the 33\%. After reaching new equilibrium the 
+weights are set back to 33\% for each option. Then the same experiment is repeated but instead of negative shock, positive 
+shock is introduced using weights 43\%, 23\% and 33\% for bid order, ask order and inaction respectively. 
+
+As this experiment is more exploratory in nature than the previous experiment the experiment may not need to be computationally
+as heavy and therefore only 200 sessions are used to let the simulation reach equilibrium. However, the number of trading agents
+are kept at 10 000 to reduce noice in interpreting the results. In addition, both of these experiments, introducing negative and 
+positive shocks, are conducted in the same simulation run.
+
+The evolution of the order books in both shocks are presented in ~\ref{fig:shocks_orderbook}. Such shocks introduce a new equilibrium
+price which is expectedly smaller in negative shock and higher in positive shock. When excess amount of bid orders frow to the market
+there is a pressure for the price to increase and vice versa which is observed here. 
+% TODO: Explain when the shocks start and end in the graphs
+
+As observed in the previous experiment, the converge to equilibrium occurs rapidly. Interestingly, the gradual convergence of price
+to equilibrium is more prevalent in positive shock than in negative shock. In addition, the order book volumes in both sides of the
+market are higher in negative shock than in positive shock, as observed in ~\ref{fig:market_depths_shocks}. Furthermore, the order 
+book volumes are higher in negative shock than in the actual equilibrium. The reason for this is most likely that the smaller price 
+allows the buyers to bid for higher quantities due to that they can afford more, and higher price has the opposite effect. 
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{plots/shocks_order_book_evo.png}
+    \caption{Order book evolution in shocks}
+    \label{fig:shocks_orderbook}
+\end{figure}
+
+The comparable sizes of the order books can be better observed in ~\ref{fig:market_depths_shocks}. Initially in negative shock,
+there is a sudden surge of ask orders with sudden decline of bid orders. The existing bid orders are consumed by the ask orders 
+until the price reach to levels that the ask orders cannot push further due to the balance between the currency and the asset:
+the buyers bid with higher quantities than previously as with the new price they can afford more. Positive shock has similar 
+effect: there is a sudden surge of bid orders and the ask side disappears for a brief moment and then gradually the equilibrium
+price is reached as the ask side re-emerges. As demonstrated, the global balance between assets is not the only factor driving the 
+market price and also the imbalance of the sides of the submitted orders can drive the price also in zero-intelligent markets.
+
+% TODO: There is surge of orders
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{plots/shocks_neg_market_depth_in_equilibrium.png}
+      \caption{Market depth of negative shock}
+      \label{fig:market_depth_neg_shock}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{plots/shocks_pos_market_depth_in_equilibrium.png}
+      \caption{Market depth of positive shock}
+      \label{fig:market_depth_pos_shock}
+    \end{subfigure}
+    \caption{Market depths of the shocks}
+    \label{fig:market_depths_shocks}
+\end{figure}
+
 
 \subsection{Arbitrage simulation}
 
