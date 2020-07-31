@@ -1,25 +1,32 @@
-% Compile to pdf, run at command prompt:
-% latex main
-% makeindex main_v2.nlo -s nomencl.ist -o main_v2.nls
-% bibtex main
-% latex main
-% latex main
-% dvipdfm main.dvi
-%
-% tested with MiKTeX and WinEdt
 
+% PDF Latex version:
+%   pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX)
+%       kpathsea version 6.3.1
+%       Compiled with libpng 1.6.36; using libpng 1.6.36
+%       Compiled with zlib 1.2.11; using zlib 1.2.11
+%       Compiled with xpdf version 4.01
+% 
+
+
+% Beginning of code
+% -----------------
+
+% Setting document properties
 \documentclass[a4paper,twoside,12pt,notitlepage,openright,12pt]{article}
+
 
 % Load relevant packages
 % ----------------------
+
 \usepackage[ansinew]{inputenc}
 \usepackage{graphicx} %[dvips] to used with .eps figures
-\usepackage{natbib}
+\usepackage{natbib} % https://www.overleaf.com/learn/latex/natbib_citation_styles
+\usepackage[nottoc]{tocbibind}
 \usepackage{lastpage}   % page count
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[english]{babel}
-\usepackage[intoc]{nomencl} % including table of content
+\usepackage[intoc]{nomencl} % Includes nomencl (scientific listing of figures, list of tables etc.) to table of contents
 \usepackage{ifthen}
 \usepackage[hmargin=3.0cm,vmargin=3.6cm]{geometry} % setting marginals
 \usepackage{fancyhdr,extramarks}  % header ja footer manipulation
@@ -38,8 +45,10 @@
 % Putting empty line after each paragraph
 \usepackage[parfill]{parskip}
 
-% Setup ??
-% --------
+
+% Setup
+% -----
+
 \newcommand{\nomunit}[1]{\renewcommand{\nomentryend}{\hspace*{\fill}#1}} % Inserts units on the right at symbol list
 \renewcommand{\nomgroup}[1]{%
  \ifthenelse{\equal{#1}{C}}{\item[\textbf{Latin alphabet}]\item}{%
@@ -50,35 +59,43 @@
 
 \singlespacing
 
+
 % HEADING
 % -------
 
 \pagestyle{empty} % Alternatives: fancy, empty
-\fancyhf{}% clearing the header and footer
+\fancyhf{} % clearing the header and footer
 \fancyhead[RE,RO]{\thepage}
 
 %\renewcommand\sectionmark[1]
 %{\markboth{\thesection\ #1}{}}         % section name to header
 %\renewcommand\subsectionmark[1]
 %{\markright{\thesubsection\ #1}}       % subsection name to header
-\renewcommand{\headrulewidth}{0pt}    % ruler thickness between head and body
+\renewcommand{\headrulewidth}{0pt}      % ruler thickness between head and body
 \renewcommand{\footrulewidth}{0pt}      % no ruler between body and footer
 
-\setlength{\nomitemsep}{-\parsep}   % removing default extra skip between entries at nomenclature
-\linespread{1.25} % Set line spacing to 1.5 https://tex.stackexchange.com/a/65985
-\numberwithin{equation}{section}    % equation numbers with section numbers
-\numberwithin{table}{section}       % table numbers with section numbers
-\numberwithin{figure}{section}      % figure numbers with section numbers
+\setlength{\nomitemsep}{-\parsep}       % removing default extra skip between entries at nomenclature
+\linespread{1.25}                       % Set line spacing to 1.5 https://tex.stackexchange.com/a/65985
+\numberwithin{equation}{section}        % equation numbers with section numbers
+\numberwithin{table}{section}           % table numbers with section numbers
+\numberwithin{figure}{section}          % figure numbers with section numbers
+
+% To rename "bibliography" to "References". 
+% For some reason having references in TOC (with tocbibind) renames the references title
+\addto{\captionsenglish}{\renewcommand{\bibname}{References}}  
 
 % makeindex command needs to run at command prompt to create nomenclature list file
 \makenomenclature % makeindex main_v2.nlo -s nomencl.ist -o main_v2.nls
 %\bibpunct{(}{)}{;}{a}{,}{,}%
 
-
 \usepackage[T1]{fontenc}
 \usepackage{beramono}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{xcolor}
+
+
+% Programming language definitions
+% --------------------------------
 
 %%
 %% Python definition (c) 2014 Jubobs
@@ -106,7 +123,6 @@
     showstringspaces=false            % 
 }}
 
-
 % Python environment
 \lstnewenvironment{python}[1][]
 {
@@ -115,10 +131,10 @@
 }
 {}
 
-
 %%
 %% Julia definition (c) 2014 Jubobs
 %%
+
 \lstdefinelanguage{Julia}%
   {morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,%
       end,export,false,for,function,immutable,import,importall,if,in,%
@@ -160,17 +176,17 @@
 %\thispagestyle{empty}%
 % \addtocontents{toc}{\contentsline{section}{Contents}{}} % including contents to contents
 
-\tableofcontents%
+% Contents, figures and tables
+\tableofcontents
 \listoffigures
 \listoftables
 
-\thispagestyle{empty}%
+\thispagestyle{empty}
 %\cleardoublepage%
-\pagestyle{fancy}%
+\pagestyle{fancy}
 
 %\addcontentsline{toc}{section}{List of publications}
 %\include{LOP} %List of publications
-
 
 %\cleardoublepage%
 \printnomenclature[2.0cm]%
@@ -182,10 +198,11 @@
 \pagenumbering{arabic} % Setting page numbering to arabic numbers (1, 2, 3, etc.)
 \setcounter{page}{1}   % Force page numbering starting from 1 from here on
 
+
 % Content of the Thesis
 % ---------------------
 
-\include{content/introduction} %Introduction
+\include{content/introduction}
 
 \include{content/microstructure}
 \include{content/artificial_stock_market}
@@ -196,21 +213,24 @@
 \include{content/conclusion}
 
 \bibliography{ref}
+
+\newpage
+\pagenumbering{gobble}
 \include{content/appendix}
 
 
 % References
 % ----------
-\renewcommand{\thepage}{} % Stop page numbering in references
-%\def\refname{what ever}% to change References title
-\addcontentsline{toc}{section}{References}%
 
-\fancyhead[LO]{\nouppercase{\bfseries\firstleftxmark}}%
-\fancyhead[RE]{\nouppercase{\bfseries\lastrightxmark}}%
-%\bibliography{ref}%
+%\renewcommand{\thepage}{} % Stop page numbering in references
+
+%\addcontentsline{toc}{section}{References}%
+
+\fancyhead[LO]{\nouppercase{\bfseries\firstleftxmark}}
+\fancyhead[RE]{\nouppercase{\bfseries\lastrightxmark}}
 \bibliographystyle{LUTapa2}
-\extramarks{}{References}   % this will remove the "References" to be appearing at the header at first page of bibliography
-\extramarks{References}{References}
+%\extramarks{}{References} % this will remove the "References" to be appearing at the header at first page of bibliography
+%\extramarks{References}{References}
 
 %\bibliographystyle{LUTapa}%
 
