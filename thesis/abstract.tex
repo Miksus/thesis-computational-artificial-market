@@ -8,14 +8,34 @@
         
     \vspace{0.4cm}
     \textbf{Mikael Koli} \\
-    July 10, 2020
+    July 10, 2020 % TODO
        
     \vspace{0.9cm}
     \textbf{Abstract}
 \end{center}
 
-This thesis discuss about how to structure, program
-and test an artificial stock market (ASM). It is structured
-in four sections: market microstructure etc. \\
+% TODO: Purpose of the thesis is also to act as road map to build such a model
+Computational economics is a branch of experimental economics that aims to 
+recreate and explain dynamics of real markets using computational simulations. Researchers of
+empirical economics has often very limited ability to control the market environment 
+in order to studyspecific phenomena but such restrictions do not apply in pure computational
+environments. The purpose of this thesis is to build a generic computational market. As the
+previous literature is lacking on thorough examples of how to build such model the mechanics of this
+model are discussed with detail. The model is intended to be as flexible and abstracted as possible 
+while keeping the complexity of the model at minimum. The trading agents are budget constrained 
+and zero intelligent in nature and the market can be described as a continuous double auction or a 
+limit order book market. The model supports multi-asset simulations and the meaning of currency is 
+abstracted away and any asset in the model can act as the currency or the traded asset for a market. 
+The representativeness of the model is validated using stylized facts and the behaviour
+of the order book is studied with various experiments.\\
 
-Keywords: ASM, Experimental Economics, Computational Economics\\
+The model produced similar results as the similar models from previous literature: zero-intelligent
+traders do converge efficiently to an equilibrium and some of the stylized facts can be produced
+with such simplistic model. Testing the model revealed several additional interesting observations.
+The bid and ask sides of a generic artificial market with tick sizes are asymmetric by nature: the 
+price of the bid orders are limited with the amount of currency able to be allocated to the order 
+but such limitation is not prevalent with ask orders. Also, the global balance between assets in 
+zero-intelligent markets is not the only factor driving the equilibrium price: also the probability 
+of issuing bid and ask orders affect to the equilibrium.\\
+
+Keywords: Computational Economics, Experimental Economics, Artificial Stock Market\\
