@@ -10,7 +10,7 @@ is to recreate phenomena from the real world in a well understood and controlled
 environment thus the link to the real world should be maintained. In addition to the
 common properties that the existing markets often share and the general distinctions between
 types of markets that exist,
- the common observed price phenomena is discussed. These price phenomena, called
+ the common observed price phenomena are discussed. These price phenomena, called
 stylished facts, are often used in validating the artificial models.
 
 % TODO: Maybe extend with behavioural aspects?
@@ -20,7 +20,7 @@ stylished facts, are often used in validating the artificial models.
 
 Financial markets are most often organized as double auction markets.
 Double auction market (DA) is a special type of auction in which there
-are multiple buyers and sellers which are both able to 
+are multiple buyers and sellers which both are able to 
 produce quotes and they are treated symmetrically \citep*{Kle99}. Buyers
 make offers to buy, bid, the traded asset while sellers make offers
 to sell, ask, the traded asset \citep*{Moc15}. There are some variations 
@@ -34,7 +34,7 @@ and how the orders are matched.
 
 Main distinction between double auction market models is when
 the order matching takes place. Typically, the order matching 
-is continuous process occuring after the arrival of each new order but
+is continuous process occurring after the arrival of each new order but
 in some markets this process takes place after a specified time interval
 has passed, for example at the end of a trading day. \citep{boer05}
 In auction literature, there are various terms used to describe essentially 
@@ -49,9 +49,9 @@ are submitted once and then the order matching is executed once. In this thesis
 the terms continuous double auction and call-markets are chosen to describe
 these types of markets as they seem to be the most prevalent in the literature.
 
-In call-market the orders are cumulated for a specified period of time and the
+In call-market the orders are cumulated for a specified time period and the
 market is cleared with a single price whereas in continuous market it is done
-whenever there are orders that can be matched and the price is derived from these
+whenever there are orders that can be matched, and the price is derived from these
 orders. \citep{boer05} 
 Many real world stock markets are formed as a hybrid of call and continuous
 double auction markets. The price discovery at the beginning and at the end of a 
@@ -81,17 +81,17 @@ to order-driven markets. Real markets, however, are most often a combination
 of the two \citep{boer05} but recently there have been a trend to move from quote-driven
 markets to order-driven markets \citep{MALINOVA2013104}.
 
-As simulating intermediate market participants increases compexity
+As simulating intermediate market participants increases complexity
 of the model, artificial markets with realistic quote-driven execution are rare. 
 However, some artificial markets, such as \citet{SantaFe99}'s, do have some of 
 the elements of quote-driven markets in a sense that the prices are driven by 
 the sizes of the orders and not prices offered by the investors or traders. 
 Most of the artificial markets found in the ASM literature seem to be order-driven.
-% Challenges of quote-driven (clearing is non trivial)
+% Challenges of quote-driven (clearing is nontrivial)
 
 \subsection{Price Formation}
 % Order book, matching and clearing
-% Why we don't go deeper to quote-driven:
+% Why we do not go deeper to quote-driven:
 Price formation is direct product of the execution system in place in a market
 \citep{boer05}. In order-driven markets it is direct result of the orders
 in the market and the matching algorithm in place whereas in quote-driven markets it
@@ -110,7 +110,7 @@ formation can be described with greater level of generalization.
 Limit order book is a core component in the price formation in order-driven markets.
 Limit order book stores the submitted limit orders which are simply orders that contain the quantity and 
 the limit price stated by the trader. Limit price is the maximum price, in case of bid, or the minimum
-price, in case of ask, that the order is allowed to be cleared with. In other words,
+price, in case of ask, that the order can be cleared with. In other words,
 bids (asks) cannot be cleared with a price higher (lower) than the limit price stated 
 in the order. There are also other types of orders, such as market and 
 stop-loss orders, but these can be seen as derivatives from limit orders: 
@@ -127,7 +127,7 @@ A simple limit order book is presented in ~\ref{tbl:orderbook}. This table shows
 quantity of asset bid and asked per each price level: for example, with a price of 5.00
 there are 100 unit bid and 200 unit asked. There are, however, more bids and asks that 
 accept this price. Those traders that have bid 5.01 and those that have asked 4.99 would obviously also accept
-this price. Therefore it is more informatic to calculate cumulative sum of bid and reverse cumulative sum of 
+this price. Therefore, it is more informatic to calculate cumulative sum of bid and reverse cumulative sum of 
 ask quantities and come up with total quantities of bid and ask per price level that can be matched.  
 This order book with cumulative quantities is visualized in figure ~\ref{fig:lob_visual}. Cumulative bids
 are renamed as demand and cumulative asks as supply as these terms are more representative in this context.
@@ -146,8 +146,8 @@ in continuous double auction is discussed in a moment.
 % Price formation in sealed bid/call market
 Call-markets typically clear at equilibrium price: at the point where
 supply and demand crosses. 
-To get the equlibrium price, first the maximum clearable quantity
-is calculated per price level. This quantity is simply the element-wise
+To get the equilibrium price, first the maximum clearable quantity
+is calculated per price level. This quantity is simply the elementwise
 minimum from the supply and the demand arrays. Then the equilibrium volume
 can be determined by taking the maximum from the maximum clearable quantities
 per price level and equilibrium price is simply the price where the quantity
@@ -183,7 +183,7 @@ but typically the surplus distribution is different. Unlike in call-markets wher
 split, in continuous double auction the surplus goes to the trader who made the latest order.
 In other words, the trade prices are taken from the orders that were already in the limit order book.
 This sort of matching could be conducted by looping and clearing the opposing side of the order book until either
-there are no more crossing orders with the newly arrived order or the new order is already cleared
+there are no more crossing orders with the newly arrived order, or the new order is already cleared
 completely. In case the newly arrived order is not completely cleared after depleting all the crossing
 orders, it is inserted to the order book and the clearing process ends. This algorithm is illustrated in
 algorithm ~\ref{alg:lob_cont}. 
@@ -227,7 +227,7 @@ algorithm ~\ref{alg:lob_cont}.
 % Stylized facts
 The price dynamics in stock markets are known to be chaotic and difficult to 
 analyze. The underlying elements that play a role in the price dynamics
-are constantly evolving and it still remains relatively poorly understood.
+are constantly evolving and it remains relatively poorly understood.
 However, there are some characteristics of price behaviour that are supported
 with enough empirical evidence to be considered as properties of price in
 financial markets. These statistical phenomena, called stylized facts in
@@ -237,7 +237,7 @@ different assets, markets and time periods \citep{Shakeel18}.
 The price related stylized facts are according to \citet{StylizedFacts01} and \citet{lob13}:
 
 \begin{enumerate}
-    \item Fat-tailed distribution of returns: distribution of asset returns have fatter tails than normal distribution meaning that they have positive excess kurtosis. 
+    \item Fat-tailed distribution of returns: distribution of asset returns has fatter tails than normal distribution meaning that they have positive excess kurtosis. 
     \par
     \begin{minipage}{\linewidth}
         \centering
