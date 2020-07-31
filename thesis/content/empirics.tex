@@ -25,7 +25,7 @@ Julia is relatively new dynamic programming language,
 reaching stable release of 1.0 in August 2018 \citep{JuliaV1}.
 It is a performant language with an empahsis
 on productivity. Even though Julia has a focus on scientific 
-computing it considered as a general purpose programming
+computing it considered as a general-purpose programming
 language. Some of its features include
 multiple dispatch, just-in-time compilation and built-in
 matrix data types \citep{Julia}.
@@ -57,7 +57,7 @@ that has more degrees of freedom and less obvious decisions to make.
 
 The second layer, the concrete layer, defines the actual types and
 functionalities that require less clear and more heuristic
-approach than the abstract layer. This layer also include significant
+approach than the abstract layer. This layer also includes significant
 portion of choices to make. Some of the components
 on this layer include the zero intelligent trader and its
 functions that defines its behaviour, the continuous double auction
@@ -82,7 +82,7 @@ handle the pieces of functionalities associated with them. The process
 is generalized in ~\ref{fig:sim_proc}. The beginning and the end of the 
 simulation are shown in orange in the figure. Yellow boxes represent
 the actions that belongs to the concrete layers and all the actions that
-are in the main are part of the simulation layer. The remaining belong
+are in the main are part of the simulation layer. The remaining belongs
 generally to the abstract layer.
 
 
@@ -143,16 +143,16 @@ The traders pick one of these options randomly and each option has equal weight.
 Determining the order price and order quantity are not as straight
 forward as their feasible ranges cannot be determined completely independently
 from each other and the calculation of the ranges differ between bids and asks. A bid order's
-value cannot exceed the amount of currency the trader possess thus this is 
+value cannot exceed the amount of currency the trader possesses thus this is 
 a limiting factor for both, order quantity and order price of a bid. In addition,
 the maximum order quantity is inversely proportional to the order price and
-therefore if order price is set first, the maximum order quantity the trader
+therefore, if order price is set first, the maximum order quantity the trader
 can set for a bid equals to its amount of currency divided by the price and vice versa. 
 However, the ask order does not include such restrictions: the value of the order
 does not reflect to the amount of assets the trader must allocate for the order. The
 price of an ask order can, in theory, be infinite and the trader has no issues
 fulfill the trade even though the counterparty may have. The only limit for the
-trader placing an ask is the amount of the traded asset it possess: the trader
+trader placing an ask is the amount of the traded asset it possesses: the trader
 cannot sell more of the asset than it has. To summarize, an ask order's feasible
 ranges for quantity and price can be determined independently but this is not the
 case for bid orders. These feasible ranges are shown in ~\ref{eq:feasible_ranges}.
@@ -171,7 +171,7 @@ q_{ask} &= \left[1, pos_{asset}\right] \\
 To overcome this and to maintain symmetricity between the placement of bids and asks, 
 the traders decide the amount of an asset to allocate with an order instead of deciding 
 the order quantity directly. This decision is independent on the order price for both
-sides and can be handled the same way for both cases. Therefore a trader placing a bid order 
+sides and can be handled the same way for both cases. Therefore, a trader placing a bid order 
 need to define the amount of currency to allocate with the trade and a trader placing an ask
 order need to define the amount of the traded asset to allocate, the order quantity in this case. 
 The order quantity for a bid is calculated after the amount of asset to allocate 
@@ -315,13 +315,13 @@ asset classes, such as stocks, could not operate as the definition
 of value. This feature creates complexity to the model compared to a model
 with a central currency acting as a baseline but it also enables an
 abstracted structure that handles natively cross currency
-markets or ecosystems where there exists markets between assets A and 
+markets or ecosystems where there exist markets between assets A and 
 B and between B and C but not between A and C. It is also a better 
 representation of theoretical markets.
 
 Asset symmetricity is constructed via storing all the owned and reserved
 assets in the same data structures, in dictionaries in this case. In addition
-to the traded asset, the markets contains also the information about the asset
+to the traded asset, the markets also contains the information about the asset
 that the traded asset is traded with, which is most often some sort of currency. 
 
 % Asset allocation, reserve & active orders
@@ -347,7 +347,7 @@ to a market is tracked in the trader's data structure to make cancellation easy
 but also implement relevant additional feature: active order lookup. To prevent that
 the placing of a new order is not limited with the trader's existing order in the market,
 the effect of this previous order, called active order, in the asset reverse is excluded. 
-This active order will be cancelled as soon as the this new order is validated and this new order
+This active order will be cancelled as soon as this new order is validated and this new order
 will become the active order thus it is not a valid reason to make the trader's placing 
 options more conservative.
 
@@ -358,7 +358,7 @@ conveniently act as the tick size for all the markets. This also has the side ef
 of that also all the prices must be represented as integers as one piece
 of traded asset must equal exact quantity of the asset used as a currency
 in the market. Furthermore, this creates deficency in the market if the quantities
-of owned assets are small and also a phenomenon of asymmetricity between bidders and askers
+of owned assets are small and a phenomenon of asymmetricity between bidders and askers
 araises. The price set by an asker can be virtually anything: they can set
 arbitrary positive price for their order as the only limitation is the amount
 of traded asset they can commit to the order which is independent on the price. 
