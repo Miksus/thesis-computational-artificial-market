@@ -6,8 +6,8 @@ The focus of the simulation structure is more in the
 decision making process of the traders rather than in the 
 market's microstructure. The model's traders use 
 genetic algorithm to form a pool of rules to base
-their decision making process. The traders can buy or
-sell either risk free bond or risky dividend yielding stock.
+their decision-making process. The traders can buy or
+sell either risk-free bond or risky dividend yielding stock.
 The market is quote-driven in a sense that the traders
 either accept the current price set up by the clearing house
 or do not trade. The price goes up in case of there is excess
@@ -44,7 +44,7 @@ trading agents.
 Their market is organized as a double auction with several
 specifications. The market is continuous in a sense that the 
 orders are continuously matched even though the trading was
-conducted in speicified sessions. The traders were divided 
+conducted in specified sessions. The traders were divided 
 into buyers and sellers. Buyers profits were tied to their 
 individual redemption values that are gained at the end of
 each trading session for each bough unit and sellers' profits
@@ -72,13 +72,13 @@ is the characteristics of the market, not the traders.
 % Continuation study from Jamal & Sunder
 \citet{Jam96} expanded \citeauthor{God93}'s work and added behavioural 
 elements to similar market structure. They tested the rationality of
-a market with three different trader populations: bayesian, empirical
-bayesian and heuristical traders. Bayesian and empirical bayesian acted
-as baselines for the market rationality and the heuristical traders were
+a market with three different trader populations: Bayesian, empirical
+Bayesian and heuristical traders. Bayesian and empirical Bayesian acted
+as baselines for the market rationality and the heuristic traders were
 the treatment populations for which the researchers added elements of behavioural
 biases: representativeness bias and anchor-and-adjust. 
 
-The traders in all of the populations were zero intelligent in terms of the
+The traders in all the populations were zero intelligent in terms of the
 prices they bid and ask. Most notable difference to \citet{God93}'s market
 is that instead of redemption value and cost of units determining the
 supply and demand values, \citeauthor{Jam96} used private dividend payouts 
@@ -94,15 +94,15 @@ They highlight the role of the market microstructure in the rationality
 of the artificial markets. 
 
 
-% Counter Argument for usefullness of ZI
+% Counter Argument for usefulness of ZI
 \subsubsection{Counter Argument against ZI markets}
-\citet{Mil08} provided counter argument on the usefullness of zero
+\citet{Mil08} provided counter argument on the usefulness of zero
 intelligent traders. They replicated market structure from
 \citeauthor{God93}'s study with one major difference: how the 
 time is handled. In their market version, the demand varies
 also between sessions and buyers can plan for it by buying units
 in advance for periods of higher demand. Unlike human traders,
-zero intelligent traders obviously cannot plan ahead and a market
+zero intelligent traders obviously cannot plan and a market
 populated with such traders cannot gain allocative efficiency comparable
 to a market populated with human traders. 
 
@@ -125,7 +125,7 @@ environment.
 \subsubsection{Object Oriented ASM}
 % Gaia
 \citet{Ben12} developed a realistic but abstract artificial stock market
-model for continuous double auction using a modeling methodology known as 
+model for continuous double auction using a modelling methodology known as 
 Gaia. Gaia is a software design methodology for agent-based systems which 
 highlights identifying the roles of the system and interactions in between.
 The final model the researchers came up with is an object oriented 
@@ -135,14 +135,14 @@ are rather similar as discussed already in this thesis. Interestingly,
 even though banks and companies are identified as separate agents, 
 the amount of cash and stocks are tracked in the trader agents themselves.
 They, however, do not have permission to update their wealth independently. 
-Banks and companies, on the other hand, act as middlewares for informing 
+Banks and companies, on the other hand, act as middleware for informing 
 traders when and how much to update the amount cash and stocks. Banks also pay 
 fixed interest based on the amount of cash each trader holds and companies 
 pay dividend for each share. External world is a container of exogenous 
 information, such as paid dividends or news, that can be used by the traders for 
 their decision making. The researchers also discussed that the model could be
-simplfied to only trading agents and market agent by including banks', companies' 
-and extrnal world's roles to the trader agents in case of less complex but 
+simplified to only trading agents and market agent by including banks', companies' 
+and external world's roles to the trader agents in case of less complex but 
 less detailed model is required.
 
 The orders in their model requires the following information to be valid:
@@ -170,7 +170,7 @@ simulation environment. The researchers used translators in between the
 trading agents and the market in order to transform the orders submitted by
 the trader agents and the information emitted by the market to a unified format.
 For example, in case a submitted order had only the direction and the quantity 
-defined, the translator fulfills the order price with the current market price 
+defined, the translator fulfils the order price with the current market price 
 transforming the order essentially as market order. The framework also had a
 unit called simulation engine to handle the interactions between the components.
 
@@ -194,7 +194,7 @@ The flow of the system consisted of six steps which can be summarized with three
 
 \subsection{Reproduction of Stylized Facts with ASM}
 As discussed before, stylized facts are especially useful
-to validate ASM's represenativeness. There are several 
+to validate ASM's representativeness. There are several 
 studies that aims to replicate these phenomena in 
 artificial settings. Some of these studies are
 gone through in this section.
@@ -240,7 +240,7 @@ real stock markets can be achieved in artificial settings using limit
 order book in the price formation and it is not consequence of clearing 
 house mechanism itself. They also found that volatility clusters can
 be achieved with a simple dependency on the volatility. Their paper
-is furher evidence that the market microstructure may be more
+is further evidence that the market microstructure may be more
 important than the complexity of the traders in effort to replicate
 many of the properties of real markets.
 
