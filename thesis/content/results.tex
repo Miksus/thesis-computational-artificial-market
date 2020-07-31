@@ -1,30 +1,31 @@
 
 \section{Results}
 
-The model was tested in several scenarios. First, the price 
-dynamics and order book evolution are studied with a simple one market settings in which the dividend
-yield and interest rate are set to zero. Then the same aspects are investigated
-using more complex settings: only some of the traders are allowed to place orders
-per trading session and the dividend yield and interest rate are set to random walk.
-Then arbitrage is studied using 
-a setting in which there exists two identical markets.
+The model was tested in several experiments. First, the generic dynamics of 
+model is described. The convergence to equilibrium price is studied with two
+simulations and then the model is validated using stylized facts. Then the
+market dynamics is examined by injecting shocks to the order book. Finally
+the short comings of zero intelligent traders in terms of arbitrage opportunities
+are inspected with a settings of two identical markets. In all of the experiments
+all of the traders are given the opportunity make one trading decision per session,
+meaning that the speak ratio is one, and there are no dividend nor interest paid 
+for any assets.
+% TODO: Extend
 
-
-\subsection{Single asset simulation}
+\subsection{Generic dynamics of the model}
 % Price dynamics, stylized facts, order book evolution
-The single asset simulation was run three times: first run
-was conducted with a starting market price of 500, second
-with a starting market price of 1 500 and third with a starting
-price of 1 000 which is near the equilibrium price. The rationale
-for this equilibrium price is discussed later.
+The single asset simulation was run three times: for the first run
+the starting market price was set to 500, for the second
+was set to 1 500 and for the third was set to 1 000 which is near the equilibrium price. 
+The rationale for this equilibrium price is discussed later.
 The first and second simulations were
 used to study how the convergence to the equilibrium price occurs
 and the third to examine the stylized facts of the price
 dynamics after the equilibrium is reached. The simulations were
 run using 10 000 zero intelligent traders which is the 
-same amount of traders than what \citet{Raberto05} used in their experiments
-with moderately similar settings. As only the converge to equilibrium is 
-point of interest in the first and second simulations, the number of sessions
+same amount of traders as what \citet{Raberto05} used in their experiments
+with somewhat similar settings. As only the converge to equilibrium is 
+the point of interest in the first and second simulations, the number of sessions
 were chosen relatively small, 200 sessions, but to get reliable results for
 the third simulation the number of sessions were chosen to be 4 000.
 
@@ -35,8 +36,8 @@ the ratio of stock to currency is 1 000 which
 is the expected equilibrium price as there are
 no payouts in either asset. The amount of currency
 per trader may seem much but as the tick size is one,
-it may be more convenient to think the currency in amounts
-in cents or pennies. The standard deviation of
+it may be more convenient to think the currency as amounts
+of cents or pennies. The standard deviation of
 the normal distribution that the traders use to pick the order prices
 is set to 20.
 
@@ -46,11 +47,12 @@ is set to 20.
 
 
 \subsubsection{Converge to Equilibrium}
-% Descriptive analysis
-The evolution of trade prices, quantities and values thorough
+% Descriptive analysis:
+%   how converge occurs
+The evolution of trade prices, quantities and trade values thorough
 the trading sessions for the lower and higher starting price simulations 
 are shown in the figure ~\ref{fig:basic_trades}. As can be observed,
-the near equilibrium market price is achieved in around 30 trading
+the near equilibrium market price is achieved before 30 trading
 sessions for both runs. The simulation with lower starting price converges
 to the equilibrium in almost instantly whereas for the higher starting
 price it takes more sessions. Furthermore, the traded quantities are
@@ -78,11 +80,12 @@ about 940.
 % How the market converged to equilibrium
 The market depths shown in figure ~\ref{fig:market_depths} suggests that the
 converge to equilibrium is caused by balancing the sides of the market. 
-In this figure, the order book is visualized for the first 15 trading sessions. 
+In this figure, the order book is visualized for the first 15 trading sessions
+for both simulations: with a starting market price of 500 and 1 500. 
 The surface describes the evolution of the cumulative bids and cumulative asks 
 throughout time and the bottom of the formed valley in the surface is the bid-ask spread. 
-The left side from the valley is the the bid book and the right is the ask book. The 
-ask side of the market is almost completely missing initially in the run that
+The left side from the valley is the cumulative bid book and right is the cumulative ask book. 
+The ask side of the market is almost completely missing initially in the run that
 starts with lower market price while the opposite is true for the run with higher
 initial market price. The ask side of the order book emerges almost instantly 
 in the simulation of the lower starting price whereas the converge happens more 
@@ -107,16 +110,18 @@ gradually with higher starting price.
     \label{fig:market_depths}
 \end{figure}
 
-Figure ~\ref{fig:basic_orderbook_evo} provide more top-down view of the orderbook.
+Figure ~\ref{fig:basic_orderbook_evo} provides more top-down view of the orderbook.
 This figure shows mostly the same aspects as ~\ref{fig:market_depths} but the sides of the 
-order book are not expanded to the edges of the plot and white color represent absence of orders.
-The figure suggests that the asking traders in the lower initial market price scenario
-adopt the equilibrium price quicker than the bidding traders in higher initial market 
-price scenario. One possible cause for this phenomenon might be the buyer-seller asymmetricity
-discussed earlier. For example, the downward spikes found in the figure when the equilibrium
-is reached is most likely caused by that some traders had consumed their currency balances and decided 
-still to do a bid order. Because of the budget constrain, the traders had submitted bid orders with prices
-they could afford which were significantly lower than the market price.
+order book are not extrapolated to the edges of the plot: the white color represent absence of orders.
+The figure suggests that the asking traders in the experiment with lower initial market price
+adopt the equilibrium price quicker than the bidding traders in the experiment with higher initial market 
+price. One possible explanation for this phenomenon might be the buyer-seller asymmetricity
+discussed earlier. It is also noteworthy that the downward spikes found in the figure when the equilibrium
+is reached is caused by that some traders had consumed their currency balances and decided 
+still to do a bid order. Because of the budget constrain, these traders had to submit bid orders with prices
+they could afford and these prices were substantially lower than the market price and may seem like outliers.
+
+% TODO: Mention that the reason for high price - low price differing convergence to equilibrium is inspected in shocks
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/basic_order_book_evo.png}
@@ -134,13 +139,14 @@ The spread also is also stable most likely due to the number of traders.
     \label{fig:basic_orderbook_evo}
 \end{figure}
 
+% TODO: additional finding about explaining the next price
 
 \subsubsection{Stylized Facts}
 % stylized facts
 % Somethging about filtering fist 100 out and now inspecting stylized facts
-As stated before, the representativeness of real markets is inspected using
-stylized facts. In order to have represenative data set to test the facts, the
-sessions before reaching the price equilibrium are filtered out. 
+As stated before, the representativeness of the model compared to real markets 
+is studied using stylized facts. In order to have represenative data set to 
+test the facts, the sessions before reaching the price equilibrium are filtered out. 
 As already discussed, the simulation that starts near equilibrium price
 is used to study the presence of stylized facts in the model. 
 
@@ -178,26 +184,23 @@ for prices on session basis.
 \end{figure}
 
 
-
 % Fat-tailed returns
 The distribution of the returns are plotted in ~\ref{fig:basic_return_distr}. As observed in the plot, the fat-tailed returns
 clearly exists in the intrasession period but not necessarily per session basis. For intrasession returns, there is a clear spike in the mean of the 
 distribution and the tails spread out but these are not visible in the returns between session. In addition, the per session distribution
 is not smooth even though the sample consists of 22 million trades. The cause for this may be that the prices are not 
 continuous because of the tick size: the minimum possible amount for the price to go up or down is one. Furthermore, prices are
-stationary thus the returns are produced by a set of prices. Therefore the returns are also discrete. One option
+stationary thus the returns are produced by a specific set of prices. Therefore the returns are also inherently discrete. One option
 to mitigate this would be to increase the the amount of currency in order to increase the price and increase the typical
 variation of the prices. Jarque-Bera goodness of fit test suggests that both of the time periods are not normally distributed,
-as the p-values are practically zero in both cases thus the zero hypothesis is rejected which is a joint hypothesis that the
-distribution has no skewness and excess kurtosis. However, as discussed the distributions are not convincingly continuous thus
-it is unclear how robust these results are. The kurtosis of the distributions are 5.0 for intrasession and -0.5 for session basis
-and therefore this indicates that the intrasession returns are leptokurtic while the returns between sessions the distribution is
-. In other words do have fatter tails than normal distribution, 
-but is not the case for per session.
-
+as the p-values are practically zero in both cases thus the null hypothesis is rejected. The null hypothesis of Jarque-Bera test 
+is a joint hypothesis that the distribution has no skewness and excess kurtosis. However, as discussed the distributions are not 
+convincingly continuous thus it is unclear how robust these results are. The kurtosis of the distribution for intrasession is 5.0 
+and -0.5 for session basis and therefore this indicates that the intrasession returns are leptokurtic while the returns between 
+sessions are slightly lighter than normal distribution. To summarize, the model do have fatter tails than normal distribution
+for intrasession returns but between sessions. 
 
 % \citet{Raberto05} found fat tails in intra day
-
 
 \begin{figure}
     \centering
@@ -242,10 +245,10 @@ Furthermore, the order book evolution may play a role in the creating the volati
 
 These findings are somewhat inline with previous literature. \citet{Genoa01}, \citet{Raberto05} and \citet{LIU20082535} 
 discussed that the microstructure is the cause for the fat tailed returns. This is probably also the cause for the
-fat tails observed in this thesis. However, the autocorrelation is different than what \citet{LIU20082535} observed
-with high call market clearing frequencies. Regardless, the autocorrelations of returns observed in this thesis and in their model
+fat tails of intrasession returns observed in this thesis. However, the autocorrelation is different than what \citet{LIU20082535} 
+observed with high call market clearing frequencies. Regardless, the autocorrelations of returns observed in this thesis and in their model
 are both short term. Even thought a call market has different mechanics than a continuous market, a call market with
-very high clearing frequency behaves similar than a continuous market. \citet{Genoa01} and \citet{Raberto05} only discussed
+very high clearing frequency behaves similarly as a continuous market does. \citet{Genoa01} and \citet{Raberto05} only discussed
 about forming volatility clusters in the context of their model which had volatility feedback mechanism thus it is unclear
 whether the volatility clusters observed in the model created in this thesis are to be expected.
 % TODO: how does the autocorrelation differ from LIU20082535?
@@ -313,7 +316,7 @@ market price and also the imbalance of the sides of the submitted orders can dri
 \subsection{Arbitrage simulation}
 
 To contribute to \citet{Mil08}'s work to expand situations in which a market populated with zero-intelligent
-traders do not produce efficient results, the second experiment is about to study the arbitrage in 
-zero-intelligent markets. The 
-conducted with similar settings as the
-first experiment but instead of one market there are two indentical markets. The se
+traders do not produce efficient results, the third experiment is to study the arbitrage in 
+zero-intelligent markets. The simulation settings is similar to the other experiments except instead of one
+market there are two markets trading same asset with same currency.
+
