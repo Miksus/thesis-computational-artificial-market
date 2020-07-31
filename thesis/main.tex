@@ -175,8 +175,12 @@
 %\cleardoublepage%
 \printnomenclature[2.0cm]%
 
-\pagenumbering{arabic}
-\setcounter{page}{1} % Set page numbering starting from 1 from here on
+
+% Page numbering
+% --------------
+\newpage               % Informing Latex to start the numbering from new page (start of introduction page)
+\pagenumbering{arabic} % Setting page numbering to arabic numbers (1, 2, 3, etc.)
+\setcounter{page}{1}   % Force page numbering starting from 1 from here on
 
 % Content of the Thesis
 % ---------------------
