@@ -331,7 +331,7 @@ and the currencies are handled as any other asset. In theoretical sense,
 currencies are also just investment options and there is no inherent reason why other 
 asset classes, such as stocks, could not operate as the definition 
 of value. This feature creates complexity to the model compared to a model
-with a central currency acting as a baseline but it also enables an
+with a central currency acting as the baseline for value but it also enables an
 abstracted structure that handles natively cross currency
 markets or ecosystems in which there exist markets between assets A and 
 B and between B and C but not between A and C. This is also a better 
@@ -341,35 +341,33 @@ Support for multiple assets and asset symmetricity is constructed by storing
 the owned and reserved assets of a trader to the same data structures regardless
 of the type of asset in question. Each trader has one dictionary for positions
 and one for reserved assets and the keys for the dictionaries are the assets.
-In addition to the traded asset, the markets also contains the information 
+In addition to the traded asset, markets also contains the information 
 about the assets in the market. Each market has an attribute, or a field as called
-in Julia, for the asset the market uses like currency to trade with and for the asset
-traded in the market. As order submission occurs on market basis this information
+in Julia, for the asset the market uses as currency to trade with and for the asset
+traded in the market. As order submission occurs on market basis, this information
 is used to determine what asset should be allocated for the order from the trader's
-reserve and to determine the assets to exchange when the market creates a trade. 
+reserve and to determine the assets to exchange when a trade is formed in a market. 
 The orders need not to have the information about the assets in question as orders are always
-market specific in the model. This mechanic also allows markets trading same asset with same 
-asset acting as currency existing in one simulation environment. 
+market specific in the model. This mechanic also allows interesting ecosystems in which
+multiple markets can coexist that trade the same asset with using the same asset as
+currency. 
 
 % Asset allocation, reserve & active orders
-% TODO: Wording is shit
-In single market models in which there exists only one market, disallowing 
-orders that would require more assets to execute
-than there is in the trader's position should be enough to maintain the budget constrain. 
+% TODO: UPDATE: wording is less shit but still shit
+In single market models disallowing the orders that would require more assets to execute
+than there is in the trader's position should be sufficient to maintain the budget constrain. 
 However, for multi-market ecosystem this is not enough. The quantities of an asset 
-that are already allocated to a market must be kept track of. There most 
-likely is a structure in a multi-market simulations where the same asset % WTF?
-is traded in more than one markets. If the total commited amount of the 
-asset is not tracked, there is a risk that the same asset is commited 
-in two separate orders and if both executes, there is a chance that 
-the trader's position goes negative. To prevent this, this ASM model 
-keeps track of all of the commited assets, called reserved asset 
-in the simulation, in addition to the actual position values. It also
+that are already allocated to a market via orders must be kept track of and the total amounts of 
+allocated quantities must not exceed the actual asset positions of the trader. If the maximum allowed 
+allocation not enforced and if there are multiple orders of a trader executing allocating same asset
+there is a chance that the trader's position goes negative. 
+To prevent this, this ASM model keeps track of all of the allocated assets, called reserved asset 
+in the simulation, in addition to the actual asset positions. The model also
 accepts only one order per trader per market as it makes little sense that
-the traders are allowed to express multiple different opinions to the market 
+the traders are allowed to express multiple different opinions to one market 
 simultaenously: especially having a bid and an ask orders on the same market
 at the same time may lead to a confusing pattern where a trader is trading with
-itself. 
+itself and therefore artificially pumping up the trading volumes. 
 
 In addition to this, the order that a trader has already placed
 to a market is tracked in the trader's data structure to make cancellation easy
