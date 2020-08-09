@@ -271,6 +271,12 @@ the price determined from a pair of crossing orders is used instead using functi
 that study call markets could utilize the same code without modifications 
 even though call markets are not studied in this thesis.
 
+It should be noted that this mechanic may not be optimal in terms of performance: 
+only the newly submitted order may possibly be cleared and therefore more 
+optimized solution could utilize the fact that only this order and the opposing book
+need to be compared and not necessarily the both of the books themselves. However,
+in this case simplicity was considered more important than code execution speed.
+
 
 \begin{lstlisting}[caption={Clearing process},label={lst:clearing}]
 ...
