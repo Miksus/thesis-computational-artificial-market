@@ -236,6 +236,13 @@ decisions should be interpret in terms of real time units such as seconds or min
 the issue of nontrading is also inherently present in the model: the time interval between trades 
 is non-fixed.
 
+The submitted orders and created trades include timestamps. For orders the timestamps are used
+to determine the comparable age of each order. This is useful for clearing mechanics that sort 
+order by their comparable age to determine the clearing price. In case of trades this information
+is useful for analytical purposes to determine the timeline of events. A timestamp is simply 
+an integer starting from one at the beginning of the simulation and has no additional 
+intended representation. Each checking of time increments it with one unit.
+
 \subsubsection{Market Mechanics}
 % How the market is cleared actually 
 
