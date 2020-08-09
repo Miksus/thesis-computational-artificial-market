@@ -4,7 +4,7 @@
 As discussed, the market type for the artifical market was chosen 
 to be continuous double auction or more specifically limit order market.
 The artificial stock market created in this thesis was written in Julia
-programming language and it took some inspiration from previous literature.
+programming language and it took inspiration from previous literature.
 The literature is lacking on practical studies about how to actually create
 an artifical stock market and therefore the actual structure of the market is explained
 in depth. The decisions about the microstructure and the trader behaviour
@@ -18,7 +18,6 @@ computing stack including Numpy, Pandas, Statsmodels, Matplotlib, Seaborn and Sc
 In this section the rationale for the programming choice of the model is discussed
 and the model structure, mechanics and generic characteristics are 
 explained.
-
 
 \subsection{Julia Language}
 Julia is relatively new dynamic programming language, 
@@ -50,25 +49,25 @@ generic parts of the framework that are independent and obvious in terms
 of functionality. For example, how to get traders' positions, how to
 transfer assets from a trader to another or how to cancel an order are
 functionalities that are independent on the type of the traders 
-and type of the markets and therefore these functionalities have little
-far reaching decisions to make. The main purpose of this layer
+and type of the markets, and therefore these functionalities have little
+far-reaching decisions to make. The main purpose of this layer
 is to separate generic and obvious functionality from blocks of code
-that has more degrees of freedom and less obvious decisions to make.
+that has more degrees of freedom and less obvious design decisions to make.
 
-The second layer, the concrete layer, defines the actual types and
+The second layer, the concrete layer, defines the actual types and the
 functionalities that require less clear and more heuristic
 approach than the abstract layer. This layer also includes significant
 portion of choices to make. Some of the components
-on this layer include the zero intelligent trader and its
+on this layer include the zero intelligent trader and the
 functions that defines its behaviour, the continuous double auction
-market and its price formation mechanics.
+market and the functions for its price formation mechanics.
 
 The third layer, simulation layer, manages the simulation as a whole.
 This layer defines the ecosystem where the simulation takes place including
-the initiation of the components, interating over the time periods, asking
+the initiation of the components, iterating over the time periods, asking
 each trader to make their decisions and ask the market to clear. 
-Also, the number of investors, initial conditions such as amount of assets 
-the investors own and how the simulation results are saved are defined here. 
+Also, initial conditions including the number of sessions, investors, assets and markets
+and the amount of each asset each investor owns are defined here. 
 This layer mostly calls the functionalities created in the lower layers.
 
 
@@ -99,14 +98,14 @@ an order to each market. After the order creation the order is validated.
 The traders have also an option not to create an order. If the order was
 valid, the previous order to the market is cancelled and the needed 
 asset is reserved for the order in case it executes. The asset
-reservation is to prevent traders going over their budgets if they
+reservation is to prevent traders going over with their budgets if they
 have allocated the same asset in other markets. Next the order is
 placed to the market and the clearing process begins in case of 
 continuous double auction market. If there are any clearable orders,
 they are traded with a price defined by the market type. When
-all clearable orders are cleared, the process returns to the
+all clearable orders are cleared, the code execution returns to the
 main block and either next trading session is started or the next
-trader gets chance to make orders. In this section, the process how the
+trader gets a chance to make orders. In this section, the process how the
 zero intelligent traders conduct their decisions and how the 
 market price formation and clearing works is discussed with more detail.
 There are some interesting characteristics in the asset dynamics of this
@@ -126,9 +125,9 @@ are implemented in a way that they are given sets of allowed ranges
 and options in which they choose values randomly. This way the zero-intelligent behaviour is maintained
 in addition to have similar options that there are present in real markets 
 concerning to order placement such as the order quantity, order price and whether
-to submit an ask order or bid order. The traders are also budget constrained
+to submit an ask order, a bid order or do nothing. The traders are also budget constrained
 in order to achieve allocative efficiency as proposed by
-\citet{God93}.
+\citet{God93}. Budget constrain prevents short selling or borrowing any asset.
 
 
 An order placement decision in the model requires three components 
@@ -137,25 +136,27 @@ There are obviously two possible sides of an order: bid and ask, but
 not submitting an order is also a choice. Therefore, the traders
 have three options: submitting bid limit order, submitting ask limit order
 and not submitting an order. Submitting an order also cancels any previous
-order made by the trader to the same market but not submitting an order doe not. 
-The traders pick one of these options randomly and each option has equal weight. 
+order created by the trader to the same market but not submitting an order does not
+cancel any previous orders. The traders pick one of these options randomly 
+based on the weights specified in the parameters of the simulation run. 
 
 Determining the order price and order quantity are not as straight
 forward as their feasible ranges cannot be determined completely independently
-from each other and the calculation of the ranges differ between bids and asks. A bid order's
+from each other and the calculations of these ranges differ between bids and asks. Bid order's
 value cannot exceed the amount of currency the trader possesses thus this is 
 a limiting factor for both, order quantity and order price of a bid. In addition,
 the maximum order quantity is inversely proportional to the order price and
-therefore, if order price is set first, the maximum order quantity the trader
+therefore if order price is set first, the maximum order quantity the trader
 can set for a bid equals to its amount of currency divided by the price and vice versa. 
-However, the ask order does not include such restrictions: the value of the order
-does not reflect to the amount of assets the trader must allocate for the order. The
-price of an ask order can, in theory, be infinite and the trader has no issues
-fulfill the trade even though the counterparty may have. The only limit for the
-trader placing an ask is the amount of the traded asset it possesses: the trader
-cannot sell more of the asset than it has. To summarize, an ask order's feasible
-ranges for quantity and price can be determined independently but this is not the
-case for bid orders. These feasible ranges are shown in ~\ref{eq:feasible_ranges}.
+However, ask orders do not have such restrictions: the value of an ask order
+does not reflect to the amount of assets the trader allocates to sell with the order. The
+price of an ask order can, in theory, be infinite and the selling trader has no issues
+fulfilling the trade on its behalf even though in practice there is no buyers
+able to match with such order. The only limit for the trader placing an ask is the 
+amount of the traded asset it possesses: the trader cannot sell more of the asset 
+than it has. To summarize, an ask order's feasible ranges for quantity and price 
+can be determined independently but this is not the case for bid orders. These feasible 
+ranges are shown in ~\ref{eq:feasible_ranges}.
 
 \begin{equation}
 \begin{aligned}
@@ -218,8 +219,8 @@ realistic market microstructure. The trader behaviour in this model is close wit
 created by \citet{Genoa01} as in this model the prices are also drawn from normal distribution and
 the order quantities are derived from the required amount of asset. However, in Genoa Market the
 normal distribution's mean is 10\% higher for ask orders and 10\% lower for bid orders from the
-latest market price due to increase liquidity. For maintaining simplicity, the mean of the distribution
-is set to the last market price in this mode. Also, the option of to not make an order seems not to be
+latest market price in order to increase liquidity. For maintaining simplicity, the mean of the distribution
+is set to the last market price in this model. Also, the option of to not make an order seems not to be
 implemented in the literature. However, \citet{Raberto05} implemented waiting times and order cancellation
 after specified times which may produce similar behaviour. 
 
@@ -227,11 +228,13 @@ after specified times which may produce similar behaviour.
 
 The time in the simulation took inspiration from the asynchronous model created by \citet{Julien07}. 
 As in their ASM model, in this model the traders are randomly given the ability to speak and make 
-their trading decisions. First a proportion of traders specified in the speak ratio are chosen,
-then these traders are shuffled and finally they are asked to do trading decisions one by one
-for each market. However, it is unclear how the interval between placement decisions should be
-interpret in terms of real time units such as seconds or minutes. In addition, the issue of 
-nontrading is also inherently present in the model: the time interval between trades is non fixed.
+their trading decisions. The proportion of traders allowed to make a decision is defined in
+speak ratio which is a parameter for the simulation. After randomly selecting the traders
+according to the speak ratio this set of traders is shuffled randomly and are asked to do trading 
+decisions one by one for each market. However, it is unclear how the interval between placement 
+decisions should be interpret in terms of real time units such as seconds or minutes. In addition, 
+the issue of nontrading is also inherently present in the model: the time interval between trades 
+is non-fixed.
 
 \subsubsection{Market Mechanics}
 % How the market is cleared actually 
@@ -253,9 +256,11 @@ mechanics by calling the parametrized functions that are
 defined explicitly for each concrete market type. 
 The main body of the clearing function, 
 as written in the source code, is shown in the listing ~\ref{lst:clearing}.
-In the listing the clearing price resembles the market price
-of the clearing session which is calculated in call markets but not in
-continuous markets. This is so that in future experiments
+In the listing, the clearing price resembles the market price
+of the clearing session which is calculated for call markets but not for 
+continuous markets. For continuous markets this price is simply nothing and
+the price determined from a pair of crossing orders is used instead using function
+\emph{get\_trade\_price}. The rationale for the complexity is that in future experiments
 that study call markets could utilize the same code without modifications 
 even though call markets are not studied in this thesis.
 
@@ -304,38 +309,49 @@ equally sized.
 
 The model is constructed in a way that enables usage of multiple assets
 and the assets are handled symmetrically. The former is achieved with
-allowing multi-asset positions and it is the simulation layer's 
-responsibility to decide the assets, markets and ask the investors
-to create orders on them.
+allowing multi-asset positions and multi-asset resersing and 
+it is the simulation layer's responsibility to decide the assets, 
+markets and ask the investors to create orders on them. 
 
-The asset symmetricity means that there is no universal or central currency 
+Asset symmetricity means that there is no universal or central currency 
 and the currencies are handled as any other asset. In theoretical sense, 
 currencies are also just investment options and there is no inherent reason why other 
 asset classes, such as stocks, could not operate as the definition 
 of value. This feature creates complexity to the model compared to a model
 with a central currency acting as a baseline but it also enables an
 abstracted structure that handles natively cross currency
-markets or ecosystems where there exist markets between assets A and 
-B and between B and C but not between A and C. It is also a better 
+markets or ecosystems in which there exist markets between assets A and 
+B and between B and C but not between A and C. This is also a better 
 representation of theoretical markets.
 
-Asset symmetricity is constructed via storing all the owned and reserved
-assets in the same data structures, in dictionaries in this case. In addition
-to the traded asset, the markets also contains the information about the asset
-that the traded asset is traded with, which is most often some sort of currency. 
+Support for multiple assets and asset symmetricity is constructed by storing 
+the owned and reserved assets of a trader to the same data structures regardless
+of the type of asset in question. Each trader has one dictionary for positions
+and one for reserved assets and the keys for the dictionaries are the assets.
+In addition to the traded asset, the markets also contains the information 
+about the assets in the market. Each market has an attribute, or a field as called
+in Julia, for the asset the market uses like currency to trade with and for the asset
+traded in the market. As order submission occurs on market basis this information
+is used to determine what asset should be allocated for the order from the trader's
+reserve and to determine the assets to exchange when the market creates a trade. 
+The orders need not to have the information about the assets in question as orders are always
+market specific in the model. This mechanic also allows markets trading same asset with same 
+asset acting as currency existing in one simulation environment. 
 
 % Asset allocation, reserve & active orders
-In single asset markets where only one order is allowed to be on the markets
-per trader, disallowing orders that would require more assets to execute
-than there is in the position should be enough. However, in case of multi-market
-ecosystem this is not enough. The assets that are already allocated to 
-a market must be kept track of. There most likely is a structure in a multi-market
-simulations where the same asset is traded in more than one markets. If the
-total commited amount of the asset is not tracked, there is a risk that the
-same asset is commited in two separate orders and if both executes,
-there is a chance that the trader's position goes negative. To prevent this,
-this ASM model keeps track of all of the commited assets, called reserved
-asset in the simulation, in addition to the actual position values. It also
+% TODO: Wording is shit
+In single market models in which there exists only one market, disallowing 
+orders that would require more assets to execute
+than there is in the trader's position should be enough to maintain the budget constrain. 
+However, for multi-market ecosystem this is not enough. The quantities of an asset 
+that are already allocated to a market must be kept track of. There most 
+likely is a structure in a multi-market simulations where the same asset % WTF?
+is traded in more than one markets. If the total commited amount of the 
+asset is not tracked, there is a risk that the same asset is commited 
+in two separate orders and if both executes, there is a chance that 
+the trader's position goes negative. To prevent this, this ASM model 
+keeps track of all of the commited assets, called reserved asset 
+in the simulation, in addition to the actual position values. It also
 accepts only one order per trader per market as it makes little sense that
 the traders are allowed to express multiple different opinions to the market 
 simultaenously: especially having a bid and an ask orders on the same market

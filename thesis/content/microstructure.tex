@@ -59,9 +59,9 @@ orders. \citep{boer05}
 Many real world stock markets are formed as a hybrid of call and continuous
 double auction markets. The price discovery at the beginning and at the end of a 
 trading day is conducted with call-market mechanics and the trading during the 
-typical trading hours is conducted using continuous environment. \citet{NasdaqClosing05}
+typical trading hours is conducted using continuous environment. \citep{NasdaqClosing05}
 For example, Nasdaq's opening and closing call-auctions, called opening and closing crosses,
-create the official open and close prices of the market \citet{NasdaqCrosses}.  
+create the official open and close prices of the market \citep{NasdaqCrosses}.  
 % More about Sealed-bid matching (supply-demand) and CDA matching
  
 \subsection{Execution Systems}
@@ -122,9 +122,6 @@ with an extremely high (low) limit price so that it does get matched
 during the clearing process as long as there are opposing limit orders in the 
 order book. \citep{lob13} %TODO: What if only market orders?
 
-
-\input{tables/order_book.tex}% table.tex > \mytable
-
 % Basics of limit order book, supply and demand etc.
 A simple limit order book is presented in ~\ref{tbl:orderbook}. This table shows the
 quantity of asset bid and asked per each price level: for example, with a price of 5.00
@@ -136,7 +133,9 @@ This order book with cumulative quantities is visualized in figure ~\ref{fig:lob
 are renamed as demand and cumulative asks as supply as these terms are more representative in this context.
 As there should not be clearable orders in continuous double auction's order book, except very temporarily, 
 this example represents more of the state of a limit order book in a call-market. Order book
-in continuous double auction is discussed in a moment.
+in a continuous double auction is discussed in a moment.
+
+\input{tables/order_book.tex}% table.tex > \mytable
 
 \begin{figure}
     \begin{center}  
@@ -147,14 +146,14 @@ in continuous double auction is discussed in a moment.
 \end{figure}
 
 % Price formation in sealed bid/call market
-Call-markets typically clear at equilibrium price: at the point where
-supply and demand crosses. 
+Call-markets typically clear at equilibrium price which is the point where
+supply and demand cross. 
 To get the equilibrium price, first the maximum clearable quantity
 is calculated per price level. This quantity is simply the elementwise
-minimum from the supply and the demand arrays. Then the equilibrium volume
+minimum from the supply and the demand arrays. Then the quantity in equilibrium
 can be determined by taking the maximum from the maximum clearable quantities
-per price level and equilibrium price is simply the price where the quantity
-equals the equilibrium volume. A pseudocode of this algorithm is illustrated in 
+per price level and equilibrium price is simply the price where the maximum clearable quantity
+equals the equilibrium quantity. A pseudocode of this algorithm is illustrated in 
 algorithm ~\ref{alg:lob_equil}.
 
 \begin{algorithm}[H]
@@ -170,26 +169,25 @@ algorithm ~\ref{alg:lob_equil}.
     maximum clearable per price = min\_quantity\_per\_price(demand, supply)\;
     \;
     equilibrium quantity = max(maximum clearable per price)\;
-    equilibrium price = price where quantity is equilibrium quantity\;
+    equilibrium price = price where (maximum clearable per price == equilibrium quantity)\;
     \KwResult{Equilibrium price and quantity}
     \caption{Pseudo algorithm for finding market equilibrium}
     \label{alg:lob_equil}
 \end{algorithm}
 
-
 In a continuous double auction, the matching process is slightly simpler in computation
 wise as there is no need to find a common price for many orders. Only the latest arrived
-order needs to be cleared, in case it can be cleared, with opposing orders. Continuous
+order needs to be cleared, or checked whether it can be cleared, with opposing orders. Continuous
 double auction does not accumulate crossing orders in similar fashion as call markets do. 
 In principle, the same algorithm used in call market could be used also in continuous double auction 
 but typically the surplus distribution is different. Unlike in call-markets where the surplus is often
-split, in continuous double auction the surplus goes to the trader who made the latest order.
-In other words, the trade prices are taken from the orders that were already in the limit order book.
-This sort of matching could be conducted by looping and clearing the opposing side of the order book until either
-there are no more crossing orders with the newly arrived order, or the new order is already cleared
-completely. In case the newly arrived order is not completely cleared after depleting all the crossing
-orders, it is inserted to the order book and the clearing process ends. This algorithm is illustrated in
-algorithm ~\ref{alg:lob_cont}. 
+split among the crossing orders, in continuous double auction the surplus goes to the trader who made the 
+latest order. In other words, the trade prices are drawn from the orders that were already in the limit 
+order book. This sort of matching could be conducted by looping and clearing the opposing side of the 
+order book until either there are no more crossing orders with the newly arrived order, or the new 
+order is already cleared completely. In case of the newly arrived order is not completely cleared after 
+depleting all possible crossing orders, the order is inserted to the order book and the clearing process 
+ends. This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. 
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -200,8 +198,8 @@ algorithm ~\ref{alg:lob_cont}.
 
         \While{(min\_price(asks) $\geq$ price of new order) \\
         \hskip\algorithmicindent\& (get\_quantity(new order) > 0)}{
-            countering = filter(asks, where price $\geq$ get\_price(new order))\;
-            opposite order = get\_next(countering)\;
+            crossing orders = filter(asks, where price $\geq$ get\_price(new order))\;
+            opposite order = get\_next(crossing orders)\;
             clear(new order, opposite order)\;
         }
     }
@@ -211,8 +209,8 @@ algorithm ~\ref{alg:lob_cont}.
         
         \While{(min\_price(bids) $\leq$ price of new order) \\ 
         \hskip\algorithmicindent \& (get\_quantity(new order) > 0)}{
-            countering = filter(bids, where price $\leq$ get\_price(new order))\;
-            opposite order = get\_next(countering)\;
+            crossing orders = filter(bids, where price $\leq$ get\_price(new order))\;
+            opposite order = get\_next(crossing orders)\;
             clear(new order, opposite order)\;
         }
     }
@@ -223,7 +221,6 @@ algorithm ~\ref{alg:lob_cont}.
     \caption{Pseudo algorithm for clearing continuous double auction}
     \label{alg:lob_cont}
 \end{algorithm}
-
 
 
 \subsection{Price Dynamics}
@@ -237,7 +234,8 @@ financial markets. These statistical phenomena, called stylized facts in
 econometrics, have been observed in extensive amount of studies from 
 different assets, markets and time periods \citep{Shakeel18}. 
 % List of Stylized facts (Cont R. (2001) & Gould et al. (2013))
-The price related stylized facts are according to \citet{StylizedFacts01} and \citet{lob13}:
+According to \citet{StylizedFacts01} and \citet{lob13}, price related stylized
+facts include:
 
 \begin{enumerate}
     \item Fat-tailed distribution of returns: distribution of asset returns has fatter tails than normal distribution meaning that they have positive excess kurtosis. 
@@ -272,5 +270,5 @@ The price related stylized facts are according to \citet{StylizedFacts01} and \c
 % file:///D:/Opinnot/Master's%20Thesis/literature/real%20markets/price%20dynamics/TheoriesExplainingStockPriceBehavior%20(1).pdf
 
 As has been done in the literature of artificial markets, the 
-representativeness of the ASM built in this thesis is validated also 
+representativeness of the ASM model built in this thesis is validated also 
 using these stylized facts.

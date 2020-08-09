@@ -7,7 +7,7 @@ characteristics in real markets that cannot be replicated
 in artificial setting in an obvious way. Some of these artificial
 market specific issues, such as how the meaning of time is 
 implemented and how the decision making of the trading agents
-works, are presented in this chapter.
+works, are presented in this section.
 
 
 \subsection{Time Handling in ASM}
@@ -25,9 +25,9 @@ synchronous and asynchronous. \citet{Julien07} summarized the difference as that
 trading all the traders are given the same opportunity to make their placements
 while in asynchronous trading the simulation engine gives the traders the opportunity to
 make decisions in disorganized manner, possibly by picking traders randomly.
-\citet{Ben17} argued the issue to be more about discrete versus continuous time handling.
-According to him, synchronous trading takes place in fixed time intervals whereas in 
-asynchronous trading an order submission can occur in any point in time. Unarguably, 
+\citet{Ben17} argued the difference to be more about discrete versus continuous time handling.
+According to them, synchronous trading takes place in fixed time intervals whereas in 
+asynchronous trading the order submission can occur in any point in time. Unarguably, 
 asynchronous trading is more realistic as the time is continuous and traders make
 their decisions in their individual frequencies.
 
@@ -75,15 +75,15 @@ round, ie. trading session. The worst performing sets of parameters are discarde
 best performing strategies from a set of predefined trading rules. The predefined
 rules were combined to form strategies using random mutation. \citet{FieldGA05} developed
 similar model except instead of rules defined by the researchers they derived the rules 
-by interviewing actual traders. \citet{LeBranon2001} combined evolutionary model with 
-learning algorithm: the trading rules were formed using a simple feed forward neural network.
+by interviewing actual traders. \citet{LeBranon2001} combined evolutionary model with a 
+learning algorithm: the trading rules were formed using a simple feed-forward neural network.
 
 % Learning
 Learning ASM models use machine learning for the agents to adopt the optimal strategies.
 However, such models are somewhat rarer in the literature than evolutionary
 models. \citet{Reinforcement09} used reinforcement 
 learning, more specifically Q-learning, to predict the fundamental value of a 
-dividend paying stock. This predicted fundamental value is used in the agents' 
+dividend paying stock and this predicted fundamental value is used in the agents' 
 decision making: if the predicted fundamental value is smaller than the market price
 the trader will sell the stock and if it is higher the trader will buy it. They 
 also tested the model with an evolutionary selection to replace worst performing
