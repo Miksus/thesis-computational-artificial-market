@@ -156,4 +156,15 @@ the exclusion of pre- and post-market could be simulated by allowing only
 specific traders to trade in specific trading sessions. This could be done
 by modifying the main level of the simulation. 
 
+% Centralized market place
+As the effect of the microstructure to the market dynamics is relatively 
+less understood in decentralized markets it would be interesting to modify 
+the model to such and run similar analysis. Instead of exchanges, the trading 
+would be conducted via trading networks: each trader has links to other traders, 
+trading partners. When a trader states an order its trading partners are 
+looped through and checked if any of the partners is willing to participate 
+on the order and form a trade. However, such modification would require 
+completely new matching engine and the trading agents need to be substantially 
+refactored.
+
 % TODO: More advanced assets
