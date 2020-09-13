@@ -6,21 +6,20 @@ The focus of the model is more in the
 decision making process of the traders rather than in the 
 market's microstructure. The model's traders use 
 genetic algorithm to form a pool of rules to base
-their decision-making process. The traders can buy or
-sell either risk-free bond or risky dividend yielding stock.
+their trading decisions. The traders can buy or
+sell either a risk-free bond or a risky dividend yielding stock.
 The market is quote-driven in a sense that the traders
-either accept the current price set up by the clearing house
-or do not trade. The price goes up in case of there is excess
+either accept the current price given by the matching engine
+or do not trade. The price moves up in case if there is excess
 demand and vice versa. (\citeauthor{SantaFe94}, \citeyear{SantaFe94} 
 and \citeauthor{SantaFe99}, \citeyear{SantaFe99})
 
-Since then, there have been many more models being 
+Since then, there have been many models being 
 developed with various complexities. These models are often developed
 for achieving specific properties of a real market, 
 usually related to the price formation. In this section
-go through recent literature to describe some of the models
-that has been built and discuss the design decisions in them.
-
+the recent literature is gone through to describe some of the models
+that have been built and the design decisions in them are discussed.
 
 %\citep{Ben12}
 
@@ -28,16 +27,16 @@ that has been built and discuss the design decisions in them.
 
 % What are zero intelligence traders?
 
-The zero-intelligent trading agents were discussed in the section 
-~\ref{section:ASMTradingAgents}. In this section some literature
-concerning to models using such trading agents are presented and
-discussed.
+As the zero-intelligent trading agents were already discussed in the section 
+~\ref{section:ASMTradingAgents}, the meaning of the term and the principles 
+behind it are no further discussed. Instead, some literature concerning to 
+models using such trading agents are presented and discussed with greater detail.
 % TODO: Extend. When such agents are used?
 
 \subsubsection{Gode's and Sunder's Market}
 \citet{God93} observed market efficiency in a market setting
 of minimal intelligence. They conducted a partly human and partly
-computational laboratory experiment to replicate the market
+computational laboratory experiment in effort to replicate the market
 efficiency of human traders with least intelligent computational
 trading agents.
 
@@ -46,13 +45,13 @@ specifications. The market is continuous in a sense that the
 orders are continuously matched even though the trading was
 conducted in specified sessions. The traders were divided 
 into buyers and sellers. Buyers profits were tied to their 
-individual redemption values that are gained at the end of
-each trading session for each bough unit and sellers' profits
+individual redemption values that were gained at the end of
+each trading session for each unit bought and sellers' profits
 were tied to their individual cost of unit. Redemption values
 represent the demand function of each buyer and cost of units 
 the supply function of each seller for each session. The
 traders were allowed to submit orders with size of one unit
-and the trade price was taken from the price stated in the 
+and the trade price was drawn from the price stated in the 
 first of the crossing orders.
 
 The computational trading agents were zero intelligent traders 
@@ -60,13 +59,14 @@ who trade at random price from a predefined range.
 The first simulation was run with budget constrain: only the bids
 under the redemption value and the asks over the cost of unit 
 were allowed. The second simulation was run without such limitation.
-These simulations were compared with the data from human traders.
+These simulations were compared with the data from human traders
+in similar trading environment.
 
 \citeauthor{God93} found that the budget constrain is enough to 
 achieve market efficiency very close to human traders. Their findings
 suggest that intelligence does not to play critical role in terms of 
 how to build an efficient artificial market. The more important aspect
-is the characteristics of the market, not the traders.
+is the characteristics of the market, not the characteristics of the traders.
 
 \subsubsection{Jamal's and Sunder's Market}
 % Continuation study from Jamal & Sunder
@@ -78,7 +78,7 @@ as baselines for the market rationality and the heuristic traders were
 the treatment populations for which the researchers added elements of behavioural
 biases: representativeness bias and anchor-and-adjust. 
 
-The traders in all the populations were zero intelligent in terms of the
+The traders in all of the populations were zero intelligent in terms of the
 prices they bid and ask. Most notable difference to \citet{God93}'s market
 is that instead of redemption value and cost of units determining the
 supply and demand values, \citeauthor{Jam96} used private dividend payouts 
@@ -96,28 +96,35 @@ of the artificial markets.
 
 % Counter Argument for usefulness of ZI
 \subsubsection{Counter Argument against ZI markets}
-\citet{Mil08} provided counter argument on the usefulness of zero
-intelligent traders. They replicated market structure from
+\citet{Mil08} provided a counter argument on the usefulness of zero
+intelligent traders. He replicated the market structure from
 \citeauthor{God93}'s study with one major difference: how the 
-time is handled. In their market version, the demand varies
+time is handled. In his version of the market, the demand varies
 also between sessions and buyers can plan for it by buying units
 in advance for periods of higher demand. Unlike human traders,
-zero intelligent traders obviously cannot plan and a market
-populated with such traders cannot gain allocative efficiency comparable
-to a market populated with human traders. 
+zero intelligent traders obviously could not plan ahead and a market
+populated with such traders did not gain allocative efficiency comparable
+to a market populated with human traders. Therfore, when time is a 
+meaningful element, as by having changing market conditions, zero intelligent 
+trading agents are insufficient. However, \citeauthor{Mil08} also suggested
+that in a market where the conditions change in predefined way, as was in 
+his experiment, slight enhancement to the mechanics of the zero intelligent 
+agents may be sufficient to overcome this limitation.
+
 
 
 \subsection{Generic ASM Frameworks}
 
 Most of the literature in the field of artificial stock markets 
-focus on recreating phenomena from real markets in artificial settings
-and often these studies are lacking in details of how the model was created.
-They may include descriptions how the clearing is done or how the trading agents 
-come up with their decisions but usually they do not discuss about practical matters 
+focus on recreating phenomena from real markets in artificial settings.
+The details of the algorithms used in the market microstructure or in
+the decision making of the trading agents are often disucssed with limited 
+depth. Studies may include descriptions how the clearing is done or how the trading agents 
+come up with their decisions but they usually do not discuss about practical matters 
 such as how the interactions between the simulation components work, where the 
 information about traders' positions are stored or how the simulation is orchestrated. 
 Studies that describe how to actually build a realistic computational 
-market are rather rare but not completely absent. In this section, some of the 
+market are relatively rare but not completely absent. In this section, some of the 
 generic frameworks designed in the field are discussed in order to illustrate how 
 to structure a computational environment.
 
@@ -125,37 +132,43 @@ to structure a computational environment.
 \subsubsection{Object Oriented ASM}
 % Gaia
 \citet{Ben12} developed a realistic but abstract artificial stock market
-model for continuous double auction using a modelling methodology known as 
+framework for continuous double auction using a modelling methodology known as 
 Gaia. Gaia is a software design methodology for agent-based systems which 
 highlights identifying the roles of the system and interactions in between.
-The final model the researchers came up with is an object oriented 
-approach consisting of five roles: a market, traders, a company, banks
-and external world. The roles of the market and the traders in the model 
-are rather similar as discussed already in this thesis. Interestingly,
-even though banks and companies are identified as separate agents, 
-the amount of cash and stocks are tracked in the trader agents themselves.
-They, however, do not have permission to update their wealth independently. 
-Banks and companies, on the other hand, act as middleware for informing 
-traders when and how much to update the amount cash and stocks. Banks also pay 
-fixed interest based on the amount of cash each trader holds and companies 
-pay dividend for each share. External world is a container of exogenous 
-information, such as paid dividends or news, that can be used by the traders for 
-their decision making. The researchers also discussed that the model could be
-simplified to only trading agents and market agent by including banks', companies' 
-and external world's roles to the trader agents in case of less complex but 
+\citeauthor{Ben12} came up with an object-oriented framework consisting of three sets of submodels: 
+an agent model, a service model and an acquaintance model. The agent model is consisting of 
+five roles: a market, traders, a company, banks and the external world. 
+The roles of the market and the traders in the model are rather similar 
+as discussed already in this thesis. Interestingly,even though banks and 
+companies are identified as separate agents, the amount of cash and stocks 
+are tracked in the trading agents themselves. They, however, do not have permission 
+to update their wealth independently. Banks and companies, on the other hand, act 
+as middleware for informing traders when and how much to update the amount cash 
+and stocks. Banks also pay fixed interest based on the amount of cash each trader 
+holds and companies pay dividend for each share. External world is a container of 
+exogenous information, such as paid dividends or news, that can be used by the 
+traders for their decision making. The researchers also discussed that the model 
+could besimplified to only trading agents and market agent by including banks', 
+companies' and external world's roles to the trader agents in case of less complex but 
 less detailed model is required.
 
-The orders in their model requires the following information to be valid:
-stock name, time-stamp, volume and the quoted price. These orders are stored
-in the market's order book, in case they cannot be immediately matched, but 
-also in the trader agents themselves for possible cancelling purposes.
+The second model \citeauthor{Ben12} designed, the service model,
+consists of the functionalities of the agents. This model is simply the list of 
+functions, or services, each agents has and the inputs, outputs, preconditions and postconditions 
+in them. For example, a trading agent have a service \textit{generate order} which takes
+expected price, expected dividend per share, the number of shares owned by the trader, 
+the amount of cash the trader has, market state and information about the external world as input 
+and the service outputs an order. The postcondition of this method is that the output order 
+must not be non-existent. The final model, acquaintance model, is simply the interactions 
+between the agents. This model consists of the links how information is passed around the 
+agents but not the content of it.
 
 % Something about the interaction model and order matching
 
-As they did not build a working software using the model, it is unclear
-how practical the model is and how easy it is to program. The model, 
-however, is detailed and served as an inspiration in this thesis even though
-its structure and design decisions were not strictly followed.
+As they did not build a working software using the framework, it is unclear
+how practical the model is and how convenient it is to program. The framework, 
+however, is detailed and extensive and it served as an inspiration in this thesis even though
+its structure and design ideas were not strictly followed.
 
 
 \subsubsection{ASM with a Concrete Implementation}
@@ -163,22 +176,23 @@ its structure and design decisions were not strictly followed.
 \citet{Julien07} built a simpler abstract representation of an ASM consisting
 only of the trading agents, market and external world. On top of this model, 
 they also created a more detailed concrete framework which they tested with
-zero intelligent traders and asynchronous continuous double auction as market
-model. The framework is modular in a way that it allows heterogenous traders
+zero-intelligent traders and with an asynchronous continuous double auction as the market
+microstructure. The framework is modular in a way that it allows heterogenous traders
 that emit and accept different amount of information to live in the same 
-simulation environment. The researchers used translators in between the 
+simulation environment. The researchers used components called translators in between the 
 trading agents and the market in order to transform the orders submitted by
-the trader agents and the information emitted by the market to a unified format.
-For example, in case a submitted order had only the direction and the quantity 
+the tradeing agents and the information emitted by the market to a unified format.
+For example, if a submitted order had only the direction and the quantity 
 defined, the translator fulfils the order price with the current market price 
-transforming the order essentially as market order. The framework also had a
+transforming the order essentially to a market order. The framework also had a
 unit called simulation engine to handle the interactions between the components.
 
-The flow of the system consisted of six steps which can be summarized with three:
+The flow of the system can be summarized with three steps:
 \begin{enumerate}
-    \item The simulation engine let all or some of the trading agents submit their orders 
-            using the exogenous information provided by the external world and 
-            information about the balance between supply and demand provided by the market.
+    \item The simulation engine let all or some of the trading agents submit their orders. 
+            The placement decision can utilized the exogenous information provided by the 
+            external world and information about the balance between supply and demand 
+            provided by the market.
     \item The simulation engine commands the market to clear.
     \item The simulation engine commands external world to update its information.
 \end{enumerate}
@@ -186,7 +200,7 @@ The flow of the system consisted of six steps which can be summarized with three
 
 \begin{figure}
     \includegraphics[width=\linewidth]{diagrams/julien_market.png}
-    \caption{Framework defined by Derveeuw et al. (2007)}
+    \caption{Framework defined by \citet{Julien07}}
     %\label{fig:boat1}
 \end{figure}
 
@@ -194,8 +208,8 @@ The flow of the system consisted of six steps which can be summarized with three
 
 \subsection{Reproduction of Stylized Facts with ASM}
 As discussed before, stylized facts are especially useful
-to validate ASM's representativeness. There are several 
-studies that aims to replicate these phenomena in 
+to validate the representativeness of ASM models. There are several 
+studies that aim to replicate these phenomena in 
 artificial settings. Some of these studies are
 gone through in this section.
 % Some generic stuff about these studies
@@ -203,29 +217,29 @@ gone through in this section.
 \subsubsection{Genoa Market}
 
 \citet{Genoa01} created a double auction market with zero-intelligent 
-traders. Their price formation follows supply and demand matching meaning 
-that the type of the market is a call market. The traders draw their 
+traders. Their used call-market as their market microstructure. The traders draw their 
 order prices from a normal distribution in which the mean price is 10 \%
 higher for bids and 10 \% lower for asks from the last market price. The
-rationale of this is to encourage the traders to do orders that gets fulfilled.
+rationale for this is to encourage the traders to submit orders that more likely get 
+fulfilled increasing the liquidity of the market.
 They also implemented a volatility feedback: the standard deviation for 
 the distribution used for drawing the order prices is derived from the 
 historical volatility of the asset and the time window for which this
 volatility is calculated is independent for each trader. In addition,
-they also introduced option networking between the traders: the traders
+they also introduced networking between the traders: the traders
 form clusters by randomly pairing with each other. Clusters are activated
 randomly and when one is activated, all of the traders belonging to it
-submit same sided orders either bids or asks. After activation the cluster is destroyed.
+submit same sided orders, either bids or asks. After the activation, the cluster is destroyed.
 
 Using this architecture they were able to produce some of the stylized facts
-including fat tailed returns and volatility clusters. However, the also discussed
+including fat-tailed returns and volatility clusters. However, the also discussed
 that the volatility clusters are prone for increasing the size of the model and
 that the produced volatility clusters are exponentially decaying while empirics have
-observed a power law decay.
+shown them to be a power law decaying.
 
 \subsubsection{Limit Order Market}
 % Another example of Intelligence vs Structure
-\citet{Raberto05} experimented with ZI investors in market setting
+\citet{Raberto05} experimented with zero intelligent investors in a market setting
 in which each computational trader can submit bid and ask offers. They
 implemented a continuous double auction market with a realistic order
 book setup. In their market, the traders issue random bid and ask limit
@@ -235,31 +249,32 @@ standard deviation is constant in the first experiment and linearly
 dependent on the volatility of the stock in the second experiment. The
 traders also are budget constrained. 
 
-They found that the fat tailed returns observed in
+They found that the fat-tailed returns observed in
 real stock markets can be achieved in artificial settings using limit 
-order book in the price formation and it is not consequence of clearing 
+order book as the price formation and it is not consequence of the clearing 
 house mechanism itself. They also found that volatility clusters can
 be achieved with a simple dependency on the volatility. Their paper
 is further evidence that the market microstructure may be more
 important than the complexity of the traders in effort to replicate
 many of the properties of real markets.
+%TODO: what did this mean: "it is not consequence of the clearing house mechanism itself"?
 
 \subsubsection{Market Clearing And Minority Game}
 
-\citet{LIU20082535} discussed stylized facts with two experiments: with
+\citet{LIU20082535} studied stylized facts with two sets of experiments: with
 a market populated by zero-intelligent traders and with a market formed using 
-model called \textit{Minority Game}. The first experiment focused on studying
+a model called \textit{Minority Game}. The first experiment focused on studying
 the market microstructure by observing the impact of clearing frequency for 
-stylized facts in a call market. The traders were not restricted with budget 
+presence of stylized facts in a call-market. The traders were not restricted with budget 
 constrain and they traded using order prices drawn from a normal distribution 
 in which the mean and standard deviation were set to constants. The reason 
 for these decisions were that they were not interested in the converge to 
 the equilibrium thus the fair value of the stock was not important. They 
-observed that the autocorrelation diminishes and fat tailed returns emerge 
+observed that the autocorrelation diminishes and fat-tailed returns emerge 
 when the frequency of clearing the call market is increased. Moreover,
 they discussed that these phenomena are caused by the market microstructure
 as the increase in clearing frequency decrease the density of orders and 
-increase the market price spread.
+increase the price spread.
 
 Their second experiment was more specific. The intention of the experiment 
 was to observe the effect of the behavioural elements using a model called
@@ -268,5 +283,5 @@ which each trader has a set of behavioral rules. From these rules each
 trader picks the one that has highest score in terms of predicting 
 historical outcomes of the prices. If a rule did not predict correctly,
 its score is decreased. With this experiment they found out that the
-behavioural elements can also cause fat tailed returns, cross correlation 
+behavioural elements can also cause fat-tailed returns, cross correlation 
 of returns and volume and absence of autocorrelation.
