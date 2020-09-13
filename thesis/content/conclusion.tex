@@ -16,22 +16,26 @@ occurs more rapidly with lower starting price than higher. The model manages
 to somewhat capture the stylized facts observed in actual markets: the intrasession 
 returns are fat-tailed and some short-term volatility clusters were observed. 
 However, there was some negative moderately short-term autocorrelation in the 
-absolute returns and the fat-tails are not carried to the returns between sessions. 
+absolute returns and the fat-tails of returns are not carried over to the returns between sessions. 
 This is also somewhat inline with the literature with comparable models.
 % TODO: Specify which studies
 
 % Shocks
 The model was also tested with negative and positive shocks by changing the 
 traders' probabilities to submit bid and ask orders. It was found out that
-the global balance between assets is not the only driving factor for the 
+the global balance between assets is not necessarily the only driving factor for the 
 equilibrium price in a market populated with zero intelligent traders 
-and the price can be manipulated changing these values. Negative shock
+and the price can be manipulated by changing these values. Furthermore, this finding suggests that 
+solely the balance, or imbalance, of the sides in an order book may have an important role in 
+driving the price. For example, if the bid side is thinner than the ask side it may be more probable 
+that there will come an ask order that consumes larger proportion of the bid side than the other way 
+around. As the ask order consumes a large chunk of the bid side the price will decrease rapidly, 
+or end up in free fall if the side is completely consumed. In addition, negative shock
 also increased the total quantities on both sides of the order book while
 positive shock had the opposite effect. Lower price is attributed to 
 more liquid market even though the global balance of assets is unaffected.
 This is due to that the amount of assets the buyers can bid are limited by the 
 price while the amount of asset the sellers can sell are not. 
-
 
 
 \subsection{Limitations of the Model}
@@ -64,7 +68,7 @@ automated splitting mechanics could overcome this issue.
 
 % ZI investor limitations
 Even though the sophistication of the trading agents was in little
-importance in the purpose of this thesis there were some design
+importance for the purpose of this thesis, there were some design
 choices that may have had an impact on the dynamics of the model.
 The definition of zero intelligence is not explicit in terms of
 concrete behaviour. Whether it is less intelligent to draw the
@@ -73,7 +77,7 @@ distribution or not remains debatable. In addition, both choices
 introduce parameters to be defined. Setting the mean of the
 normal distribution of the order prices to float with the 
 market price possibly enabled some of the interesting dynamics
-of the simulation but it may have taken part in causing the
+observed in the simulation but it may have taken part in causing the
 autocorrelation in the model. Whether it is more appropriate
 to fix the price to other values derived from the market,
 such as the best price of the opposite book as done by
@@ -83,34 +87,34 @@ which could also be a factor playing a role in the dynamics
 of the order book with different equilibrium prices. Setting
 it to be dependent on the previous volatility of the model
 could produce interesting dynamics including the volatility
-cluster but this could be seen to violate the definition
-of zero intelligence as they would then react on the risk level
-of the market. However, setting it to depend on the absolute
+cluster but this could be seen as a violation of the definition
+of zero intelligence as they would then be able to react on the risk level
+of the market. Setting it to depend on the absolute
 current price level of the market may be more appropriate to 
 maintain the level of rationality of the investors.  
 
 % Technical aspects
-Some experiments took hours to complete. The model is
-thoroughly parametrized but there could be substantial increase
-to code execution to be achieved with better type stability,
-by avoiding the use of abstract types and parallerizing some
-sections of the code. Optimizing may however increase the
-complexity of the code causing it harder to debug and maintain. 
-The code did however run fast enough for the experiments of this 
-thesis but may be an issue if complex and long multi-asset simulations
-are tested. 
+Regarding to the technical aspects of the model, some experiments 
+took hours to complete. The model is thoroughly parametrized but 
+there could be substantial increase to code execution to be 
+achieved with better type stability, by avoiding the use of 
+abstract types and parallerizing some sections of the code. 
+Optimizing may however increase the complexity of the code 
+causing it harder to debug and maintain. The code did, however, 
+run fast enough for the experiments of this thesis but may be 
+an issue if complex and long multi-asset simulations are tested. 
 
 % Language choice
 Julia programming language suited on the task well. The functional nature
-of the language provided straightforward way to implement clearing mechanics
+of the language provided straightforward way to implement matching engine
 efficiently. In addition, the mutable structs enabled modularization of the
 components of the model. However, as the language is relatively new it is
 lacking extensive ecosystems as more matured languages, such as Python,
 has. This was not a problem in the development of this model as the topic is 
 rather specific and does not require complex algorithms. This may come as an
 issue if the complexity of the trader agents is increased. \citet{JuliaML2020} 
-discussed the recent state of the language particularly in terms of machine 
-learning and they noted that the language is more mature in the area of
+discussed the recent state of the language, particularly in terms of machine 
+learning, and they noted that the language is more mature in the area of
 supervised learning algorithms than in the area of unsupervised algorithms.
 They did not, however, discuss about evolutionary algorithms or reinforcement
 learning which are more prevalent in the area of agent-based computational economics.
@@ -140,9 +144,9 @@ multi-asset markets including:
 \end{itemize}
 
 % More advanded traders
-Also, as the project is modularized it allows for development of more advanced
+Also, as the project is heavily modularized the structure allows for development of more advanced
 trading agents. The model could be transformed to experiment with more advanced
-market setups introduced in the agent-based computational economics. As discussed,
+market setups introduced by the literature of agent-based computational economics. As discussed,
 there are some packages for machine learning found in Julia's ecosystem thus 
 a learning trading agent could be constructed with readily available algorithms.
 
@@ -166,5 +170,3 @@ looped through and checked if any of the partners is willing to participate
 on the order and form a trade. However, such modification would require 
 completely new matching engine and the trading agents need to be substantially 
 refactored.
-
-% TODO: More advanced assets

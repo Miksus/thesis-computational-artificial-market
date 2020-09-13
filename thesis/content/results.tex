@@ -2,37 +2,39 @@
 \section{Results}
 
 The model was tested in several experiments. First, the generic dynamics of 
-model is described. The convergence to equilibrium price is studied with two
+model is inspected. The convergence to equilibrium price is studied with two
 simulations and then the model is validated using stylized facts. Then the
-market dynamics is examined by injecting shocks to the order book. In all the experiments
-all the traders are given the opportunity make one trading decision per session,
-meaning that the speak ratio is one, and there are no dividend nor interest paid 
-for any assets.
+market dynamics is examined by injecting shocks to the order book via placement 
+preferences of the traders. In all the experiments all the traders are given the 
+opportunity make one trading decision per session, meaning that the speak ratio 
+is one. There are no dividend nor interest paid for any assets in these experiments.
 % TODO: Extend
 
 \subsection{Generic dynamics of the model}
 % Price dynamics, stylized facts, order book evolution
 The single asset simulation was run three times: for the first run
-the starting market price was set to 500, for the second
+the starting market price was set to 500, for the second run it
 was set to 1 500 and for the third was set to 1 000 which is near the equilibrium price. 
 The rationale for this equilibrium price is discussed later.
 The first and second simulations were
 used to study how the convergence to the equilibrium price occurs
 and the third to examine the stylized facts of the price
 dynamics after the equilibrium is reached. The simulations were
-run using 10 000 zero intelligent traders which is the 
+run with 10 000 zero intelligent traders which is the 
 same amount of traders as what \citet{Raberto05} used in their experiments
 with somewhat similar settings. As only the converge to equilibrium is 
 the point of interest in the first and second simulations, the number of sessions
-were chosen relatively small, 200 sessions, but to get reliable results for
-the third simulation the number of sessions were chosen to be 4 000.
+were chosen to be relatively small, 200 sessions, but to get reliable results for
+the third simulation the number of sessions was chosen to be 4 000 in order to 
+make sure the statistical significance of the tests performed to validate the 
+stylized facts will not be hampered by the number of the observation.
 
 The amount of currency and the amount of stock 
 a trader owns in the beginning of all the simulations were set to
 10 000 000 units and 10 000 units respectively. Therefore
 the ratio of stock to currency is 1 000 which
 is the expected equilibrium price as there are
-no payouts in either asset. The amount of currency
+no payouts in either assets. The amount of currency
 per trader may seem much but as the tick size is one,
 it may be more convenient to think the currency as amounts
 of cents or pennies. The standard deviation of
@@ -76,12 +78,12 @@ about 940.
 \end{figure}
 
 % How the market converged to equilibrium
-The market depths shown in figure ~\ref{fig:market_depths} suggests that the
+The market depths, as shown in figure ~\ref{fig:market_depths}, suggest that the
 converge to equilibrium is caused by balancing the sides of the market. 
 In this figure, the order book is visualized for the first 15 trading sessions
-for both simulations: with a starting market price of 500 and 1 500. 
+for both of the simulations: with a starting market price of 500 and 1 500. 
 The surface describes the evolution of the cumulative bids and cumulative asks 
-throughout time and the bottom of the formed valley in the surface is the bid-ask spread. 
+throughout time and the bottom of the valley formed in the surface is the bid-ask spread. 
 The left side from the valley is the cumulative bid book and right is the cumulative ask book. 
 The ask side of the market is almost completely missing initially in the run that
 starts with lower market price while the opposite is true for the run with higher
@@ -113,10 +115,10 @@ This figure shows mostly the same aspects as ~\ref{fig:market_depths} but the si
 order book are not extrapolated to the edges of the plot: the white color represent absence of orders.
 The figure suggests that the asking traders in the experiment with lower initial market price
 adopt the equilibrium price quicker than the bidding traders in the experiment with higher initial market 
-price. One possible explanation for this phenomenon might be the buyer-seller asymmetricity
+price. One possible explanation for this phenomenon might be the bid-ask asymmetricity
 discussed earlier. It is also noteworthy that the downward spikes found in the figure when the equilibrium
-is reached is caused by that some traders had consumed their currency balances and decided 
-still to do a bid order. Because of the budget constrain, these traders had to submit bid orders with prices
+is reached is caused by that some traders had consumed most of their currency balances and still decided 
+to do a bid order. Because of the budget constrain, these traders had to submit bid orders with prices
 they could afford and these prices were substantially lower than the market price and may seem like outliers.
 
 % TODO: Mention that the reason for high price - low price differing convergence to equilibrium is inspected in shocks
@@ -129,7 +131,7 @@ they could afford and these prices were substantially lower than the market pric
 
 When the equilibrium is reached, the order book is rather steep as is illustrated in the figure
 ~\ref{fig:basic_orderbook_evo}. This figure consists of the last 50 sessions of the extended simulation.
-The spread also is also stable most likely due to the number of traders. 
+The spread also is also relatively stable most likely due to the number of traders. 
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/basic_market_depth_in_equilibrium.png}
@@ -144,22 +146,23 @@ The spread also is also stable most likely due to the number of traders.
 % Something about filtering fist 100 out and now inspecting stylized facts
 As stated before, the representativeness of the model compared to real markets 
 is studied using stylized facts. In order to have representative data set to 
-test the facts, the sessions before reaching the price equilibrium are filtered out
-and therefore removing the first 100 sessions was considered suitable. 
+test the stylized facts, the sessions before reaching the price equilibrium are filtered out.
+Removing the first 100 sessions was considered suitable for this purpose. 
 As already discussed, the longer simulation that starts near equilibrium 
 price is used to study the presence of stylized facts in the model. 
 
 % Autocorrelation
 % TODO: REWRITE
-The autocorrelation function (ACF) and partial autocorrelation function (PACF) for the prices between
-trades are plotted in the figure ~\ref{fig:basic_autocorr}. There is some negative autoregressive
-(AR) process in the absolute returns as the ACF plot shows negative and slowly decaying lags 
-the line of significance. There are numerous significant lags in the AR process as can be observed from 
-the PACF plot. In addition, the prices themselves are positively autocorrelated with an AR process.
-These findings are in line with the experiments conducted by \citet{Raberto05}: they also observed
-some negative autocorrelation in intraday returns and long-lasting autocorrelation in the absolute
+The autocorrelation function (ACF) and partial autocorrelation function (PACF) for the absolute prices and absolute returns between
+the trades are plotted in the figure ~\ref{fig:basic_autocorr}. The absolute returns in this context is the actual price movement of 
+the asset and absolute values are simply the actual prices of the asset. As the prices are already in equilibrium, and therefore should be 
+stationary, taking third difference from the absolte value, calculating rate of returns, should not be necessary. There is some negative 
+autoregressive (AR) process in the absolute returns as the ACF plot shows negative and slowly decaying lags. There are numerous 
+significant lags in the AR process as can be observed from the PACF plot. In addition, the prices themselves are 
+positively autocorrelated with an AR process as the ACF shows slowly decaying lags. These findings are in line with the experiments conducted by \citet{Raberto05}: 
+they also observed some negative autocorrelation in intraday returns and long-lasting autocorrelation in the absolute
 values with their simulation. However, it should be noted that this figure shows very short term
-autocorrelation and the time between the lags may not be fixed: one lag is simply derived from one
+autocorrelations and the time between the lags may not be fixed: one lag is simply derived from one
 trade. 
 % https://www.youtube.com/watch?v=R-oWTWdS1Jg
 
@@ -171,10 +174,9 @@ trade.
 \end{figure}
 
 Figure ~\ref{fig:basic_autocorr_per_session} suggests that the the autocorrelation is carried over one
-session for the absolute returns and four sessions in terms of prices. One lag in the first column of the 
-figure is the absolute return between the end of sessions and in the second column the last price per session. 
-As can be interpret from the figure, there is an AR(1) process in the absolute returns per session and AR(4) 
-for prices on session basis.
+session for the absolute returns and four sessions in terms of prices. The prices used in this figure are 
+the last trade prices of each session. As can be interpret from the figure, there is an AR(1) process in 
+the absolute returns per session and AR(4) for prices on session basis.
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/basic_autocorrelation.png}
@@ -190,14 +192,14 @@ distribution and the tails spread out but these are not visible in the returns b
 is not smooth even though the sample consists of 22 million trades. The cause for this may be that the prices are not 
 continuous because of the tick size: the minimum possible amount for the price to go up or down is one. Furthermore, prices are
 stationary thus the returns are produced by a specific set of prices. Therefore, the returns are also inherently discrete. One option
-to mitigate this would be to increase the the amount of currency in order to increase the price and increase the typical
+to mitigate this would be to increase the the amount of currency in order to increase the price and increase the absolute
 variation of the prices. Jarque-Bera goodness of fit test suggests that both time periods are not normally distributed,
 as the p-values are practically zero in both cases thus the null hypothesis is rejected. The null hypothesis of Jarque-Bera test 
-is a joint hypothesis that the distribution has no skewness and excess kurtosis. However, as discussed, the distributions are not 
+is a joint hypothesis that the distribution has no skewness and no excess kurtosis. However, as discussed, the distributions are not 
 convincingly continuous thus it is unclear how robust these results are. The kurtosis of the distribution for intrasession is 5.0 
 and -0.5 for session basis and therefore this indicates that the intrasession returns are leptokurtic while the returns between 
-sessions are slightly lighter than normal distribution. To summarize, the model does have fatter tails than normal distribution
-for intrasession returns but between sessions. 
+sessions are slightly lighter in tails than normal distribution. To summarize, the model does have fatter tails than normal distribution
+for intrasession returns but not between sessions. 
 
 % \citet{Raberto05} found fat tails in intra day
 
@@ -225,8 +227,8 @@ order to push the opposing side back and have a significant effect on the price.
 are generally rather small until there comes an order that can buy or sell significant chunk of the opposing side and have 
 instant impact on the price. In such a case the opposing side may be weakened so much that the price change can be radical. 
 Therefore, the reason for the spike in the returns may be that small and medium sized orders may have similar impact on the 
-price but big orders may push the side relatively much further as the density of the order quantity drops when moving 
-further away from the last market price.
+price but big orders may push the side relatively much further as the density of the order quantity in terms of price drops 
+when moving further away from the last market price.
 
 % Volatility clusters
 The autocorrelation of the volatilities in figure ~\ref{fig:basic_volaclusters}
@@ -243,8 +245,8 @@ Furthermore, the order book evolution may play a role in the creating the volati
 \end{figure}
 
 These findings are somewhat inline with previous literature. \citet{Genoa01}, \citet{Raberto05} and \citet{LIU20082535} 
-discussed that the microstructure is the cause for the fat tailed returns. This is probably also the cause for the
-fat tails of intrasession returns observed in this thesis. However, the autocorrelation is different than what \citet{LIU20082535} 
+discussed that the microstructure is the cause for the fat-tailed returns. This is probably also the cause for the
+fat-tails of intrasession returns observed in this thesis. However, the autocorrelation is different than what \citet{LIU20082535} 
 observed with high call market clearing frequencies. Regardless, the autocorrelations of returns observed in this thesis and in their model
 are both short term. Even though a call market has different mechanics than a continuous market, a call market with
 very high clearing frequency behaves similarly as a continuous market does. \citet{Genoa01} and \citet{Raberto05} only discussed
@@ -255,27 +257,28 @@ whether the volatility clusters observed in the model created in this thesis are
 \subsection{Shock injection}
 
 To gain better understanding of the order book dynamics of the model the next set of experiments are about injecting shocks 
-to the order book. This is done by changing the weights the trading agents use pick the order type. The experiment is started
-in equilibrium and then the probability of picking ask order is increased from 33\% to 43\% whereas the probability for bid
-order is reduced from 33\% to 23\%. The probability for inaction is kept at the 33\%. After reaching new equilibrium the 
-weights are set back to 33\% for each option. Then the same experiment is repeated but instead of negative shock, positive 
-shock is introduced using weights 43\%, 23\% and 33\% for bid order, ask order and inaction respectively. 
+to the order book. This is done by changing the weights the trading agents use pick the type of an order they will submit. 
+The experiment is started in equilibrium and then the probability of picking ask order is increased from 33\% to 43\% 
+whereas the probability for bid order is reduced from 33\% to 23\%. The probability for inaction is kept at the 33\%. 
+After reaching new equilibrium the weights are set back to 33\% for each option. Then the same experiment is repeated 
+but instead of negative shock, positive shock is introduced using weights 43\%, 23\% and 33\% for bid order, ask order 
+and inaction respectively. 
 
 As this experiment is more exploratory in nature than the previous experiment the experiment may not need to be computationally
-as heavy and therefore only 200 sessions are used to let the simulation reach equilibrium. However, the number of trading agents
-are kept at 10 000 to reduce noise in interpreting the results. In addition, both experiments, introducing negative and 
-positive shocks, are conducted in the same simulation run.
+as heavy as the other experiments. Therefore, only 200 sessions are used to let the simulation reach an equilibrium before and during 
+the shocks. The number of trading agents are kept at 10 000 to reduce noise in interpreting the results. In addition, both experiments, 
+introduction of negative and positive shocks, are conducted in the same simulation run.
 
 The evolution of the order books in both shocks are presented in ~\ref{fig:shocks_orderbook}. Such shocks introduce a new equilibrium
 price which is expectedly smaller in negative shock and higher in positive shock. When excess amount of bid orders flow to the market
-there is a pressure for the price to increase and vice versa which is observed here. 
+there is a pressure for the price to increase and vice versa, which is observed here. 
 % TODO: Explain when the shocks start and end in the graphs
 
 As observed in the previous experiment, the converge to equilibrium occurs rapidly. Interestingly, the gradual convergence of price
 to equilibrium is more prevalent in positive shock than in negative shock. In addition, the order book volumes in both sides of the
 market are higher in negative shock than in positive shock, as observed in ~\ref{fig:market_depths_shocks}. Furthermore, the order 
 book volumes are higher in negative shock than in the actual equilibrium. The reason for this is most likely that the smaller price 
-allows the buyers to bid for higher quantities due to that they can afford more, and higher price has the opposite effect. 
+allows the buyers to bid for higher quantities due to that they can afford more and vice versa. 
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/shocks_order_book_evo.png}

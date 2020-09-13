@@ -1,45 +1,42 @@
 \section{Introduction}
 
 % What's problematic with empirical research?
-Due to the chaotic elements of the financial markets and lack of control, 
-empirical research often face serious challenges in effort to study the 
-dynamics of markets. The empirical researchers cannot control the market conditions 
-and the thinking, intentions and actions of the market participants are often completely out of reach
-for the researchers. The researchers may also encounter various practical challenges, such as 
+Due to the chaotic elements of the financial markets and lack of control, the 
+empirical research in finance often face serious challenges in effort to study the 
+market dynamics. The market conditions cannot be controlled by the researchers
+and the thinking, intentions and actions of the market participants are often impossible to study. 
+The researchers may also encounter various practical challenges, such as 
 lack of available data, spurious relations or changing market environment, 
-which may further limit their ability to produce robust and accurate results. 
+which may further limit their ability to produce credible, robust and accurate results. 
 
 % Solution for problems for empirics
-However, the mechanics of how financial markets work, also known as market
-microstructure, are well understood as they are inherently artificial structures 
-even though the behaviour of the market participants is not. 
-The mechanics of trading exchanges are simply sets of predefined rules 
-that the exchanges follow and the market clearing, the procedure 
+However, the platform where trading takes place, the market
+microstructure, is well understood as they are inherently artificial structures. 
+The mechanics of exchanges are simply sets of predefined rules 
+that the exchanges follow, and the market clearing, the procedure 
 that matches the orders and produce trades, can be described with 
 deterministic algorithms. Therefore, the infrastructure for trading
 could be accurately recreated and used to conduct laboratory 
 experiments in which the unknowns could be reduced to the market participants
-themselves. Such an experiment could produce complete information about
+themselves. Such an experiment produces complete information about
 the individual orders, formed trades and positions of each trader at any given time
 and the market conditions and information available for each market participants could
 be controlled in order to minimize noise or to create a desired state of the market to
-study. Moreover, the impact of the market microstructure itself to the trading prices and volumes 
-is possible to extract and study. 
+study. Moreover, the impact of the market microstructure itself to the market prices and trading 
+volumes is possible to extract and study. Such experiments often complement empirical research. 
+They aim to find the conditions in which empirically proven phenomena may form and 
+bring theory and empirics closer together. 
 
-% Why artificial markets
-These experiments often complement empirical research. They aim to find the
-conditions in which empirically proven phenomena may form and close the gap
-between theory and empirics. 
 
 % Types of artificial markets
-Such laboratory experiments are often referred as artificial markets, or artificial
+Such laboratory experiments are often referred as artificial markets or artificial
 stock market (ASM). \citet{boer05} discovered three categories of artificial markets: 
 experimental, computational and analytical. In experimental artificial markets human traders
-are the market participants and they most often trade using a software act as
+are the market participants and they most often trade using a software acting as
 the market system. Analytical markets are simply sets of mathematical equations that
 form the market microstructure. Most often however, artificial markets are associated with 
 computational artificial markets. These markets are computer simulations in which 
-also the roles of market participants are performed by software agents. The focus in this
+also the roles of the market participants are performed by software agents. The focus in this
 thesis is on the computational artificial markets and the term is used interchangeably
 with the term \textit{artificial market}. 
 
@@ -50,20 +47,21 @@ models have advanced trading agents while others aim for minimal design
 regarding to the behaviour of the traders in order to study the market
 mechanics. Some studies, such as \citet{GOYKHMAN20181729}, \citet{IZUMI200535},
 \citet{Reinforcement09} and \citet{YEH20102089}, use learning algorithms in the decision making of 
-their agents while some, such as \citet{God93}, \citet{Jam96}, \citet{Genoa01} and \citet{Raberto05}, 
+their agents while some, for example \citet{God93}, \citet{Jam96}, \citet{Genoa01} and \citet{Raberto05}, 
 aim for minimizing the intelligence of the traders to build a market setting in which
-specific attributes emerge. % TODO: Continue with 
+specific characteristics emerge. % TODO: Continue with 
 
-% Microstructure
+% TODO: What this thesis is about
+
 
 \subsection{Motivation}
 
-As discussed, there is fair amount of existing literature about artificial market models for various
+As discussed, there is a fair amount of existing literature about artificial market models for various
 purposes. However, the previous literature is lacking on generic studies on how to design
 and build such models and therefore the main purpose of this thesis is to build a generic and abstract 
 artificial market model with emphasis on the market microstructure. The design principles are to create flexible 
 and well-structured system to address possible further questions and ideas emerged after the project. 
-The basis of the model is in the literature of market mechanics and in auction literature. The choice for the
+The basis of the model is in the literature of market microstructure and in auction literature. The choice for the
 market type was influenced by the most dominant market mechanics of real stock markets and therefore
 continuous double auction, or limit order book market, was chosen as the clearing mechanics. As the 
 role of the market participants for this thesis' purpose is in little importance, they are designed
@@ -72,8 +70,8 @@ with limited intelligence. Such traders are also known as zero-intelligent trade
 
 Second purpose of this thesis is to complement the literature of artificial markets to study 
 the behaviour of the created market and discuss the dynamics formed by the market and reasons for them.
-The well-known and empirically proven characteristics of real financial market dynamics, known as 
-stylized facts, are used to study how well the model resembles the dynamics of real markets.
+The well-known and empirically proven characteristics of real financial market dynamics are used to 
+study how well the dynamics of the model resembles the dynamics of the real markets.
 
 Third purpose of this thesis is to experiment the capabilities of Julia programming language.
 Julia language is relatively new general-purpose language with a focus on scientific computing.
@@ -81,13 +79,13 @@ Julia language is relatively new general-purpose language with a focus on scient
 
 \subsection{Structure of the Thesis}
 % TODO: There may be additional part if artificial market is left
-The thesis consists of multiple parts. First the market microstructure of real markets is discussed. 
-This section includes short theoretical background of auctions, the execution and clearing mechanics in place in real
+This thesis consists of several parts. First the market microstructures which are in place in real 
+markets are discussed. This section includes short theoretical background of auctions, the execution and clearing mechanics in place in real
 stock markets and empirically proven price dynamics observed in markets known as stylized
 facts. Then some generic issues specific to artificial markets are discussed including the time handling and creation
-of trading agents. Then some relevant literature for the type of ASM model built in this thesis.
+of trading agents. Then some relevant examples of artificial market models from the literature are discussed. 
 
 The empirical section of this thesis is divided into three sections. First, the mechanics and
-structure of the created artificial market model is described and then the model is tested
+structure of the created artificial market model is described. Then the model is tested
 with several experiments. Finally, conclusions of the study are presented and the limitations of the model and
 possible further research topics are discussed.
