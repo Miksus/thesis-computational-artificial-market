@@ -2,19 +2,18 @@
 
 Market microstructure is the study of the trading mechanics that are in place 
 in real markets. It describes why trading occurs, the rules of trading 
-and the protocols to form a trade. \citep[p. 3-4]{Has07}
+and the protocols to form trades. \citep[p. 3-4]{Has07}
 Understanding market microstructure is cruicial in designing an artificial market
-as without realistic trading settings the representativeness of the model may end
+as without realistic trading setup the representativeness of the model may end
 up to be poor and have limited practicality. The goal of an artificial market often
-is to recreate phenomena from the real world in a well understood and controlled 
-environment thus the link to the real world should be maintained. In addition to the
-common properties that the existing markets often share and the general distinctions between
-types of markets that exist, the common observed price phenomena are discussed. These 
-price phenomena, called stylished facts, are often used in validating the artificial models.
-As the literature on decentralized markets, as what over-the-counter (OTC) trading is about,
-is scarse the focus of this thesis is on centralized markets. Centralized markets have an 
-exchange in which the trading takes place whereas in decentralized markets the buyers and 
-the sellers seek out each other.
+is to recreate phenomena observed in real markets thus the link to the real world 
+should be maintained. In this section the auction theory is briefly introduced and 
+then relevant distinctions among market microstructures are discussed. 
+Lastly, the common price phenomena, called stylized facts, are presented. Stylized facts
+are often used in validating the artificial models. As the literature on decentralized 
+markets, as what over-the-counter (OTC) trading is about, is scarse the focus of this thesis is 
+on centralized markets. Centralized markets have an exchange in which the trading takes place 
+whereas in decentralized markets the buyers and the sellers seek out each other.
 
 % TODO: Maybe extend with behavioural aspects?
 
@@ -61,7 +60,8 @@ double auction markets. The price discovery at the beginning and at the end of a
 trading day is conducted with call-market mechanics and the trading during the 
 typical trading hours is conducted using continuous environment. \citep{NasdaqClosing05}
 For example, Nasdaq's opening and closing call-auctions, called opening and closing crosses,
-create the official open and close prices of the market \citep{NasdaqCrosses}.  
+create the official open and close prices of the market and in between the crosses 
+trading takes place in continuous double auction environment \citep{NasdaqCrosses}.  
 % More about Sealed-bid matching (supply-demand) and CDA matching
  
 \subsection{Execution Systems}
@@ -81,7 +81,7 @@ quote-driven markets due to smaller bid-ask spread
 but larger orders benefit from order-driven markets because of the lower 
 execution costs. Quote-driven markets are also less transparent compared
 to order-driven markets. Real markets, however, are most often a combination
-of the two \citep{boer05} but recently there have been a trend to move from quote-driven
+of the two \citep{boer05} but there have been a trend to move from quote-driven
 markets to order-driven markets \citep{MALINOVA2013104}.
 
 As simulating intermediate market participants increases complexity
@@ -96,8 +96,8 @@ Most of the artificial markets found in the ASM literature seem to be order-driv
 % Order book, matching and clearing
 % Why we do not go deeper to quote-driven:
 Price formation is direct product of the execution system in place in a market
-\citep{boer05}. In order-driven markets it is direct result of the orders
-in the market and the matching algorithm in place whereas in quote-driven markets it
+\citep{boer05}. In order-driven markets, it is direct result of the orders
+in the limit order book and the matching algorithm in place whereas in quote-driven markets it
 is dependent on how the intermediaries view the current and future 
 balance between supply and demand of the traded asset. The equilibrium price of a 
 quote-driven market is driven by the orders sizes and in order-driven markets
@@ -111,7 +111,7 @@ formation can be described with greater level of generalization.
 
 % Limit order book and terms
 Limit order book is a core component in the price formation in order-driven markets.
-Limit order book stores the submitted limit orders which are simply orders that contain the quantity and 
+Limit order book stores the submitted limit orders which are simply orders that include the quantity and 
 the limit price stated by the trader. Limit price is the maximum price, in case of bid, or the minimum
 price, in case of ask, that the order can be cleared with. In other words,
 bids (asks) cannot be cleared with a price higher (lower) than the limit price stated 
@@ -136,7 +136,6 @@ this example represents more of the state of a limit order book in a call-market
 in a continuous double auction is discussed in a moment.
 
 \input{tables/order_book.tex}% table.tex > \mytable
-
 \begin{figure}
     \begin{center}  
         \includegraphics{plots/orderbook_visualized.png}
@@ -147,14 +146,21 @@ in a continuous double auction is discussed in a moment.
 
 % Price formation in sealed bid/call market
 Call-markets typically clear at equilibrium price which is the point where
-supply and demand cross. 
-To get the equilibrium price, first the maximum clearable quantity
+supply and demand cross. To get the equilibrium price, first the maximum clearable quantity
 is calculated per price level. This quantity is simply the elementwise
 minimum from the supply and the demand arrays. Then the quantity in equilibrium
 can be determined by taking the maximum from the maximum clearable quantities
 per price level and equilibrium price is simply the price where the maximum clearable quantity
-equals the equilibrium quantity. A pseudocode of this algorithm is illustrated in 
-algorithm ~\ref{alg:lob_equil}.
+equals the equilibrium quantity. A pseudocode of such algorithm is illustrated in 
+algorithm ~\ref{alg:lob_equil}. After the equilibrium price and quantity have been determined, the 
+order matching takes place. The asks are sorted in ascending order using price and bids decending order
+and the orders are filled in this order until the sum of filled bids and the sum of filled asks
+each equals the equilibrium quantity. It should be noted that not all the bids and the asks with limit price 
+equal to the equilibrium price may be filled, as is the case in the example illustrated in figure ~\ref{fig:lob_visual}. 
+Also, it is possible that supply and demand cross in a range of prices meaning that equilibrium price is 
+a range of prices. In such a situation it is common to take the mean of these prices and consider that 
+as the clearing price.
+
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -163,10 +169,10 @@ algorithm ~\ref{alg:lob_equil}.
     bids = sort\_ascending(bids, by price)\;
     asks = sort\_descending(asks, by price)\;
     \;
-    demand = cumulative\_sum(bids, from quantity)\;
-    supply = cumulative\_sum(asks, from quantity)\;
+    demand = cumulative\_sum(bids, using quantity)\;
+    supply = cumulative\_sum(asks, using quantity)\;
     \;
-    maximum clearable per price = min\_quantity\_per\_price(demand, supply)\;
+    maximum clearable per price = elementwise\_min\_per\_price(demand, supply)\;
     \;
     equilibrium quantity = max(maximum clearable per price)\;
     equilibrium price = price where (maximum clearable per price == equilibrium quantity)\;
@@ -176,9 +182,9 @@ algorithm ~\ref{alg:lob_equil}.
 \end{algorithm}
 
 In a continuous double auction, the matching process is slightly simpler in computation
-wise as there is no need to find a common price for many orders. Only the latest arrived
-order needs to be cleared, or checked whether it can be cleared, with opposing orders. Continuous
-double auction does not accumulate crossing orders in similar fashion as call markets do. 
+sense as there is no need to find a common price for many orders. Only the latest arrived
+order needs to be cleared with opposing orders, or checked whether it can be cleared. Continuous
+double auction does not accumulate crossing orders in similar fashion as call-markets do. 
 In principle, the same algorithm used in call market could be used also in continuous double auction 
 but typically the surplus distribution is different. Unlike in call-markets where the surplus is often
 split among the crossing orders, in continuous double auction the surplus goes to the trader who made the 
@@ -187,7 +193,8 @@ order book. This sort of matching could be conducted by looping and clearing the
 order book until either there are no more crossing orders with the newly arrived order, or the new 
 order is already cleared completely. In case of the newly arrived order is not completely cleared after 
 depleting all possible crossing orders, the order is inserted to the order book and the clearing process 
-ends. This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. 
+ends. If there were no crossing orders to begin with, the newly arrived is put to the order book immediately. 
+This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. 
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -227,11 +234,11 @@ ends. This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}.
 % Stylized facts
 The price dynamics in stock markets are known to be chaotic and difficult to 
 analyze. The underlying elements that play a role in the price dynamics
-are constantly evolving and it remains relatively poorly understood.
+are constantly evolving and they remain relatively poorly understood.
 However, there are some characteristics of price behaviour that are supported
 with enough empirical evidence to be considered as properties of price in
 financial markets. These statistical phenomena, called stylized facts in
-econometrics, have been observed in extensive amount of studies from 
+econometrics, have been observed in extensive amount of studies across 
 different assets, markets and time periods \citep{Shakeel18}. 
 % List of Stylized facts (Cont R. (2001) & Gould et al. (2013))
 According to \citet{StylizedFacts01} and \citet{lob13}, price related stylized
