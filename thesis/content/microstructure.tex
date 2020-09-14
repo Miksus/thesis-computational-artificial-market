@@ -18,7 +18,7 @@ whereas in decentralized markets the buyers and the sellers seek out each other.
 % TODO: Maybe extend with behavioural aspects?
 
 \subsection{Double Auction}
-% Call-market (Itayose, Sealed-bid) vs CDA (Zaraba)
+% Call market (Itayose, Sealed-bid) vs CDA (Zaraba)
 
 Financial markets are most often organized as double auction markets.
 Double auction market (DA) is a special type of auction in which there
@@ -41,23 +41,23 @@ in some markets this process takes place after a specified time interval
 has passed, for example at the end of a trading day. \citep{boer05}
 In auction literature, there are various terms used to describe essentially 
 the same mechanics. \citet{boer05} used term 
-\textit{continuous session market} for the former and \textit{call-market}
+\textit{continuous session market} for the former and \textit{call market}
 for the latter whereas \citet{ASt05} called them \textit{Itayose method}
 and \textit{Zaraba method} respectively. \citet{Moc15} used term \textit{continuous 
 double auction} (CDA) for the former and \textit{periodic double auction} to describe 
-the same mechanics of call-markets as which they described is an extension of 
+the same mechanics of call markets as which they described is an extension of 
 a type of auction called sealed-bid. In sealed-bid auctions the bid and ask offers
 are submitted once and then the order matching is executed once. In this thesis
-the terms continuous double auction and call-markets are chosen to describe
+the terms continuous double auction and call markets are chosen to describe
 these types of markets as they seem to be the most prevalent in the literature.
 
-In call-market the orders are cumulated for a specified time period and the
+In call market the orders are cumulated for a specified time period and the
 market is cleared with a single price whereas in continuous market it is done
 whenever there are orders that can be matched, and the price is derived from these
 orders. \citep{boer05} 
 Many real world stock markets are formed as a hybrid of call and continuous
 double auction markets. The price discovery at the beginning and at the end of a 
-trading day is conducted with call-market mechanics and the trading during the 
+trading day is conducted with call market mechanics and the trading during the 
 typical trading hours is conducted using continuous environment. \citep{NasdaqClosing05}
 For example, Nasdaq's opening and closing call-auctions, called opening and closing crosses,
 create the official open and close prices of the market and in between the crosses 
@@ -132,7 +132,7 @@ ask quantities and come up with total quantities of bid and ask per price level 
 This order book with cumulative quantities is visualized in figure ~\ref{fig:lob_visual}. Cumulative bids
 are renamed as demand and cumulative asks as supply as these terms are more representative in this context.
 As there should not be clearable orders in continuous double auction's order book, except very temporarily, 
-this example represents more of the state of a limit order book in a call-market. Order book
+this example represents more of the state of a limit order book in a call market. Order book
 in a continuous double auction is discussed in a moment.
 
 \input{tables/order_book.tex}% table.tex > \mytable
@@ -145,7 +145,7 @@ in a continuous double auction is discussed in a moment.
 \end{figure}
 
 % Price formation in sealed bid/call market
-Call-markets typically clear at equilibrium price which is the point where
+Call markets typically clear at equilibrium price which is the point where
 supply and demand cross. To get the equilibrium price, first the maximum clearable quantity
 is calculated per price level. This quantity is simply the elementwise
 minimum from the supply and the demand arrays. Then the quantity in equilibrium
@@ -184,9 +184,9 @@ as the clearing price.
 In a continuous double auction, the matching process is slightly simpler in computation
 sense as there is no need to find a common price for many orders. Only the latest arrived
 order needs to be cleared with opposing orders, or checked whether it can be cleared. Continuous
-double auction does not accumulate crossing orders in similar fashion as call-markets do. 
+double auction does not accumulate crossing orders in similar fashion as call markets do. 
 In principle, the same algorithm used in call market could be used also in continuous double auction 
-but typically the surplus distribution is different. Unlike in call-markets where the surplus is often
+but typically the surplus distribution is different. Unlike in call markets where the surplus is often
 split among the crossing orders, in continuous double auction the surplus goes to the trader who made the 
 latest order. In other words, the trade prices are drawn from the orders that were already in the limit 
 order book. This sort of matching could be conducted by looping and clearing the opposing side of the 
