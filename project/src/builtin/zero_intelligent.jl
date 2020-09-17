@@ -112,7 +112,7 @@ function get_order(trader::ZeroIntelligentInvestor, market::AbstractMarket)
     end
 
     if max_price <= min_price
-        println("Seems investor $(trader.name) is out of asset $from_asset: $(get_unreserved(trader, from_asset, exclude=market)) (min: $min_price max: $max_price)")
+        #println("Seems investor $(trader.name) is out of asset $from_asset: $(get_unreserved(trader, from_asset, exclude=market)) (min: $min_price max: $max_price)")
         return
     end
 

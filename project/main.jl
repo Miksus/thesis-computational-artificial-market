@@ -142,7 +142,7 @@ function run_simulation(
         for market in keys(session_trades)
             trades[market] = vcat(trades[market], session_trades[market])
             end_price = length(session_trades[market]) > 0 ? session_trades[market][end].price : "<no trades>"
-            println("Price of the day: $(end_price) ($(market.name))")
+            println("Price of the day $day: $(end_price) ($(market.name))")
         end
         n_trades = sum([length(val) for val in values(session_trades)])
         day_index = vcat(day_index, repeat([day], n_trades))

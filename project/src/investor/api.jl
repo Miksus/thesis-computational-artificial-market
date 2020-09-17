@@ -4,7 +4,7 @@ function place!(trader::AbstractInvestor, market::AbstractMarket)
     order = get_order(trader, market)
     if ~is_valid_order(order, market, trader)
         if ~isnothing(order)
-            println("Invalid order $(order.price) * $(order.quantity) $(typeof(order))")
+            #println("Invalid order $(order.price) * $(order.quantity) $(typeof(order))")
             #println("Has in position $(order.dealer.positions[order.from]) (reserved: $(get(trader.reserved, order.from, 0)) and active $(market ∉ keys(trader.active_orders) ? 0 : get_reserved(trader.active_orders[market])))")
         end
         return
@@ -71,7 +71,7 @@ function reserve!(inv::AbstractInvestor, order::LimitOrder)
     if inv.positions[asset] < inv.reserved[asset]
         throw(DomainError(inv.reserved[asset], "The reserve is more ($(inv.reserved[asset])) than there is in the positions ($(inv.positions[asset]))"))
     elseif quantity > inv.positions[asset]
-        println("Invalid order: $(order.price) * $(order.quantity) $(typeof(order)) (asset $(asset.name))")
+        #println("Invalid order: $(order.price) * $(order.quantity) $(typeof(order)) (asset $(asset.name))")
         throw(DomainError(quantity, "Cannot reserve more asset ($quantity) than there is in the positions (Position: $(inv.positions[asset]), reserved: $(inv.reserved[asset])) $(inv.name)"))
     end
 

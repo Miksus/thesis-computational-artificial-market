@@ -50,7 +50,7 @@ function get_equlibrium(bids::Array{BidLimitOrder, 1}, asks::Array{AskLimitOrder
     prices = Set(vcat(get_prices(bids), get_prices(asks)))
     
     for price_level in prices
-        println(price_level)
+        #println(price_level)
         bids_clearable = [bid.quantity for bid in bids if bid.price >= price_level]
         
         asks_clearable = [ask.quantity for ask in asks if ask.price <= price_level]
