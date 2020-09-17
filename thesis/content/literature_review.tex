@@ -18,7 +18,7 @@ Since then, there have been many models being
 developed with various complexities. These models are often developed
 for achieving specific properties of a real market, 
 usually related to the price formation. In this section
-the recent literature is gone through to describe some of the models
+the recent literature is gone through to describe some of the models %TODO Supervisor: "gone through" --> to something better
 that have been built and the design decisions in them are discussed.
 
 %\citep{Ben12}
@@ -28,7 +28,7 @@ that have been built and the design decisions in them are discussed.
 % What are zero intelligence traders?
 
 As the zero-intelligent trading agents were already discussed in the section 
-~\ref{section:ASMTradingAgents}, the meaning of the term and the principles 
+~\ref{section:ASMTradingAgents}, the meaning of the term and the principles %TODO Supervisor: Ei tarvitse sanoa tata: "and the principles behind it are no further discussed" 
 behind it are no further discussed. Instead, some literature concerning to 
 models using such trading agents are presented and discussed with greater detail.
 % TODO: Extend. When such agents are used?
@@ -44,19 +44,19 @@ Their market is organized as a double auction with several
 specifications. The market is continuous in a sense that the 
 orders are continuously matched even though the trading was
 conducted in specified sessions. The traders were divided 
-into buyers and sellers. Buyers profits were tied to their 
+into buyers and sellers. Buyers' profits were tied to their 
 individual redemption values that were gained at the end of
 each trading session for each unit bought and sellers' profits
 were tied to their individual cost of unit. Redemption values
 represent the demand function of each buyer and cost of units 
 the supply function of each seller for each session. The
-traders were allowed to submit orders with size of one unit
+traders were allowed to submit orders with a size of one unit
 and the trade price was drawn from the price stated in the 
 first of the crossing orders.
 
 The computational trading agents were zero-intelligent traders 
 who trade at random price from a predefined range. 
-The first simulation was run with budget constrain: only the bids
+The first simulation was run with a budget constrain: only the bids
 under the redemption value and the asks over the cost of unit 
 were allowed. The second simulation was run without such limitation.
 These simulations were compared with the data from human traders
@@ -285,3 +285,9 @@ historical outcomes of the prices. If a rule did not predict correctly,
 its score is decreased. With this experiment they found out that the
 behavioural elements can also cause fat-tailed returns, cross correlation 
 of returns and volume and absence of autocorrelation.
+%TODO Supervisor: 
+% Lisaa tahan:
+%   - alaotsikko "Summary of relevant literature"
+%   - Vahan johdantoa
+%   - YHTEENVETOTAULUKKO: Author, year, model characteristics (tms)
+%   - Johtopaatokset

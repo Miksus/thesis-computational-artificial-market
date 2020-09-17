@@ -1,7 +1,7 @@
 
 \section{Results}
 
-The model was tested in several experiments. First, the generic dynamics of 
+The model was tested in several experiments. First, the generic dynamics of %TODO Supervisor: Perustele, miksi tutkit juuri nailla valituilla simulaatioajoilla -> onko kirjallisuudessa jokin yleisesti kaytetty metodi, jonka kanssa nama ovat vertailukelpoisia yms.
 model is inspected. The convergence to equilibrium price is studied with two
 simulations and then the model is validated using stylized facts. Then the
 market dynamics is examined by injecting shocks to the order book via placement 
@@ -49,7 +49,7 @@ is set to 20.
 \subsubsection{Converge to Equilibrium}
 % Descriptive analysis:
 %   how converge occurs
-The evolution of trade prices, quantities and trade values thorough
+The evolution of trade prices, quantities and trade values throughout
 the trading sessions for the lower and higher starting price simulations 
 are shown in the figure ~\ref{fig:basic_trades}. As can be observed,
 the near equilibrium market price is achieved before 30 trading
@@ -73,7 +73,7 @@ about 940.
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/basic_trades.png}
-    \caption{Evolution of price and quantity}
+    \caption{Evolution of price and quantity} %TODO Supervisor: Tama voisi olla ylemmalla
     \label{fig:basic_trades}
 \end{figure}
 
@@ -141,7 +141,7 @@ The spread also is also relatively stable most likely due to the number of trade
 
 % TODO: additional finding about explaining the next price
 
-\subsubsection{Stylized Facts}
+\subsubsection{Model Validation with Stylized Facts} %TODO Supervisor: --> "Simulating Stylized Facts"? Answer: Changed.
 % stylized facts
 % Something about filtering fist 100 out and now inspecting stylized facts
 As stated before, the representativeness of the model compared to real markets 
@@ -169,7 +169,7 @@ trade.
 
 \begin{figure}
     \includegraphics[width=\linewidth]{plots/basic_autocorrelation_intra.png}
-    \caption{Autocorrelation of the simulation}
+    \caption{Autocorrelation of the simulation} %TODO Supervisor: Selita akselit, sama alemmalla
     \label{fig:basic_autocorr}
 \end{figure}
 
@@ -193,7 +193,7 @@ is not smooth even though the sample consists of 22 million trades. The cause fo
 continuous because of the tick size: the minimum possible amount for the price to go up or down is one. Furthermore, prices are
 stationary thus the returns are produced by a specific set of prices. Therefore, the returns are also inherently discrete. One option
 to mitigate this would be to increase the the amount of currency in order to increase the price and increase the absolute
-variation of the prices. Jarque-Bera goodness of fit test suggests that both time periods are not normally distributed,
+variation of the prices. Jarque-Bera goodness of fit test suggests that both time periods are not normally distributed, %TODO Supervisor: Onko tama esitelty teoriassa? Kerro mika se on. "Jarque-Bera goodness of fit test suggests"
 as the p-values are practically zero in both cases thus the null hypothesis is rejected. The null hypothesis of Jarque-Bera test 
 is a joint hypothesis that the distribution has no skewness and no excess kurtosis. However, as discussed, the distributions are not 
 convincingly continuous thus it is unclear how robust these results are. The kurtosis of the distribution for intrasession is 5.0 
@@ -313,3 +313,8 @@ market price and the imbalance of the sides of the submitted orders can drive th
     \caption{Market depths of the shocks}
     \label{fig:market_depths_shocks}
 \end{figure}
+
+
+%TODO Supervisor:
+%   Lisaa tahan jonkinlainen "summary of results" kappale, jossa kerrot tarkeimmat loydokset kootusti 
+%   --> ota materiaali conclusionista 

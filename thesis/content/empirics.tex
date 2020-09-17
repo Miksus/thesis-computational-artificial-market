@@ -6,7 +6,7 @@ to be continuous double auction. More specifically, the microstructure is formed
 limit order book market or order-driven market with continuous clearing. The model was written in Julia
 programming language and it took inspiration from previous ASM literature.
 The literature is lacking on practical studies about how to actually create
-an artifical stock market and therefore to contribute to the literature 
+an artifical stock market and therefore to contribute to the literature %TODO Supervisor: This is important and should be highlighted in research questions: "therefore to contribute to the literature the actual structure of the market is explained in depth"
 the actual structure of the market is explained in depth. The decisions 
 about the microstructure and the trader behaviour most closely resembles to the 
 work of \citet{Genoa01} and \citet{Raberto05} whereas for the structure and 
@@ -43,7 +43,7 @@ it viable language for prototyping simulation systems.
 \subsection{Generic Structure of the Model}
 % Describe the generic structure (Type hierarchy, layers etc.)
 % Kind of the static side of the simulation, the abstraction dimension
-The ASM model has three layers: abstraction layer, concrete 
+The ASM model has three layers: abstraction layer, concrete %TODO Supervisor: Tahan voisi lisata illustrative kuvan, jossa nakyy yhteydet layereiden valilla ja tarkeimmat toiminnot
 layer and simulation layer. The fist layer, abstraction layer, contains the 
 generic parts of the framework that are independent and obvious in terms
 of functionality. For example, how to get traders' positions, how to
@@ -117,7 +117,7 @@ artificial market and these are also discussed.
 % How the investors make decisions actually
 
 As mentioned, the traders of the ASM model are zero-intelligent
-traders. The reason for this is to minimize the degrees of freedom introduced with
+traders. The reason for this is to minimize the degrees of freedom introduced with %TODO Supervisor: Tutkimuskysymys: "miten rakentaa geneerinen malli?" --> tassa voisi viitata, etta tutkimuksen tavoitteiden mukaisesti tehdaan mahdollisimman geneerinen
 the model and provide as generic structure as possible. The traders' rationality 
 for making decisions is reduced to minimum effectively making them unable to speculate, 
 manage risks or optimize portfolios. They do not possess ability to seek profit, 
@@ -126,7 +126,7 @@ they are only able to submit random orders. The mechanics of zero-intelligent tr
 are implemented in a way that they are given sets of allowed ranges 
 and options in which they choose values randomly. This way the zero-intelligent behaviour is maintained
 in addition to have similar options that there are present in real markets 
-concerning to order placement such as the order quantity, order price and whether
+concerning order placement such as the order quantity, order price and whether
 to submit an ask order, a bid order or do nothing. The traders are also budget constrained
 in order to achieve allocative efficiency as proposed by
 \citet{God93}. Budget constrain prevents short selling or borrowing any asset meaning that 
@@ -188,7 +188,7 @@ constant and the distribution is truncated between one and infinity.
 % TODO: Show and discuss about the ranges of the orders
 
 An example of the distribution of order prices and quantities
-is show in ~\ref{fig:generated_orders}. The figure contains simulation
+is show in ~\ref{fig:generated_orders}. The figure contains simulation %TODO Supervisor: Kuva talle sivulle -> voi olla vaikka kappaleen yli jos vaikea mahduttaa jarkevasti
 of 1 000 000 orders created by a zero-intelligent trader. 
 The last market price was set to 1 000 units and the standard deviation of the price to 10. 
 The trader possessed 10 000 000 units of currency and 100 000 
@@ -208,7 +208,7 @@ units of stock.
       \caption{Distribution of random asks}
       \label{fig:gener_asks}
     \end{subfigure}
-    \caption{Distribution of random orders}
+    \caption{Distribution of 1 000 000 random orders}
     \label{fig:generated_orders}
 \end{figure}
 
@@ -384,7 +384,7 @@ convervative without breaching the budget constrains.
 
 
 % Integers & bid-ask asymmetricity
-All quantities of the assets are stored as integers to prevent wealth leakage
+All quantities of the assets are stored as integers to prevent wealth leakage %TODO Supervisor: Esim. taman asian mallinnusta voisi tarkastella suhteesa kirjallisuuteen "All quantities of the assets are stored as integers"
 or creation because of the floating point arithmetics. Using integers also
 conveniently act as the tick size for all the markets. This also has the side effect
 of that also all the prices must be represented as integers as one piece
@@ -418,7 +418,7 @@ approaches to one. Near the price of one the tick size begins to reduce the effi
 of the markets: for example, if the market price is four units the minimum movement 
 of the price is 25\% up or down. In addition, there may be an issue that the efficient
 price cannot be reached if it lies under the price of one. Probably
-the simplest solution to avoid this while still having integers for quantities 
+the simplest solution to avoid this while still having integers for quantities %TODO Supervisor: Vahan viittaus edelliseen: Miten ratkaistu kirjallisuudessa (" simplest solution to avoid")
 of assets is to make sure the traded asset has sufficiently high value
 compared to the currency of the market. This can be achieved simply injecting
 enough currency to the ecosystem to inflate the price. Another interesting 

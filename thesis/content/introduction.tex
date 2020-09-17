@@ -2,7 +2,7 @@
 
 % What's problematic with empirical research?
 Due to the chaotic elements of the financial markets and lack of control, the 
-empirical research in finance often face serious challenges in effort to study the 
+empirical research in finance often face serious challenges in effort to study the %TODO Supervisor: "challenges in effort" --> "challenges its effort "
 market dynamics. The market conditions cannot be controlled by the researchers
 and the thinking, intentions and actions of the market participants are often impossible to study. 
 The researchers may also encounter various practical challenges, such as 
@@ -23,13 +23,13 @@ the individual orders, formed trades and positions of each trader at any given t
 and the market conditions and information available for each market participants could
 be controlled in order to minimize noise or to create a desired state of the market to
 study. Moreover, the impact of the market microstructure itself to the market prices and trading 
-volumes is possible to extract and study. Such experiments often complement empirical research. 
+volumes is possible to extract and study. Such experiments often complement empirical research. %TODO Supervisor: "complement empirical research" Viittaako tama nyt simulaatioihin? Answer: No it does not
 They aim to find the conditions in which empirically proven phenomena may form and 
 bring theory and empirics closer together. 
 
 
 % Types of artificial markets
-Such laboratory experiments are often referred as artificial markets or artificial
+Such laboratory experiments are often referred to as artificial markets or artificial
 stock market (ASM). \citet{boer05} discovered three categories of artificial markets: 
 experimental, computational and analytical. In experimental artificial markets human traders
 are the market participants and they most often trade using a software acting as
@@ -56,11 +56,11 @@ specific characteristics emerge. % TODO: Continue with
 
 \subsection{Motivation}
 
-As discussed, there is a fair amount of existing literature about artificial market models for various
+As mentioned, there is a fair amount of existing literature about artificial market models for various
 purposes. However, the previous literature is lacking on generic studies on how to design
 and build such models and therefore the main purpose of this thesis is to build a generic and abstract 
 artificial market model with emphasis on the market microstructure. The design principles are to create flexible 
-and well-structured system to address possible further questions and ideas emerged after the project. 
+and well-structured system to serve as a platform for future studies in the area of artificial markets. 
 The basis of the model is in the literature of market microstructure and in auction literature. The choice for the
 market type was influenced by the most dominant market mechanics of real stock markets and therefore
 continuous double auction, or limit order book market, was chosen as the clearing mechanics. As the 
@@ -69,12 +69,9 @@ simplistic and with as few assumptions as practical. Therefore, the traders are 
 with limited intelligence. Such traders are also known as zero-intelligent traders. 
 
 Second purpose of this thesis is to complement the literature of artificial markets to study 
-the behaviour of the created market and discuss the dynamics formed by the market and reasons for them.
+the behaviour of the created market and discuss the dynamics formed by the market and reasons for them. %TODO Supervisor: Too much word "market"
 The well-known and empirically proven characteristics of real financial market dynamics are used to 
 study how well the dynamics of the model resembles the dynamics of the real markets.
-
-Third purpose of this thesis is to experiment the capabilities of Julia programming language.
-Julia language is relatively new general-purpose language with a focus on scientific computing.
 
 
 \subsection{Structure of the Thesis}

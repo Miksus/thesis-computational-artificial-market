@@ -95,8 +95,8 @@ Most of the artificial markets found in the ASM literature seem to be order-driv
 \subsection{Price Formation}
 % Order book, matching and clearing
 % Why we do not go deeper to quote-driven:
-Price formation is direct product of the execution system in place in a market
-\citep{boer05}. In order-driven markets, it is direct result of the orders
+Price formation is a direct product of the execution system in place in a market
+\citep{boer05}. In order-driven markets, price formation is direct result of the orders
 in the limit order book and the matching algorithm in place whereas in quote-driven markets it
 is dependent on how the intermediaries view the current and future 
 balance between supply and demand of the traded asset. The equilibrium price of a 
@@ -104,7 +104,7 @@ quote-driven market is driven by the orders sizes and in order-driven markets
 it is driven by also the prices submitted with the orders. \citep{MALINOVA2013104}
 As quote-driven markets' price formation is somewhat a black box due to the 
 dependency on the views and intentions of the intermediaries, it was not considered
-as the execution system for the model built in this thesis. On the other hand, 
+as the execution system for the model built in this thesis. On the other hand, %TODO Supervisor: Tama oletus voidaan mainita tassa --> muista esittaa se myos mallin tarkemman esittelyn yhteydessa
 the price formation of an order-driven market is dependent only on the orders in the
 market and the predefined supply-demand matching algorithm in place thus its price 
 formation can be described with greater level of generalization.
@@ -120,7 +120,7 @@ stop-loss orders, but these can be seen as derivatives from limit orders:
 for example, a bid (an ask) market order is essentially a limit order 
 with an extremely high (low) limit price so that it does get matched 
 during the clearing process as long as there are opposing limit orders in the 
-order book. \citep{lob13} %TODO: What if only market orders?
+order book. \citep{lob13} %TODO Supervisor: Voiko taman esittaa esimerkiksi illustrative diagram muodossa?
 
 % Basics of limit order book, supply and demand etc.
 A simple limit order book is presented in ~\ref{tbl:orderbook}. This table shows the
@@ -194,7 +194,7 @@ order book until either there are no more crossing orders with the newly arrived
 order is already cleared completely. In case of the newly arrived order is not completely cleared after 
 depleting all possible crossing orders, the order is inserted to the order book and the clearing process 
 ends. If there were no crossing orders to begin with, the newly arrived is put to the order book immediately. 
-This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. 
+This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. %TODO Supervisor: Jos mahdollista tahan olisi hyva saada viittaus kirjallisuuteen esim: "The interested reader should refer to xxx (yyyy)"
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -245,6 +245,7 @@ According to \citet{StylizedFacts01} and \citet{lob13}, price related stylized
 facts include:
 
 \begin{enumerate}
+    %TODO Supervisor: Kuvio, tarkasteluvalin y akselin n=? 
     \item Fat-tailed distribution of returns: distribution of asset returns has fatter tails than normal distribution meaning that they have positive excess kurtosis. 
     \par
     \begin{minipage}{\linewidth}
@@ -253,7 +254,7 @@ facts include:
         \captionof{figure}{Fat-tailed of returns of S\&P 500}
         \label{fig:sp_fat_tails}
     \end{minipage}
-
+    %TODO Supervisor: Kuvio, mika on x ja y kuviossa? Mika on sininen pilvi kuvioissa?
     \item Lack of autocorrelation: autocorrelation of returns in financial markets have shown to be statistically insignificant, except in very short term. Previous returns have no prediction power over the future returns of a stock. 
     \par
     \begin{minipage}{\linewidth}
@@ -262,7 +263,7 @@ facts include:
         \captionof{figure}{Absence of autocorrelation in S\&P 500}
         \label{fig:sp_autocorr}
     \end{minipage}
-
+    %TODO Supervisor: Kuvio, Sama kuin ylempi
     \item Volatility clusters: volatility have measured to have positive autocorrelation. Big price movement tend to follow additional exceptional price movements forming clusters of volatility thorough time.
     \par
     \begin{minipage}{\linewidth}
