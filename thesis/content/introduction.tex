@@ -1,8 +1,8 @@
 \section{Introduction}
 
 % What's problematic with empirical research?
-Due to the chaotic elements of the financial markets and lack of control, the 
-empirical research in finance often face serious challenges in effort to study the %TODO Supervisor: "challenges in effort" --> "challenges its effort "
+Due to the chaotic elements of the financial markets and lack of control, 
+empirical research in finance often faces serious challenges in its effort to study the 
 market dynamics. The market conditions cannot be controlled by the researchers
 and the thinking, intentions and actions of the market participants are often impossible to study. 
 The researchers may also encounter various practical challenges, such as 
@@ -13,17 +13,17 @@ which may further limit their ability to produce credible, robust and accurate r
 However, the platform where trading takes place, the market
 microstructure, is well understood as they are inherently artificial structures. 
 The mechanics of exchanges are simply sets of predefined rules 
-that the exchanges follow, and the market clearing, the procedure 
-that matches the orders and produce trades, can be described with 
+that the exchanges follow, and the market-clearing, the procedure 
+that matches the orders and produces trades, can be described with 
 deterministic algorithms. Therefore, the infrastructure for trading
 could be accurately recreated and used to conduct laboratory 
 experiments in which the unknowns could be reduced to the market participants
 themselves. Such an experiment produces complete information about
 the individual orders, formed trades and positions of each trader at any given time
 and the market conditions and information available for each market participants could
-be controlled in order to minimize noise or to create a desired state of the market to
-study. Moreover, the impact of the market microstructure itself to the market prices and trading 
-volumes is possible to extract and study. Such experiments often complement empirical research. %TODO Supervisor: "complement empirical research" Viittaako tama nyt simulaatioihin? Answer: No it does not
+be controlled to minimize noise or to create a desired state of the market to
+study. Moreover, the impact of the market microstructure itself on the market prices and trading 
+volumes is possible to extract and study. Such experiments often complement the research of empirical finance.
 They aim to find the conditions in which empirically proven phenomena may form and 
 bring theory and empirics closer together. 
 
@@ -31,10 +31,10 @@ bring theory and empirics closer together.
 % Types of artificial markets
 Such laboratory experiments are often referred to as artificial markets or artificial
 stock market (ASM). \citet{boer05} discovered three categories of artificial markets: 
-experimental, computational and analytical. In experimental artificial markets human traders
-are the market participants and they most often trade using a software acting as
+experimental, computational and analytical. In experimental artificial markets, human traders
+are the market participants and they most often trade using software acting as
 the market system. Analytical markets are simply sets of mathematical equations that
-form the market microstructure. Most often however, artificial markets are associated with 
+form the market microstructure. Most often, however, artificial markets are associated with 
 computational artificial markets. These markets are computer simulations in which 
 also the roles of the market participants are performed by software agents. The focus in this
 thesis is on the computational artificial markets and the term is used interchangeably
@@ -44,7 +44,7 @@ with the term \textit{artificial market}.
 After the first computational artificial market developed in Santa-Fe Institute
 (\citet{SantaFe94}) variety of models have been developed since. Some of the
 models have advanced trading agents while others aim for minimal design 
-regarding to the behaviour of the traders in order to study the market
+regarding the behaviour of the traders to study the market
 mechanics. Some studies, such as \citet{GOYKHMAN20181729}, \citet{IZUMI200535},
 \citet{Reinforcement09} and \citet{YEH20102089}, use learning algorithms in the decision making of 
 their agents while some, for example \citet{God93}, \citet{Jam96}, \citet{Genoa01} and \citet{Raberto05}, 
@@ -59,7 +59,7 @@ specific characteristics emerge. % TODO: Continue with
 As mentioned, there is a fair amount of existing literature about artificial market models for various
 purposes. However, the previous literature is lacking on generic studies on how to design
 and build such models and therefore the main purpose of this thesis is to build a generic and abstract 
-artificial market model with emphasis on the market microstructure. The design principles are to create flexible 
+artificial market model with an emphasis on the market microstructure. The design principles are to create a flexible 
 and well-structured system to serve as a platform for future studies in the area of artificial markets. 
 The basis of the model is in the literature of market microstructure and in auction literature. The choice for the
 market type was influenced by the most dominant market mechanics of real stock markets and therefore
@@ -68,21 +68,32 @@ role of the market participants for this thesis' purpose is in little importance
 simplistic and with as few assumptions as practical. Therefore, the traders are chosen to act randomly
 with limited intelligence. Such traders are also known as zero-intelligent traders. 
 
-Second purpose of this thesis is to complement the literature of artificial markets to study 
-the behaviour of the created market and discuss the dynamics formed by the market and reasons for them. %TODO Supervisor: Too much word "market"
+The second purpose of this thesis is to complement the literature of computational artificial markets by studying 
+the behaviour of price dynamics in such a model.
 The well-known and empirically proven characteristics of real financial market dynamics are used to 
 study how well the dynamics of the model resembles the dynamics of the real markets.
+
+The research questions the thesis aims to answer are as follows:
+% Tutkimuskysymys: "miten rakentaa geneerinen malli?" 
+\begin{enumerate}
+    \item What are the aspects needed to be taken into consideration in designing of an computational 
+          artificial market?
+	\item How could a generic and abstract computational artificial market be constructed?
+    \item How does the market price behave in a computational artificial market with continuous
+          double auction as the market microstructure and zero-intelligent traders as the 
+          trading agents?
+\end{enumerate}
 
 
 \subsection{Structure of the Thesis}
 % TODO: There may be additional part if artificial market is left
-This thesis consists of several parts. First the market microstructures which are in place in real 
-markets are discussed. This section includes short theoretical background of auctions, the execution and clearing mechanics in place in real
+This thesis consists of several parts. First, the market microstructures which are in place in real 
+markets are discussed. This section includes a short theoretical background of auctions, the execution and clearing mechanics in place in real
 stock markets and empirically proven price dynamics observed in markets known as stylized
 facts. Then some generic issues specific to artificial markets are discussed including the time handling and creation
 of trading agents. Then some relevant examples of artificial market models from the literature are discussed. 
 
 The empirical section of this thesis is divided into three sections. First, the mechanics and
-structure of the created artificial market model is described. Then the model is tested
-with several experiments. Finally, conclusions of the study are presented and the limitations of the model and
+structure of the created artificial market model are described. Then the model is tested
+with several experiments. Finally, the conclusions of the study are presented and the limitations of the model and
 possible further research topics are discussed.

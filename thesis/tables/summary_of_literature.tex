@@ -1,0 +1,35 @@
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\begin{flushleft}
+    \begin{table}[htbp]
+        %\centering
+        %\setlength\tabcolsep{1pt}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.2}
+        
+        \caption{Summary of Relevant Literature}
+        \label{tbl:literature_summary}
+        
+        \begin{tabularx}{\textwidth}{lcL{3.2cm}L{3.2cm}L{3.2cm}}
+            \toprule
+            \textbf{Author}    &   \textbf{year}    &   \textbf{Market type}    &   \textbf{Investor type}    &   \textbf{Research target} \\
+            \midrule
+            Gode \& Sunder         &   1993    &   Continuous double auction    &   Zero intelligent                                    &   Allocative efficiency of ZI traders \\
+            \hline
+            Jamal \& Sunder        &   1996    &   Continuous double auction    &   Bayesian, empirical bayesian \& biased heuristic    &   Rationality of markets \\
+            \hline
+            Miller                 &   2008    &   Continuous double auction    &   Zero intelligent                                    &   Counter argument on usefulness of ZI traders \\
+            \hline
+            Benhammada \& Chikhi   &   2012    &   Unspecified                  &   Unspecified                                         &   Create a generic architecture \\
+            \hline
+            Derveeuw et al.        &   2007    &   Continuous double auction    &   Zero intelligent                                    &   Create a generic model and model stylized facts \\
+            \hline
+            Raberto et al.         &   2001    &   Call market                  &   Zero intelligent with trading networks              &   Model stylized facts \\
+            \hline
+            Raberto \& Cincotti    &   2005    &   Continuous double auction    &   Zero intelligent with volatility feedback           &   Model stylized facts \\
+            \hline
+            Liu et al.             &   2008    &   Call market                  &   Zero intelligent                                    &   Model stylized facts in perspective clearing frequency \\
+            \bottomrule
+        \end{tabularx}
+    \end{table}
+\end{flushleft}

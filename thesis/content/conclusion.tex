@@ -7,37 +7,102 @@ In this thesis, a generic computational market environment with simplistic
 zero-intelligent trading agents was introduced. The model has several interesting features: 
 the model supports multiple markets and any asset can act as the currency
 for a market. In addition, tick sizes are implemented naturally by forcing
-the quantities of traded asset and the amount of currency to be integers.
+the quantities of the traded asset and the amount of currency to be integers.
+The main purpose of the model was to discover how to build a computational artificial market 
+in the perspective of how actual markets work and how to create such in a computational environment. 
+The second purpose was to validate the created model and explore its dynamics.
+In this chapter, the conclusions of the thesis are presented in form of answering to the 
+research questions. Then the limitations of the model are discussed and some further topics 
+of research are presented that emerged during the creation of the model.
 
-% Equilibrium converge
-%TODO Supervisor: Tasta suurin osa summary of results -kappaleeseen ja tassa vain todella lyhyt kertaus
-The model converges rapidly to equilibrium price which was slighly lower
-than expected from the ratio of the assets. Interestingly, the convergence
-occurs more rapidly with lower starting price than higher. The model manages 
-to somewhat capture the stylized facts observed in actual markets: the intrasession 
-returns are fat-tailed and some short-term volatility clusters were observed. 
-However, there was some negative moderately short-term autocorrelation in the 
-absolute returns and the fat-tails of returns are not carried over to the returns between sessions. 
-This is also somewhat inline with the literature with comparable models.
-% TODO: Specify which studies
 
-% Shocks
-The model was also tested with negative and positive shocks by changing the 
-traders' probabilities to submit bid and ask orders. It was found out that
-the global balance between assets is not necessarily the only driving factor for the 
-equilibrium price in a market populated with zero-intelligent traders 
-and the price can be manipulated by changing these values. Furthermore, this finding suggests that 
-solely the balance, or imbalance, of the sides in an order book may have an important role in 
-driving the price. For example, if the bid side is thinner than the ask side it may be more probable 
-that there will come an ask order that consumes larger proportion of the bid side than the other way 
-around. As the ask order consumes a large chunk of the bid side the price will decrease rapidly, 
-or end up in free fall if the side is completely consumed. In addition, negative shock
-also increased the total quantities on both sides of the order book while
-positive shock had the opposite effect. Lower price is attributed to 
-more liquid market even though the global balance of assets is unaffected.
-This is due to that the amount of assets the buyers can bid are limited by the 
-price while the amount of asset the sellers can sell are not. 
-%TODO Supervisor: Alakappale, "answering the research questions..."
+\subsection{Answering to the Research Questions}
+
+The first research question of this thesis was the following:
+\begin{quote}
+\textit{What are the aspects needed to be taken into consideration in designing of an computational 
+artificial market?} 
+\end{quote}
+Designing a computational artificial market is partly a technical and partly a domain-specific 
+problem. Even though the focus of such models is to replicate the mechanics and the dynamics 
+of real markets a proper technical design should not be disregarded. The software architecture 
+is the foundation of the model and defines the maximum complexity achievable with the model. 
+On the other hand, the purpose of artificial markets is to answer questions related to 
+finance and economics thus understanding the mechanics of actual markets is also crucial. 
+
+There are several choices to be made in terms of the domain of finance 
+in designing of an artificial market:
+\begin{itemize}
+    \item Market organization: organized or unorganized,
+	\item Execution system: order-driven or quote-driven,
+	\item Clearing cycle: continuous or call-market,
+    \item Rationality of the traders: zero-intelligent, behavioural or intelligent,
+    \item Budget constrain: whether to allow short selling and borrowing, 
+    \item Number of markets: whether to implement a multi-market ecosystem, and 
+    \item Tick size: whether to implement minimum allowed price increment and decrement
+\end{itemize}
+
+There are also several technical challenges to be addressed in the creation 
+of a computational market:
+\begin{itemize}
+    \item What are the required components to capture the dynamics modelled?
+	\item How the market, traders and other components interact with each other?
+	\item What algorithm to use to clear the market?
+	\item How to avoid wealth leakage due to rounding errors?
+	\item How to handle non-trading and what is the definition of time?
+	\item What programming language to use?
+	\item How the simulation process is orchestrated?
+\end{itemize}
+
+To answer the second research question:
+\begin{quote}
+    \textit{How could a generic and abstract computational artificial market be constructed?} 
+\end{quote}
+
+% The structure of an ASM
+As artificial markets are experimental, they require many design decisions that may be harder to 
+validate. It was found out to be convenient to separate the more generalized functionalities of the markets and 
+operations of trading agents from the concrete implementation of the components. As a result, the 
+model ended up to be more maintainable and easier to tune. In addition, as such models are stateful systems
+a programming language that is able to produce stateful patterns similar to the object-oriented may 
+be more useful than strictly functional language. With the implementations of mutable structs and parametrized 
+functions, Julia language appeared to be a proper choice for such a system.
+
+At a minimum, amount of components a computational market requires is two: the trading agents and the 
+market. In order to keep the interaction between the traders and the markets simple, it may be beneficial to 
+consider orders as a separate component with its interface. In addition, having an additional component for 
+assets enables the support for interest and dividend payments. The traders of an ASM are responsible for coming up to 
+placement decisions and the markets are responsible for processing these orders and form trades accordingly. 
+
+% Asset handling
+In terms of asset handling, equal treatment of 
+all assets should be considered if multi-asset or multi-market simulations are of interest. 
+This requires an order reservation mechanism to be in place to prevent a breach in the 
+budget constrain. In addition, the implementation of tick sizes turned out to be non-trivial. 
+Modellers of artificial markets should be aware of the problems regarding the price inefficiency 
+related to tick sizes when the market price drops low. 
+
+% Time handling
+%The implementation of time is also non-trivial. It may not be obvious how much time a trading session or 
+%even the time between trades should correspond in terms of real time. In addition, the non-trading is also 
+%an issue in artificial markets and should not be disregarded. Definition of time is important in order to 
+%properly compare the results of the model to the phenomena in real markets.
+
+To answer the third research question:
+\begin{quote}
+    \textit{How does the market price behave in a computational artificial market with continuous
+    double auction as the market microstructure and zero-intelligent traders as the 
+    trading agents?} 
+\end{quote}
+The experiments conducted with this model indicate similar results as the observations from 
+the previous literature: the market price of such a market is efficient in unchanging market conditions
+and rapidly converges to the equilibrium. The price dynamics have some similarities to the dynamics 
+observed in the real market such as medium to long term fat-tails of return, volatility clusters and 
+lack of autocorrelation. However, these properties do not hold in shorter time periods. In addition, 
+the structure of the order book was observed to be an important factor in driving the market price and 
+not just the global balance of assets. 
+
+
 
 \subsection{Limitations of the Model}
 
@@ -48,9 +113,9 @@ price while the amount of asset the sellers can sell are not.
 % Should the ZI traders distribution's mean be linked to best price of the opposite book instead or something else?
 
 % Lack of real data behind the model & time handling
-There was no real order book data to reference in creation of the model
+There was no real order book data to reference in the creation of the model
 introduced in this thesis. Therefore, it is unclear how aspects of this
-model translates to actual markets or what the characteristics of the 
+model translate to actual markets or what the characteristics of the 
 asset could be that this model resembles. For instance, the time aspect
 remains unknown as it is not obvious what the time interval could
 realistically be between the placement decisions or the trading 
@@ -60,7 +125,7 @@ relatively unclear in the model.
 % Tick size, integer quantity, bid-ask asymmetricity
 Even though introducing
 tick sizes ultimately made the model more realistic it did cause a 
-set of challenges. With combination of the traded quantities being
+set of challenges. With a combination of the traded quantities being
 also integers the model behaves inefficiently with very low and very
 high market prices due to the quantity and the price increments. This
 is however also present in actual markets but there are solutions to handle
@@ -90,24 +155,24 @@ it to be dependent on the previous volatility of the model
 could produce interesting dynamics including the volatility
 cluster but this could be seen as a violation of the definition
 of zero intelligence as they would then be able to react on the risk level
-of the market. Setting it to depend on the absolute
+of the market. Setting it to depend on the absolute 
 current price level of the market may be more appropriate to 
-maintain the level of rationality of the investors.  
+maintain the level of rationality of the investors. 
 
 % Technical aspects
-Regarding to the technical aspects of the model, some experiments 
+Regarding the technical aspects of the model, some experiments 
 took hours to complete. The model is thoroughly parametrized but 
-there could be substantial increase to code execution to be 
+there could be a substantial increase to code execution to be 
 achieved with better type stability, by avoiding the use of 
-abstract types and parallerizing some sections of the code. 
+abstract types and parallelizing some sections of the code. 
 Optimizing may however increase the complexity of the code 
 causing it harder to debug and maintain. The code did, however, 
 run fast enough for the experiments of this thesis but may be 
 an issue if complex and long multi-asset simulations are tested. 
 
 % Language choice
-Julia programming language suited on the task well. The functional nature
-of the language provided straightforward way to implement matching engine
+Julia programming language suited to the task well. The functional nature
+of the language provided a straightforward way to implement matching engine
 efficiently. In addition, the mutable structs enabled modularization of the
 components of the model. However, as the language is relatively new it is
 lacking extensive ecosystems as more matured languages, such as Python,
@@ -117,7 +182,7 @@ issue if the complexity of the trader agents is increased. \citet{JuliaML2020}
 discussed the recent state of the language, particularly in terms of machine 
 learning, and they noted that the language is more mature in the area of
 supervised learning algorithms than in the area of unsupervised algorithms.
-They did not, however, discuss about evolutionary algorithms or reinforcement
+They did not, however, discuss evolutionary algorithms or reinforcement
 learning which are more prevalent in the area of agent-based computational economics.
 According to them the greatest challenge of the language is the small ecosystem
 of packages compared to other high-level languages. This can be mitigated
@@ -145,7 +210,7 @@ multi-asset markets including:
 \end{itemize}
 
 % More advanded traders
-Also, as the project is heavily modularized the structure allows for development of more advanced
+Also, as the project is heavily modularized the structure allows for the development of more advanced
 trading agents. The model could be transformed to experiment with more advanced
 market setups introduced by the literature of agent-based computational economics. As discussed,
 there are some packages for machine learning found in Julia's ecosystem thus 
@@ -153,8 +218,8 @@ a learning trading agent could be constructed with readily available algorithms.
 
 % More advanced microstructure
 As it is relatively trivial to modify the clearing algorithm of the model to 
-act as a call market one could also build more percise representation of a
-specific stock exchange. With introduction of opening and closing crosses,
+act as a call market one could also build more a precise representation of a
+specific stock exchange. With the introduction of opening and closing crosses,
 which are essentially call markets at the beginning and at the end of each 
 trading day, a typical Nasdaq's trading day could be imitated. In addition,
 the exclusion of pre- and post-market could be simulated by allowing only
@@ -168,6 +233,6 @@ the model to such and run similar analysis. Instead of exchanges, the trading
 would be conducted via trading networks: each trader has links to other traders, 
 trading partners. When a trader states an order its trading partners are 
 looped through and checked if any of the partners is willing to participate 
-on the order and form a trade. However, such modification would require 
+in the order and form a trade. However, such modification would require 
 completely new matching engine and the trading agents need to be substantially 
 refactored.

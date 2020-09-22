@@ -3,15 +3,15 @@
 Market microstructure is the study of the trading mechanics that are in place 
 in real markets. It describes why trading occurs, the rules of trading 
 and the protocols to form trades. \citep[p. 3-4]{Has07}
-Understanding market microstructure is cruicial in designing an artificial market
+Understanding market microstructure is crucial in designing an artificial market
 as without realistic trading setup the representativeness of the model may end
 up to be poor and have limited practicality. The goal of an artificial market often
 is to recreate phenomena observed in real markets thus the link to the real world 
-should be maintained. In this section the auction theory is briefly introduced and 
+should be maintained. In this section, the auction theory is briefly introduced and 
 then relevant distinctions among market microstructures are discussed. 
 Lastly, the common price phenomena, called stylized facts, are presented. Stylized facts
 are often used in validating the artificial models. As the literature on decentralized 
-markets, as what over-the-counter (OTC) trading is about, is scarse the focus of this thesis is 
+markets, as what over-the-counter (OTC) trading is about, is scarce the focus of this thesis is 
 on centralized markets. Centralized markets have an exchange in which the trading takes place 
 whereas in decentralized markets the buyers and the sellers seek out each other.
 
@@ -22,7 +22,7 @@ whereas in decentralized markets the buyers and the sellers seek out each other.
 
 Financial markets are most often organized as double auction markets.
 Double auction market (DA) is a special type of auction in which there
-are multiple buyers and sellers which both are able to 
+are multiple buyers and sellers which both can 
 produce quotes and they are treated symmetrically \citep*{Kle99}. Buyers
 make offers to buy, bid, the traded asset while sellers make offers
 to sell, ask, the traded asset \citep*{Moc15}. There are some variations 
@@ -34,10 +34,10 @@ and how the orders are matched.
 
 % \subsubsection{Order Matching in Double Auction}
 
-Main distinction between double auction market models is when
+The main distinction between double auction market models is when
 the order matching takes place. Typically, the order matching 
-is continuous process occurring after the arrival of each new order but
-in some markets this process takes place after a specified time interval
+is a continuous process occurring after the arrival of each new order but
+in some markets, this process takes place after a specified time interval
 has passed, for example at the end of a trading day. \citep{boer05}
 In auction literature, there are various terms used to describe essentially 
 the same mechanics. \citet{boer05} used term 
@@ -46,42 +46,42 @@ for the latter whereas \citet{ASt05} called them \textit{Itayose method}
 and \textit{Zaraba method} respectively. \citet{Moc15} used term \textit{continuous 
 double auction} (CDA) for the former and \textit{periodic double auction} to describe 
 the same mechanics of call markets as which they described is an extension of 
-a type of auction called sealed-bid. In sealed-bid auctions the bid and ask offers
-are submitted once and then the order matching is executed once. In this thesis
+a type of auction called sealed-bid. In sealed-bid auctions, the bid and ask offers
+are submitted once and then the order matching is executed once. In this thesis,
 the terms continuous double auction and call markets are chosen to describe
 these types of markets as they seem to be the most prevalent in the literature.
 
-In call market the orders are cumulated for a specified time period and the
+In call market, the orders are cumulated for a specified time period and the
 market is cleared with a single price whereas in continuous market it is done
 whenever there are orders that can be matched, and the price is derived from these
 orders. \citep{boer05} 
-Many real world stock markets are formed as a hybrid of call and continuous
+Many real-world stock markets are formed as a hybrid of call and continuous
 double auction markets. The price discovery at the beginning and at the end of a 
 trading day is conducted with call market mechanics and the trading during the 
-typical trading hours is conducted using continuous environment. \citep{NasdaqClosing05}
+typical trading hours is conducted using a continuous environment. \citep{NasdaqClosing05}
 For example, Nasdaq's opening and closing call-auctions, called opening and closing crosses,
 create the official open and close prices of the market and in between the crosses 
-trading takes place in continuous double auction environment \citep{NasdaqCrosses}.  
+trading takes place in a continuous double auction environment \citep{NasdaqCrosses}.  
 % More about Sealed-bid matching (supply-demand) and CDA matching
  
 \subsection{Execution Systems}
 % Quote-driven vs Order-driven
 The execution systems are typically divided into two types:
-quote-driven and order-driven execution systems. In quote-driven market, also known
+quote-driven and order-driven execution systems. In a quote-driven market, also known
 as intermediate markets, the investors trade with prices provided 
 by dealers or intermediaries who are part of the market organization. 
-In order-driven market, also called as limit order market, 
+In an order-driven market, also called as limit order market, 
 the prices are formed according to the orders submitted by the 
 investors themselves and trades are formed in a centralized marketplace 
 via automatic order matching or with the help of market makers. 
 \citep{Baru17} According to \citet{MALINOVA2013104},
 the liquidity and price efficiency are generally higher in order-driven 
-markets. They also found out that smaller orders get more favorable prices in 
+markets. They also found out that smaller orders get more favourable prices in 
 quote-driven markets due to smaller bid-ask spread 
 but larger orders benefit from order-driven markets because of the lower 
 execution costs. Quote-driven markets are also less transparent compared
 to order-driven markets. Real markets, however, are most often a combination
-of the two \citep{boer05} but there have been a trend to move from quote-driven
+of the two \citep{boer05} but there has been a trend to move from quote-driven
 markets to order-driven markets \citep{MALINOVA2013104}.
 
 As simulating intermediate market participants increases complexity
@@ -96,24 +96,24 @@ Most of the artificial markets found in the ASM literature seem to be order-driv
 % Order book, matching and clearing
 % Why we do not go deeper to quote-driven:
 Price formation is a direct product of the execution system in place in a market
-\citep{boer05}. In order-driven markets, price formation is direct result of the orders
+\citep{boer05}. In order-driven markets, price formation is a direct result of the orders
 in the limit order book and the matching algorithm in place whereas in quote-driven markets it
 is dependent on how the intermediaries view the current and future 
 balance between supply and demand of the traded asset. The equilibrium price of a 
-quote-driven market is driven by the orders sizes and in order-driven markets
+quote-driven market is driven by the sizes of the orders and in order-driven markets
 it is driven by also the prices submitted with the orders. \citep{MALINOVA2013104}
 As quote-driven markets' price formation is somewhat a black box due to the 
 dependency on the views and intentions of the intermediaries, it was not considered
-as the execution system for the model built in this thesis. On the other hand, %TODO Supervisor: Tama oletus voidaan mainita tassa --> muista esittaa se myos mallin tarkemman esittelyn yhteydessa
+as the execution system for the model built in this thesis. On the other hand, 
 the price formation of an order-driven market is dependent only on the orders in the
 market and the predefined supply-demand matching algorithm in place thus its price 
-formation can be described with greater level of generalization.
+formation can be described with a greater level of generalization.
 
 % Limit order book and terms
-Limit order book is a core component in the price formation in order-driven markets.
+The limit order book is a core component in the price formation in order-driven markets.
 Limit order book stores the submitted limit orders which are simply orders that include the quantity and 
-the limit price stated by the trader. Limit price is the maximum price, in case of bid, or the minimum
-price, in case of ask, that the order can be cleared with. In other words,
+the limit price stated by the trader. The limit price is the maximum price, in case of a bid, or the minimum
+price, in case of an ask, that the order can be cleared with. In other words,
 bids (asks) cannot be cleared with a price higher (lower) than the limit price stated 
 in the order. There are also other types of orders, such as market and 
 stop-loss orders, but these can be seen as derivatives from limit orders: 
@@ -127,8 +127,8 @@ A simple limit order book is presented in ~\ref{tbl:orderbook}. This table shows
 quantity of asset bid and asked per each price level: for example, with a price of 5.00
 there are 100 unit bid and 200 unit asked. There are, however, more bids and asks that 
 accept this price. Those traders that have bid 5.01 and those that have asked 4.99 would obviously also accept
-this price. Therefore, it is more informatic to calculate cumulative sum of bid and reverse cumulative sum of 
-ask quantities and come up with total quantities of bid and ask per price level that can be matched.  
+this price. Therefore, it is more informatic to calculate the cumulative sum of the bids and reverse cumulative sum of 
+the asks quantities and come up with total quantities of bids and asks per price level that can be matched.  
 This order book with cumulative quantities is visualized in figure ~\ref{fig:lob_visual}. Cumulative bids
 are renamed as demand and cumulative asks as supply as these terms are more representative in this context.
 As there should not be clearable orders in continuous double auction's order book, except very temporarily, 
@@ -136,7 +136,7 @@ this example represents more of the state of a limit order book in a call market
 in a continuous double auction is discussed in a moment.
 
 \input{tables/order_book.tex}% table.tex > \mytable
-\begin{figure}
+\begin{figure}[H]
     \begin{center}  
         \includegraphics{plots/orderbook_visualized.png}
         \caption{Visualized order book}
@@ -151,11 +151,11 @@ is calculated per price level. This quantity is simply the elementwise
 minimum from the supply and the demand arrays. Then the quantity in equilibrium
 can be determined by taking the maximum from the maximum clearable quantities
 per price level and equilibrium price is simply the price where the maximum clearable quantity
-equals the equilibrium quantity. A pseudocode of such algorithm is illustrated in 
+equals the equilibrium quantity. Pseudocode of such an algorithm is illustrated in 
 algorithm ~\ref{alg:lob_equil}. After the equilibrium price and quantity have been determined, the 
-order matching takes place. The asks are sorted in ascending order using price and bids decending order
+order matching takes place. The asks are sorted in ascending order using price and bids descending order
 and the orders are filled in this order until the sum of filled bids and the sum of filled asks
-each equals the equilibrium quantity. It should be noted that not all the bids and the asks with limit price 
+each equals the equilibrium quantity. It should be noted that not all the bids and the asks with a limit price 
 equal to the equilibrium price may be filled, as is the case in the example illustrated in figure ~\ref{fig:lob_visual}. 
 Also, it is possible that supply and demand cross in a range of prices meaning that equilibrium price is 
 a range of prices. In such a situation it is common to take the mean of these prices and consider that 
@@ -183,18 +183,19 @@ as the clearing price.
 
 In a continuous double auction, the matching process is slightly simpler in computation
 sense as there is no need to find a common price for many orders. Only the latest arrived
-order needs to be cleared with opposing orders, or checked whether it can be cleared. Continuous
-double auction does not accumulate crossing orders in similar fashion as call markets do. 
-In principle, the same algorithm used in call market could be used also in continuous double auction 
+order needs to be cleared with opposing orders or checked whether it can be cleared. A continuous
+double auction does not accumulate crossing orders in a similar fashion as call markets do. 
+In principle, the same algorithm used in a call market could be used also in a continuous double auction 
 but typically the surplus distribution is different. Unlike in call markets where the surplus is often
-split among the crossing orders, in continuous double auction the surplus goes to the trader who made the 
+split among the crossing orders, in a continuous double auction the surplus goes to the trader who made the 
 latest order. In other words, the trade prices are drawn from the orders that were already in the limit 
 order book. This sort of matching could be conducted by looping and clearing the opposing side of the 
 order book until either there are no more crossing orders with the newly arrived order, or the new 
 order is already cleared completely. In case of the newly arrived order is not completely cleared after 
 depleting all possible crossing orders, the order is inserted to the order book and the clearing process 
-ends. If there were no crossing orders to begin with, the newly arrived is put to the order book immediately. 
-This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. %TODO Supervisor: Jos mahdollista tahan olisi hyva saada viittaus kirjallisuuteen esim: "The interested reader should refer to xxx (yyyy)"
+ends. If there were no crossing orders, to begin with, the newly arrived is put to the order book immediately. 
+This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. An extensive and thorough overview of the mechanics 
+of limit order book markets is provided by \citet{lob13}.
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -245,8 +246,8 @@ According to \citet{StylizedFacts01} and \citet{lob13}, price related stylized
 facts include:
 
 \begin{enumerate}
-    %TODO Supervisor: Kuvio, tarkasteluvalin y akselin n=? 
     \item Fat-tailed distribution of returns: distribution of asset returns has fatter tails than normal distribution meaning that they have positive excess kurtosis. 
+          In the figure  ~\ref{fig:sp_fat_tails} distributions of daily rate of returns of S\&P 500 returns are shown.
     \par
     \begin{minipage}{\linewidth}
         \centering
@@ -254,8 +255,11 @@ facts include:
         \captionof{figure}{Fat-tailed of returns of S\&P 500}
         \label{fig:sp_fat_tails}
     \end{minipage}
-    %TODO Supervisor: Kuvio, mika on x ja y kuviossa? Mika on sininen pilvi kuvioissa?
-    \item Lack of autocorrelation: autocorrelation of returns in financial markets have shown to be statistically insignificant, except in very short term. Previous returns have no prediction power over the future returns of a stock. 
+    \item Lack of autocorrelation: autocorrelation of returns in financial markets have shown to be statistically insignificant, except in the very short term. 
+          Previous returns have no prediction power over the future returns of a stock. 
+          Figure ~\ref{fig:sp_autocorr} illustrates the autocorrelation of daily returns of S\&P 500.
+          As seen in the figure, the autocorrelation of all of the lags lies outside or near outside the lines of significance.
+          Autocorrelation values outside of the blue area in the figure are statistically significant from zero.
     \par
     \begin{minipage}{\linewidth}
         \centering
@@ -263,8 +267,11 @@ facts include:
         \captionof{figure}{Absence of autocorrelation in S\&P 500}
         \label{fig:sp_autocorr}
     \end{minipage}
-    %TODO Supervisor: Kuvio, Sama kuin ylempi
-    \item Volatility clusters: volatility have measured to have positive autocorrelation. Big price movement tend to follow additional exceptional price movements forming clusters of volatility thorough time.
+    \item Volatility clusters: volatility has measured to have positive autocorrelation. 
+          Big price movement tends to follow additional exceptional price movements forming clusters of volatility throughout time.
+          As can be observed from the figure ~\ref{fig:sp_volaclusters}, there are volatility clusters for up to ten weeks in 
+          S\&P 500 as the autocorrelation of volatility is positive up to that point. 
+          The figure illustrates the autocorrelation of weekly daily returns in S\&P 500.  
     \par
     \begin{minipage}{\linewidth}
         \centering
@@ -274,9 +281,13 @@ facts include:
     \end{minipage}
 \end{enumerate} 
 
+
+
 % Something about theories of these things (explanation for the stylized facts)
 % file:///D:/Opinnot/Master's%20Thesis/literature/real%20markets/price%20dynamics/TheoriesExplainingStockPriceBehavior%20(1).pdf
 
+All of the figures above utilize daily adjusted close prices for S\&P 500 stock index 
+for the time range from 1.1.2010 to 1.1.2020. 
 As has been done in the literature of artificial markets, the 
 representativeness of the ASM model built in this thesis is validated also 
 using these stylized facts.
