@@ -21,7 +21,7 @@ of research are presented that emerged during the creation of the model.
 The first research question of this thesis was the following:
 \begin{quote}
 \textit{What are the aspects needed to be taken into consideration in designing of a computational 
-artificial market?} 
+artificial market according to the existing scientific literature?}
 \end{quote}
 Designing a computational artificial market is partly a technical and partly a domain-specific 
 problem. Even though the focus of such models is to replicate the mechanics and the dynamics 
@@ -56,7 +56,7 @@ of a computational market:
 
 To answer the second research question:
 \begin{quote}
-    \textit{How could a generic and abstract computational artificial market be constructed?} 
+    \textit{How to program a computational artificial market be constructed that is both abstract and generic?} 
 \end{quote}
 
 % The structure of an ASM
@@ -70,8 +70,8 @@ functions, Julia language appeared to be a proper choice for such a system.
 
 At a minimum, amount of components a computational market requires is two: the trading agents and the 
 market. In order to keep the interaction between the traders and the markets simple, it may be beneficial to 
-consider orders as a separate component with its interface. In addition, having an additional component for 
-assets enables the support for interest and dividend payments. The traders of an ASM are responsible for coming up to 
+consider orders as a separate component with its own interface. Furthermore, having an additional component for 
+assets enables the support for interest and dividend payments. The traders of an ASM are responsible for coming up with 
 placement decisions and the markets are responsible for processing these orders and form trades accordingly. 
 
 % Asset handling
@@ -101,7 +101,6 @@ observed in the real market such as medium to long term fat-tails of return, vol
 lack of autocorrelation. However, these properties do not hold in shorter time periods. In addition, 
 the structure of the order book was observed to be an important factor in driving the market price and 
 not just the global balance of assets. 
-
 
 
 \subsection{Limitations of the Model}
