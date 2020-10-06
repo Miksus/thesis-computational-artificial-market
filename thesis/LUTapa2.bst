@@ -845,12 +845,8 @@ FUNCTION {format.perioddate}
 }
 
 FUNCTION {format.btitle}
-{ title "title" bibinfo.check
-  duplicate$ empty$ 'skip$
-    {
-      emphasize
-    }
-  if$
+{ title
+  "title" bibinfo.check
 }
 
 FUNCTION {either.or.check}
