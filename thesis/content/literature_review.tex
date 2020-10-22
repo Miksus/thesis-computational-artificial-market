@@ -1,7 +1,7 @@
 \section{Literature Review}
 
-Santa Fe institute's computational artificial stock 
-market is often considered to be the first of a kind. 
+Santa Fe institute's computational artificial stock %TODO Supervisor: add year of creation. DONE!
+market (\citeyear{SantaFe94}) is often considered to be the first of a kind. 
 The focus of the model is more in the 
 decision-making process of the traders rather than in the 
 market's microstructure. The model's traders use a 
@@ -37,9 +37,9 @@ models using such trading agents is presented and discussed with greater detail.
 of minimal intelligence. They conducted a partly human and partly
 a computational laboratory experiment in an effort to replicate the market
 efficiency of human traders with the least intelligent computational
-trading agents.
+trading agents. 
 
-Their market is organized as a double auction with several
+The market \citet{God93} created is organized as a double auction with several
 specifications. The market is continuous in the sense that the 
 orders are continuously matched even though the trading was
 conducted in specified sessions. The traders were divided 
@@ -53,7 +53,7 @@ traders were allowed to submit orders with a size of one unit
 and the trade price was drawn from the price stated in the 
 first of the crossing orders.
 
-The computational trading agents were zero-intelligent traders 
+The computational trading agents of \citet{God93}'s market were zero-intelligent traders 
 who trade at random prices from a predefined range. 
 The first simulation was run with a budget constrain: only the bids
 under the redemption value and the asks over the cost of unit 
@@ -61,7 +61,7 @@ were allowed. The second simulation was run without such limitation.
 These simulations were compared with the data from human traders
 in similar trading environment.
 
-\citeauthor{God93} found that the budget constrain is enough to 
+\citet{God93} found that the budget constrain is enough to 
 achieve market efficiency very close to human traders. Their findings
 suggest that intelligence does not play a critical role in terms of 
 how to build an efficient artificial market. The more important aspect
@@ -85,7 +85,7 @@ to act as such. The dividend payout is random but traders are informed
 about two possible dividends. There is also an imperfect signal that the
 traders can utilize to determine which of the payouts is more probable. 
 
-\citeauthor{Jam96} concluded that the rationality of their markets was
+\citet{Jam96} concluded that the rationality of their markets was
 not caused by the rationality of the investors but the market structure.
 The implemented behavioural biases in the heuristic traders were not enough 
 to steer the double auction market away from the bayesian equilibrium.
@@ -97,7 +97,7 @@ of the artificial markets.
 \subsubsection{Counter Argument against ZI markets}
 \citet{Mil08} provided a counter-argument on the usefulness of zero
 intelligent traders. He replicated the market structure from
-\citeauthor{God93}'s study with one major difference: how the 
+\citet{God93}'s study with one major difference: how the 
 time is handled. In his version of the market, the demand varies
 also between sessions and buyers can plan for it by buying units
 in advance for periods of higher demand. Unlike human traders,
@@ -105,7 +105,7 @@ zero-intelligent traders obviously could not plan ahead and a market
 populated with such traders did not gain allocative efficiency comparable
 to a market populated with human traders. Therefore, when time is a 
 meaningful element, as by having changing market conditions, zero-intelligent 
-trading agents are insufficient. However, \citeauthor{Mil08} also suggested
+trading agents are insufficient. However, \citet{Mil08} also suggested
 that in a market where the conditions change in a predefined way, as was in 
 his experiment, a slight enhancement to the mechanics of the zero-intelligent 
 agents may be sufficient to overcome this limitation.
@@ -134,7 +134,7 @@ to structure a computational environment.
 framework for continuous double auction using a modelling methodology known as 
 Gaia. Gaia is a software design methodology for agent-based systems which 
 highlights identifying the roles of the system and interactions in between. 
-\citeauthor{Ben12} came up with an object-oriented framework consisting of three sets of submodels: 
+\citet{Ben12} came up with an object-oriented framework consisting of three sets of submodels: 
 an agent model, a service model and an acquaintance model. The agent model is consisting of 
 five roles: a market, traders, a company, banks and the external world. 
 The roles of the market and the traders in the model are rather similar 
@@ -151,7 +151,7 @@ could be simplified to only trading agents and market agent by including banks',
 companies' and external world's roles to the trader agents in case of the less complex but 
 less detailed model is required.
 
-The second model \citeauthor{Ben12} designed, the service model, 
+The second model \citet{Ben12} designed, the service model, 
 consists of the functionalities of the agents. This model is simply the list of 
 functions or services, each agent has and the inputs, outputs, preconditions and postconditions 
 in them. For example, a trading agent has a service \textit{generate order} which takes 
@@ -164,7 +164,7 @@ agents but not the content of it.
 
 % Something about the interaction model and order matching
 
-As they did not build a working software using the framework, it is unclear 
+As \citet{Ben12} did not build a working software using the framework, it is unclear 
 how practical the model is and how convenient it is to program. The framework, 
 however, is detailed and extensive and it served as an inspiration in this thesis even though 
 its structure and design ideas were not strictly followed. 
@@ -230,7 +230,7 @@ form clusters by randomly pairing with each other. Clusters are activated
 randomly and when one is activated, all of the traders belonging to it
 submit same sided orders, either bids or asks. After the activation, the cluster is destroyed.
 
-Using this architecture they were able to produce some of the stylized facts
+Using this architecture \citet{Genoa01} were able to produce some of the stylized facts
 including fat-tailed returns and volatility clusters. However, the also discussed
 that the volatility clusters are prone to increasing the size of the model and
 that the produced volatility clusters are exponentially decaying while empirics have
@@ -248,12 +248,12 @@ standard deviation is constant in the first experiment and linearly
 dependent on the volatility of the stock in the second experiment. The
 traders also are budget constrained. 
 
-They found that the fat-tailed returns observed in
+\citet{Raberto05} found that the fat-tailed returns observed in
 real stock markets can be achieved in artificial settings using limit 
 order book as the price formation and it is not a consequence of the clearing 
 house mechanism itself. They also found that volatility clusters can
-be achieved with a simple dependency on the volatility. Their paper
-is further evidence that the market microstructure may be more
+be achieved with a simple dependency on the volatility, and thus the paper
+provides evidence that the market microstructure may be more
 important than the complexity of the traders in an effort to replicate
 many of the properties of real markets.
 %TODO: what did this mean: "it is not consequence of the clearing house mechanism itself"?
@@ -271,11 +271,11 @@ for these decisions was that they were not interested in the converge to
 the equilibrium thus the fair value of the stock was not important. They 
 observed that the autocorrelation diminishes and fat-tailed returns emerge 
 when the frequency of clearing the call market is increased. Moreover,
-they discussed that these phenomena are caused by the market microstructure
+it was found out that these phenomena are caused by the market microstructure
 as the increase in clearing frequency decrease the density of orders and 
-increase the price spread.
+increase the price spread. % TODO Supervisor: Too many "they" DONE!
 
-Their second experiment was more specific. The intention of the experiment 
+\citet{LIU20082535}'s second experiment was more specific. The intention of the experiment 
 was to observe the effect of the behavioural elements using a model called
 Minority Game. Minority Game is a simple decision-making system in
 which each trader has a set of behavioural rules. From these rules, each
@@ -305,12 +305,5 @@ buy or sell and the relay of information from the market to the traders. The
 literature is summarized in the table ~\ref{tbl:literature_summary}.
 
 
-\input{tables/summary_of_literature.tex}
+\input{tables/summary_of_literature.tex} % TODO Supervisor: order by the year. DONE!
 
-
-%TODO Supervisor: 
-% Lisaa tahan:
-%   - alaotsikko "Summary of relevant literature"
-%   - Vahan johdantoa
-%   - YHTEENVETOTAULUKKO: Author, year, model characteristics (tms)
-%   - Johtopaatokset

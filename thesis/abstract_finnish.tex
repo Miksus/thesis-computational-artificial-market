@@ -14,7 +14,7 @@
         \textbf{Tekijä:} Mikael Koli \\
         \textbf{Pääaine:} Strategic Finance and Business Analytics \\
         \textbf{Tiedekunta:} School of Business and Management \\
-        \textbf{Pro Gradu -tutkielma:} Lappeenrantanan teknillinen yliopisto  \\
+        \textbf{Pro Gradu -tutkielma:} Lappeenrannan teknillinen yliopisto  \\
         \textbf{Vuosi:} 2020 \\
         \textbf{Tarkastajat:} Tutkijatohtori Jyrki Savolainen, professori Mikael Collan
     \end{flushleft}
@@ -24,24 +24,29 @@
 \end{center}
 
 % TODO: Purpose of the thesis is also to act as road map to build such a model
-Tietokonepohjaiset markkinat ovat kokeellisen taloustieteen alalaji, jonka tarkoituksena
-on jäljentää ja selittää todellisten markkinoiden dynamiikaa hyödyntäen
+Tietokonepohjaiset markkinat ovat kokeellisen taloustieteen alalaji, jonka tavoitteena
+on jäljitellä ja selittää todellisten markkinoiden dynamiikaa hyödyntäen
 tietokonesimulaatioita. Empiirisen taloustieteen tutkijoilla on rajallinen kyky kontrolloida
 markkinoiden sisäisiä ja ulkoisia muuttujia ilmiöiden tutkimiseen, mutta vastaavia rajoitteita
 ei ole täysin keinotekoisesti luoduilla markkinoilla. Tämän Pro gradu -tutkielman tarkoituksena on 
-kehittää geneerinen tietokonepohjainen keinomarkkina. 
+kehittää geneerinen tietokonepohjainen keinomarkkina. Koska aiemmasta kirjallisuudesta puuttuu 
+kattavia esimerkkejä, miten vastaavia simulaatiomalleja voi luoda, tämän tutkielman malli esitetään
+yksityiskohtaisesti.
 
-Mallin markkinat ovat rakenteeltaan kaksisuuntaisia huutokaupoja jatkuvalla tarjousten täsmäytyksellä.
-Kaupankävijät ovat budjettirajoittuneita ja luonteiltaan minimiälyisiä. Malli tukee useita markkinoita, 
+% TODO Supervisor: add same thing as in English version. DONE!
+
+Mallin markkinat ovat mikrostruktuuriltaan limiittitarjouskirjamarkkinat jatkuvalla tarjousten täsmäytyksellä.
+Kaupankävijät ovat budjettirajoittuneita ja luonteiltaan minimi-älyisiä. Malli tukee useita markkinoita, 
 valuutan merkitys on abstraktoitu ja mikä tahansa omaisuuslaji voi toimia kaupankäyntivälineenä. 
-Malli validoidaan hyödyntäen tyyliteltyjä faktoja ja mallin dynamiikkaa
-tutkitaan useilla kokeilla.
+Malli validoidaan hyödyntäen tyyliteltyjä faktoja ja mallin hintadynamiikkaa
+tutkitaan eri aloitusmarkkinahinnoilla ja epävakauttamalla markkinan laitoja.
 
 Malli tuottaa samankaltaisia tuloskia kuin vastaavat mallit aiemmasta kirjallisuudesta: markkinat minimiälyisillä
 kaupankävijöillä konvertoituu tehokkaasti lähelle tasapainohintaa ja malli pystyy tuottamaan useita tyyliteltyjen 
 faktojen ilmiöitä. Mallin kokeilu tuotti useita lisähavaintoja, kuten että omaisuuslajien tasapaino ei ole ainoa tekijä,
 joka ajaa tasapainohintaa minimiälyisten kaupankävijöiden markkinoilla, vaan myös painot, joilla kaupankävijät 
-asettavat osto- ja myyntitarjouksia, vaikuttaa tasapainohintaan. Pelkästään tarjouskirjojen laitojen tasapaino vaikuttaa 
+asettavat osto- ja myyntitarjouksia, vaikuttaa tasapainohintaan. 
+Pelkäs-tään tarjouskirjojen laitojen tasapaino vaikuttaa 
 tasapainohintaan.
 
 \textbf{Avainsanat:} Laskennallinen markkina, Kokeellinen Taloustiede, Pörssisimulaattori

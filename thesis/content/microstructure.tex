@@ -57,7 +57,7 @@ orders. \citep{boer05}
 Many real-world stock markets are formed as a hybrid of call and continuous
 double auction markets. The price discovery at the beginning and at the end of a 
 trading day is conducted with call market mechanics and the trading during the 
-typical trading hours is conducted using a continuous environment. \citep{NasdaqClosing05}
+typical trading hours is conducted using a continuous environment \citep{NasdaqClosing05}.
 For example, Nasdaq's opening and closing call auctions, called opening and closing crosses,
 create the official open and close prices of the market and in between the crosses 
 trading takes place in a continuous double auction environment \citep{NasdaqCrosses}.  
@@ -196,7 +196,8 @@ depleting all possible crossing orders, the order is inserted to the order book 
 ends. If there were no crossing orders, to begin with, the newly arrived is put to the order book immediately. 
 This algorithm is illustrated in algorithm ~\ref{alg:lob_cont}. For further reading, an extensive and 
 thorough overview of the mechanics of limit order book markets is provided by \citet{lob13}. A detailed 
-explanation about the rules of trading and matching engine of Nasdaq Nordic market model from \citet{NasdaqModel}.
+explanation about the rules of trading and matching engine of Nasdaq Nordic market model is documented in 
+\citet{NasdaqModel}.
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -248,24 +249,24 @@ facts include:
 
 \begin{enumerate}
     \item Fat-tailed distribution of returns: distribution of asset returns has fatter tails than normal distribution meaning that they have positive excess kurtosis. 
-          In the figure  ~\ref{fig:sp_fat_tails} distributions of daily rate of returns of S\&P 500 returns are shown.
+          In the figure  ~\ref{fig:sp_fat_tails} distributions of daily rate of returns of S\&P 500 returns are shown in a ten year period.
     \par
     \begin{minipage}{\linewidth}
         \centering
         \includegraphics[width=10cm]{plots/S&P500_fat_tails.png}
-        \captionof{figure}{Fat-tailed of returns of S\&P 500}
+        \captionof{figure}{Fat-tailed of returns of S\&P 500 from 1.1.2010 to 1.1.2020}
         \label{fig:sp_fat_tails}
     \end{minipage}
     \item Lack of autocorrelation: autocorrelation of returns in financial markets have been shown to be statistically insignificant, except in the very short term. 
           Previous returns have no predictive power over the future returns of a stock. 
-          Figure ~\ref{fig:sp_autocorr} illustrates the autocorrelation of daily returns of S\&P 500.
+          Figure ~\ref{fig:sp_autocorr} illustrates the autocorrelation of daily returns of S\&P 500 in a ten year period.
           As seen in the figure, the autocorrelations of all of the lags lie inside the blue area meaning that all of the lags 
           are not statistically significant from zero.
     \par
     \begin{minipage}{\linewidth}
         \centering
         \includegraphics[width=10cm]{plots/S&P500_autocorr.png}
-        \captionof{figure}{Absence of autocorrelation in S\&P 500}
+        \captionof{figure}{Autocorrelation in S\&P 500 from 1.1.2010 to 1.1.2020}
         \label{fig:sp_autocorr}
     \end{minipage}
     \item Volatility clusters: volatility has been measured to have positive autocorrelation. 
@@ -277,18 +278,17 @@ facts include:
     \begin{minipage}{\linewidth}
         \centering
         \includegraphics[width=10cm]{plots/S&P500_vola_autocorr.png}
-        \captionof{figure}{Volatility clustering in S\&P 500}
+        \captionof{figure}{Volatility clustering in S\&P 500 from 1.1.2010 to 1.1.2020}
         \label{fig:sp_volaclusters}
     \end{minipage}
 \end{enumerate} 
 
-
+% TODO Supervisor: add either one subplot of the previous or add more description to the title (10 year period etc.)
 
 % Something about theories of these things (explanation for the stylized facts)
 % file:///D:/Opinnot/Master's%20Thesis/literature/real%20markets/price%20dynamics/TheoriesExplainingStockPriceBehavior%20(1).pdf
 
-All of the figures above utilize daily adjusted close prices for S\&P 500 stock index 
-for the time range from 1.1.2010 to 1.1.2020. 
+All of the figures above utilize daily adjusted close prices for S\&P 500 stock index. 
 As has been done in the literature of artificial markets, the 
 representativeness of the ASM model built in this thesis is validated also 
 using these stylized facts.

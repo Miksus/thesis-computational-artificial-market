@@ -9,7 +9,7 @@ order-driven markets are more transparent than quote-driven thus they can be mod
 accurately. The model was written in Julia
 programming language and it took inspiration from previous ASM literature.
 The literature is lacking in practical studies about how to actually create
-an artificial stock market and therefore to contribute to the literature %TODO Supervisor: This is important and should be highlighted in research questions: "therefore to contribute to the literature the actual structure of the market is explained in depth"
+an artificial stock market and therefore to contribute to the literature 
 the actual structure of the market is explained in depth. The decisions 
 about the microstructure and the trader behaviour most closely resembles the 
 work of \citet{Genoa01} and \citet{Raberto05} whereas for the structure and 
@@ -17,8 +17,8 @@ practical implementation the inspiration was taken from the work of \citet{Ben12
 The goal was to create a generic artificial market model with an emphasis on flexibility 
 and practicality. However, many of the features of the model are not tested in this thesis 
 due to the scope of the thesis. The plotting and the analysis of the results were 
-conducted using Python and its scientific computing stack including Numpy, Pandas, 
-Statsmodels, Matplotlib, Seaborn and Scipy libraries. In this section the rationale 
+conducted using Python and its scientific computing stack including \textit{Numpy}, \textit{Pandas}, 
+\textit{Statsmodels}, \textit{Matplotlib}, \textit{Seaborn} and \textit{Scipy} libraries. In this section the rationale 
 for the programming choice of the model is discussed and the model structure, 
 mechanics and generic characteristics are explained.
 
@@ -437,9 +437,12 @@ The coloured areas represent where the possible combinations lie.
 \end{figure}
 
 The ASM literature does not address this issue and the discussion about 
-tick sizes in ASM models is scarce. The models created in previous studies 
+tick sizes in ASM models is scarce. The models created in previous studies %TODO Supervisor: Put some examples ".. in previous studies..." --> (see eg. ...) DONE!
 may use floating points and accept the slight, perhaps minimal, spillover 
-of assets in the system. \citet{FloatingPoint06} warned about the effects 
+of assets in the system. For instance, \citet{Raberto05} and \citet{Genoa01} used
+gaussian distributions and \citet{Jam96} and \citet{Mil08} used uniform distributions to draw the limit prices 
+for the orders. As these distributions are continuous, the limit prices themselves must also be represented as floating 
+points. \citet{FloatingPoint06} warned about the effects 
 floating-point errors may have in the perspective of agent-based models. 
 They stated there is no solution that fits all problems but introduced 
 several methods to mitigate the problem such as interval arithmetics. They, 

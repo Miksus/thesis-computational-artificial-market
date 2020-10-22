@@ -1,6 +1,8 @@
 
 \section{Results}
 
+% TODO Supervisor: Can you put a table listing the experiments? Columns: experiment, market setting, simulation runs, purpose etc. DONE!
+% if these can be put clearly, the text can tell (cannot read)
 The model was tested in several experiments. First, the generic dynamics of 
 the model is inspected. The convergence to equilibrium price is studied with two
 simulations and then the model is validated using stylized facts. 
@@ -10,15 +12,22 @@ reproduction of stylized facts.
 
 The second set of experiments consists of examining price dynamics by injecting shocks to the order book via placement 
 preferences of the traders. This is more experimental in nature and the purpose is to gain a better understanding of 
-how the market price moves due to the structure of the order book in the model.
+how the market price moves due to the structure of the order book in the model. The summary of the experiments is 
+shown in the table ~\ref{tbl:experiment_summary}.
+
+\input{tables/summary_of_experiments.tex}
 
 In all the experiments all the traders are allowed 
 to make one trading decision per session, meaning that the speak ratio 
 is one. There are no dividend nor interest paid for any assets in these experiments.
+The summary of the parameters that are set as the same in all of the experiments 
+is shown in the table ~\ref{tbl:parameter_summary}.
 % TODO:
 %   Why equilibrium testing? Literature has inspected it and this is to closer this model to it
 %   Why stylized fact validation? Literature uses these to validate
 %   Why shock injection? Because of something new.
+
+\input{tables/summary_of_parameters.tex}
 
 \subsection{Generic dynamics of the model}
 % Price dynamics, stylized facts, order book evolution
@@ -37,7 +46,7 @@ the point of interest in the first and second simulations, the number of session
 were chosen to be relatively small, 200 sessions, but to get reliable results for
 the third simulation the number of sessions was chosen to be 4 000 in order to 
 make sure the statistical significance of the tests performed to validate the 
-stylized facts will not be hampered by the number of observation.
+stylized facts will not be hampered by the number of observations.
 
 The amount of currency and the amount of stock 
 a trader owns at the beginning of all the simulations were set to
@@ -49,7 +58,7 @@ per trader may seem much but as the tick size is one,
 it may be more convenient to think the currency as amounts
 of cents or pennies. The standard deviation of
 the normal distribution that the traders use to pick the order prices
-is set to 20.
+is set to 20. % TODO Supervisor: See if you can put some quantities to the table (see upper). DON'T remove explanations. DONE!
 
 %\begin{table}
 %    \input{tables/simulation_summary.tex}% table.tex > \mytable
@@ -63,7 +72,7 @@ The evolution of trade prices, quantities and trade values throughout
 the trading sessions for the lower and higher starting price simulations 
 are shown in the figure ~\ref{fig:basic_trades}. As can be observed,
 the near-equilibrium market price is achieved before 30 trading
-sessions for both runs. The simulation with lower starting price converges
+sessions for both experiments. The simulation with lower starting price converges
 to the equilibrium in almost instantly whereas for the higher starting
 price it takes more sessions. Furthermore, the traded quantities are
 initially lower for the simulation with higher staring price than 
@@ -83,7 +92,7 @@ about 940.
 
 \begin{figure}[H]
     \includegraphics[width=\linewidth]{plots/basic_trades.png}
-    \caption{Evolution of price and quantity}
+    \caption{Evolution of price and quantity} % TODO Supervisor: "in the simulation one using... showing" Explaing hypotheses and the plot more. Same with plots 6.2-6.4. DONE!
     \label{fig:basic_trades}
 \end{figure}
 
@@ -119,10 +128,11 @@ gradually with a higher starting price.
     \caption{Converge of the order book to equilibrium}
     \label{fig:market_depths}
 \end{figure}
-
+% TODO Supervisor: remove extra enters. DONE!
 Figure ~\ref{fig:basic_orderbook_evo} provides more top-down view of the orderbook.
-This figure shows mostly the same aspects as ~\ref{fig:market_depths} but the sides of the 
-order book are not extrapolated to the edges of the plot: the white colour represents the absence of orders.
+This figure shows mostly the same aspects as figure ~\ref{fig:market_depths} but the sides of the 
+order book are not extrapolated to the edges of the plot: the white colour represents the absence of orders,
+the green colour the cumulative bids and the red colour the cumulative asks.
 The figure suggests that the asking traders in the experiment with the lower initial market price
 adopt the equilibrium price quicker than the bidding traders in the experiment with the higher initial market 
 price. One possible explanation for this phenomenon might be the bid-ask asymmetricity
@@ -154,18 +164,22 @@ The spread also is also relatively stable most likely due to the number of trade
 \subsubsection{Model Validation with Stylized Facts}
 % stylized facts
 % Something about filtering fist 100 out and now inspecting stylized facts
-As stated before, the representativeness of the model compared to real markets 
-is studied using stylized facts. In order to have representative data set to 
+As stated before, the representativeness of the model's price behaviour compared to real markets 
+is studied using stylized facts. In order to have representative stationary data set to 
 test the stylized facts, the sessions before reaching the price equilibrium are filtered out.
-Removing the first 100 sessions was considered suitable for this purpose. 
+Removing the first 100 sessions was considered suitable for this purpose leaving total of 3900 
+sessions to study the stylized facts. 
 As already discussed, the longer simulation that starts near-equilibrium 
 price is used to study the presence of stylized facts in the model. 
 
 % Autocorrelation
 % TODO: REWRITE
-The autocorrelation function (ACF) and partial autocorrelation function (PACF) for the absolute prices and absolute returns between
-the trades are plotted in the figure ~\ref{fig:basic_autocorr}. The x-axis of the plot represents the lags and y-axis of the plot represents the 
-autocorrelation coefficients. The coefficient for lag zero is always one meaning that a value is always completely autocorrelated with itself. 
+The autocorrelation of the at equilibrium experiment is inspected using autocorrelation function (ACF) and partial 
+autocorrelation function (PACF). ACF and PACF functions for the intrasession absolute prices and absolute returns 
+are plotted in the figure ~\ref{fig:basic_autocorr}. Intrasession in this context is defined as the period 
+between each trade. It should be noted that this interval is non-fixed and may have the effects of non-trading. 
+The x-axes of the plots represent the lags and y-axes of the plots represent the 
+autocorrelation coefficients. The coefficient for lag zero is always one as a value is always completely autocorrelated with itself. 
 The absolute returns in this context are the actual price movements of 
 the asset and absolute values are simply the actual prices of the asset. As the prices are already in equilibrium, and therefore should be 
 stationary, taking the third difference from the absolute value, calculating the rate of returns, should not be necessary. There is some negative 
