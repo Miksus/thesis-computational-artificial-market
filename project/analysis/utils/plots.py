@@ -20,19 +20,14 @@ def plot_order_book_heatmap(df, ax=None):
 
     dfs = []
     for idx in df_map.index:
-        #print(idx)
         df_temp = df_map.loc[idx].dropna()
-
-
 
         max_price = df_temp.index.max()
         min_price = df_temp.index.min()
 
-        #print(min_price, max_price)
         price_range = np.arange(min_price, max_price + 1)
         df_day = df_temp.reindex(price_range).fillna(0)
 
-        #print(df_day)
         dfs.append(df_day)
     df_map = pd.concat(dfs, axis=1)
 
@@ -55,7 +50,6 @@ def plot_order_book_heatmap(df, ax=None):
 
 
 def plot_market_depth(df_book, price_range=None, view=None):
-    #%matplotlib notebook
     
     df = df_book.pivot_table(
         columns="side",
@@ -91,10 +85,9 @@ def plot_market_depth(df_book, price_range=None, view=None):
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    surf = ax.plot_trisurf(x, y, z, cmap=cm.coolwarm) # , linewidth=0.1
-    #plt.clim(0,4)
+    surf = ax.plot_trisurf(x, y, z, cmap=cm.coolwarm)
+
     ax.set_zlim(0,df_plt["quantity"].max())
-    #ax.set_ylim(50,100)
 
     plt.xlabel("Trading session")
     plt.ylabel("Price")
@@ -120,7 +113,7 @@ def plot_timeseries_two_scenarios(df_a, df_b, equilibrium, names):
         
         df_plot["price"].plot(ax=axs[0, i])
         axs[0, i].axhline(equilibrium, linestyle="--", color="k", alpha=0.5)
-        df_plot["quantity"].plot(ax=axs[1, i]) # , kind="bar"
+        df_plot["quantity"].plot(ax=axs[1, i])
 
         df_plot["value"].plot(ax=axs[2, i])
 
@@ -141,10 +134,9 @@ def plot_autocorrelation(df, intrasession=False, figsize=None, absolute_return=F
     if figsize is None:
         figsize = [15,10]
     fig, axs = plt.subplots(2, n_cols, figsize=figsize, sharex='col', sharey='row')
-    df_trd = df.sort_values("timestamp") # [df["trading_day"] >= 100]
+    df_trd = df.sort_values("timestamp")
     if not intrasession:
         df_trd = df_trd.groupby("trading_day").last()
-    #df_prices = df_trd.sort_values("timestamp").groupby("trading_day")["price"].last().iloc[50:]
 
     cols = [
         (name, data)
@@ -162,8 +154,8 @@ def plot_autocorrelation(df, intrasession=False, figsize=None, absolute_return=F
     return fig
 
 def plot_volaclusters(df, clusters):
-    df_trd = df.sort_values("timestamp") # [df["trading_day"] >= 100]
-    df_trd = df_trd.groupby("trading_day").last()["price"].dropna() # .pct_change()
+    df_trd = df.sort_values("timestamp")
+    df_trd = df_trd.groupby("trading_day").last()["price"].dropna()
 
 
     fig, axs = plt.subplots(len(clusters), 2, figsize=[10,10], sharex='col', sharey='col')
@@ -175,44 +167,38 @@ def plot_volaclusters(df, clusters):
 
 def plot_volaclusters_per_session(df, clusters):
 
-    df_trd = df.sort_values("timestamp") # [df_trd["trading_day"] >= 100]
+    df_trd = df.sort_values("timestamp") 
 
-    fig, axs = plt.subplots(len(clusters)+1, 2, figsize=[10,10], sharex='col', sharey='col')
+    fig, axs = plt.subplots(len(clusters) + 1, 2, figsize=[10, 10], sharex='col', sharey='col')
 
     df_plot = df_trd.groupby("trading_day")["price"].std().dropna()
     plot_acf(df_plot, lags=10, title=f"ACF of volatility (per session)", ax=axs[0, 0])
     plot_pacf(df_plot, lags=10, title=f"PACF of volatility (per session)", ax=axs[0, 1])
 
-    #df_trd = df_trd.groupby("trading_day")["price"].last().dropna() # .pct_change()
-    for i, cluster in enumerate(clusters):
-        i += 1
+    
+    for i, cluster in enumerate(clusters, start=1):
         df_plot = df_trd.groupby(df_trd["trading_day"] // cluster).std()["price"].dropna()
-        #df_plot = df_trd.groupby("trading_day")["price"].std().dropna()
+
         plot_acf(df_plot, lags=10, title=f"ACF of volatility ({cluster} sessions)", ax=axs[i, 0])
         plot_pacf(df_plot, lags=10, title=f"PACF of volatility ({cluster} sessions)", ax=axs[i, 1])
     return fig
 
 def plot_volaclusters_intrasession(df, clusters):
 
-    df_trd = df.sort_values("timestamp").set_index("timestamp") # [df_trd["trading_day"] >= 100]
+    df_trd = df.sort_values("timestamp").set_index("timestamp")
 
-    fig, axs = plt.subplots(len(clusters), 2, figsize=[10,10], sharex='col', sharey='col')
+    fig, axs = plt.subplots(len(clusters), 2, figsize=[10, 10], sharex='col', sharey='col')
 
-    #df_plot = df_trd.groupby(df_trd.index // cluster).std().dropna()
-    #plot_acf(df_plot, lags=10, title=f"ACF of volatility (per session)", ax=axs[0, 0])
-    #plot_pacf(df_plot, lags=10, title=f"PACF of volatility (per session)", ax=axs[0, 1])
-
-    #df_trd = df_trd.groupby("trading_day")["price"].last().dropna() # .pct_change()
     for i, cluster in enumerate(clusters):
         df_plot = df_trd.groupby(df_trd.index // cluster).std()["price"].dropna()
-        #df_plot = df_trd.groupby("trading_day")["price"].std().dropna()
+
         plot_acf(df_plot, lags=10, title=f"ACF of volatility ({cluster} trades)", ax=axs[i, 0])
         plot_pacf(df_plot, lags=10, title=f"PACF of volatility ({cluster} trades)", ax=axs[i, 1])
     return fig
 
 def plot_fat_tails(df, absolute=False):
-    df_trd = df.sort_values("timestamp") # [df_trd["trading_day"] >= 100]
-    df_trd = df_trd["price"].dropna() # .pct_change()
+    df_trd = df.sort_values("timestamp") 
+    df_trd = df_trd["price"].dropna()
 
     if absolute:
         returns = df_trd.diff().dropna()
@@ -228,8 +214,8 @@ def plot_fat_tails(df, absolute=False):
     return fig
 
 def plot_fat_tails_per_session(df):
-    df_trd = df.sort_values("timestamp") # [df["trading_day"] >= 100]
-    df_trd = df_trd.groupby("trading_day").last()["price"].dropna() # .pct_change()
+    df_trd = df.sort_values("timestamp") 
+    df_trd = df_trd.groupby("trading_day").last()["price"].dropna() 
 
     fig = plt.figure()
 
@@ -240,13 +226,12 @@ def plot_fat_tails_per_session(df):
     return fig
 
 def plot_fat_tails_cumul(df):
-    df_trd = df.sort_values("timestamp") # [df_trd["trading_day"] >= 100]
-    df_trd = df_trd["price"].dropna() # .pct_change()
+    df_trd = df.sort_values("timestamp")
+    df_trd = df_trd["price"].dropna() 
 
     fig = plt.figure()
 
     ax = sns.distplot(df_trd.pct_change().dropna(), hist_kws=dict(cumulative=True), kde_kws=dict(cumulative=True)) # , fit=norm, kde=False
 
     ax.set_title(f"Cumulative distribution of returns")
-    #plt.legend(["Fitted normal distribution", "Simulation"])
     ax.set_xlabel("Rate of returns")
