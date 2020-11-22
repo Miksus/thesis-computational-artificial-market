@@ -138,7 +138,7 @@ choices that may have had an impact on the dynamics of the model.
 The definition of zero intelligence is not explicit in terms of
 concrete behaviour. Whether it is less intelligent to draw the
 order prices from a normal distribution than from a uniform
-distribution or not remains debatable. In addition, both choices
+distribution, or not, remains debatable. In addition, both choices
 introduce parameters to be defined. Setting the mean of the
 normal distribution of the order prices to float with the 
 market price possibly enabled some of the interesting dynamics
@@ -146,7 +146,7 @@ observed in the simulation but it may have taken part in causing the
 autocorrelation in the model. Whether it is more appropriate
 to fix the price to other values derived from the market,
 such as the best price of the opposite book as done by
-\citet{Genoa01}, also remains unclear. In addition, the 
+\citet{Genoa01}, remains also unclear. In addition, the 
 standard deviation of the distribution was set to a constant
 which could also be a factor playing a role in the dynamics 
 of the order book with different equilibrium prices. Setting
@@ -165,7 +165,7 @@ there could be a substantial increase to code execution to be
 achieved with better type stability, by avoiding the use of 
 abstract types and parallelizing some sections of the code. 
 Optimizing may however increase the complexity of the code 
-causing it harder to debug and maintain. The code did, however, 
+causing it to be harder to debug and maintain. The code did, however, 
 run fast enough for the experiments of this thesis but may be 
 an issue if complex and long multi-asset simulations are tested. 
 
@@ -209,7 +209,7 @@ multi-asset markets including:
 \end{itemize}
 
 % More advanded traders
-Also, as the project is heavily modularized the structure allows for the development of more advanced
+Also, as the project is heavily modularized, the structure allows for the development of more advanced
 trading agents. The model could be transformed to experiment with more advanced
 market setups introduced by the literature of agent-based computational economics. As discussed,
 there are some packages for machine learning found in Julia's ecosystem thus 
@@ -217,7 +217,7 @@ a learning trading agent could be constructed with readily available algorithms.
 
 % More advanced microstructure
 As it is relatively trivial to modify the clearing algorithm of the model to 
-act as a call market one could also build more a precise representation of a
+act as a call market, one could also build more a precise representation of a
 specific stock exchange. With the introduction of opening and closing crosses,
 which are essentially call markets at the beginning and at the end of each 
 trading day, a typical Nasdaq's trading day could be imitated. In addition,

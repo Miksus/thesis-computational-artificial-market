@@ -38,6 +38,9 @@
 \usepackage{subcaption}
 \usepackage{url}
 \usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{makecell}
+\usepackage{geometry}
 
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{algpseudocode} 
@@ -90,6 +93,13 @@
 % makeindex command needs to run at command prompt to create nomenclature list file
 \makenomenclature % makeindex main_v2.nlo -s nomencl.ist -o main_v2.nls
 %\bibpunct{(}{)}{;}{a}{,}{,}%
+
+%\setlength{\belowcaptionskip}{-10pt}
+%\usepackage[bottom]{footmisc}
+
+% Instead of trying to fit the text to the page evenly, the content of a page has variable height.
+% This prevent the effect of huge amount of white spaces between paragraphs or especially after images
+\raggedbottom
 
 \usepackage[T1]{fontenc}
 \usepackage{beramono}
