@@ -1,59 +1,29 @@
+# Master's Thesis Code: [Building a Computational Artificial Market](http://urn.fi/URN:NBN:fi-fe2020102787864)
 
-Investor api:
-- get_order() : Calculate
-- place!(Investor, Market) : Place 
-
-Market api:
-- Define one of the following
-    - get_trade_price(::BuyLimitOrder, ::SellLimitOrder; market::MyMarket) 
-        Get the price of a trade in the market. For continuous markets
-    - get_trade_price(::MyMarket)
-        Get the price of a clearing cycle. For call markets
-
-Examples:
-
-world = ExternalWorld()
-
-stock = Stock()
-investors = [ZeroIntelligence(cash=500, positions=Dict(stock => 50)) for i in 1:100]
-markets = [ContinuousDoubleAuctionMarket() for i in range(2)]
-
-for day in range(100)
-    # Trading day
-
-    for investor in investors, market in markets
-        place!(investor, market)
-    end
-    update!(world)
-    
-    for market in markets
-        cancel_all!(market)
-    end
-
-end
-
+> Julia version: 1.3.1
+> Python: 3.6.6
 
 ---
 
-stock = DoubleAuctionMarket("NOK")
-stock.last_price = 95
-prices = Array{Float64,1}()
-inv = [SingleAssetInvestor(
-        "Player " * string(n), starting_cash, n_stocks
-        , price_expr=price_expr, order_expr=order_expr, quantity_expr=quantity_expr
-        ) for n in 1:n_traders]
+## Source Files
 
+simulation.ipynb
+- Set of executed/example simulations. Results are dumped to csv files to results/
 
-for n in 1:n_iters
-    println("Placing...")
-    for inv in inv
-        place!(inv, stock)
-    end
-    println("Clearing...")
-    clear!(stock)
-    push!(prices, stock.last_price)
+analysis/
+- Set of notebooks (in Python) used to analyze the results of the simulations.
 
-    if n < n_iters
-        cancel!(stock)
-    end
-end
+main.jl
+- Utility functions used to run the simulation with given settings.
+
+src/botmarket.jl
+- Actual Julia package that exports the relevant components of the ASM model.
+
+src/builtin
+- Collection of concrete and complete types/structs that are to be exported 
+and used in the simulation.
+
+src/abstracts.jl
+- Collection of abstract types/structs.
+
+Other source files contain utility functions and structs for the simulation.
