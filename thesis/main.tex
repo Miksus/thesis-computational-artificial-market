@@ -1,15 +1,11 @@
 
 % PDF Latex version:
-%   pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX)
-%       kpathsea version 6.3.1
-%       Compiled with libpng 1.6.36; using libpng 1.6.36
-%       Compiled with zlib 1.2.11; using zlib 1.2.11
-%       Compiled with xpdf version 4.01
-% 
+%    pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX)
+%    kpathsea version 6.3.1
+%    Compiled with libpng 1.6.36; using libpng 1.6.36
+%    Compiled with zlib 1.2.11; using zlib 1.2.11
+%    Compiled with xpdf version 4.01
 
-
-% Beginning of code
-% -----------------
 
 % Setting document properties
 \documentclass[a4paper,twoside,12pt,notitlepage,openright,12pt]{article}
@@ -31,7 +27,6 @@
 \usepackage[hmargin=3.0cm,vmargin=3.6cm]{geometry} % setting marginals
 \usepackage{fancyhdr,extramarks}  % header ja footer manipulation
 \usepackage{times}  % to change font to times
-%\usepackage{uarial} % as similar as Arial as possible
 \usepackage{setspace} % for linespacing
 \usepackage{caption}
 \usepackage{booktabs}
@@ -73,10 +68,6 @@
 \fancyhf{} % clearing the header and footer
 \fancyhead[RE,RO]{\thepage}
 
-%\renewcommand\sectionmark[1]
-%{\markboth{\thesection\ #1}{}}         % section name to header
-%\renewcommand\subsectionmark[1]
-%{\markright{\thesubsection\ #1}}       % subsection name to header
 \renewcommand{\headrulewidth}{0pt}      % ruler thickness between head and body
 \renewcommand{\footrulewidth}{0pt}      % no ruler between body and footer
 
@@ -92,10 +83,6 @@
 
 % makeindex command needs to run at command prompt to create nomenclature list file
 \makenomenclature % makeindex main_v2.nlo -s nomencl.ist -o main_v2.nls
-%\bibpunct{(}{)}{;}{a}{,}{,}%
-
-%\setlength{\belowcaptionskip}{-10pt}
-%\usepackage[bottom]{footmisc}
 
 % Instead of trying to fit the text to the page evenly, the content of a page has variable height.
 % This prevent the effect of huge amount of white spaces between paragraphs or especially after images
@@ -110,12 +97,7 @@
 % Bibliography & citation style
 % -----------------------------
 
-\bibliographystyle{LUTapa2}
-
-% Other (Harvard) styles: 
-%\bibliographystyle{agsm}
-%\bibliographystyle{kluwer}
-%\bibliographystyle{dcu}
+\bibliographystyle{LUTapa_modif}
 
 
 % Programming language definitions
@@ -194,14 +176,8 @@
 \inputencoding{utf8}
 \include{abstract_finnish}
 \inputencoding{ansinew}
-%\addtocontents{toc}{\contentsline {section}{Abstract}{}}
 
 \include{acknowledgments}
-%\addtocontents{toc}{\contentsline {section}{Acknowledgments}{}}%
-%\input{preface}
-%\cleardoublepage%
-%\thispagestyle{empty}%
-% \addtocontents{toc}{\contentsline{section}{Contents}{}} % including contents to contents
 
 % Contents, figures and tables
 \tableofcontents
@@ -209,11 +185,7 @@
 \listoftables
 
 \thispagestyle{empty}
-%\cleardoublepage%
 \pagestyle{fancy}
-
-%\addcontentsline{toc}{section}{List of publications}
-%\include{LOP} %List of publications
 
 %\cleardoublepage%
 \printnomenclature[2.0cm]%
@@ -243,27 +215,8 @@
 
 \newpage
 \pagenumbering{gobble}
-% \include{content/appendix}
-
-
-% References
-% ----------
-
-%\renewcommand{\thepage}{} % Stop page numbering in references
-
-%\addcontentsline{toc}{section}{References}%
 
 \fancyhead[LO]{\nouppercase{\bfseries\firstleftxmark}}
 \fancyhead[RE]{\nouppercase{\bfseries\lastrightxmark}}
-
-%\extramarks{}{References} % this will remove the "References" to be appearing at the header at first page of bibliography
-%\extramarks{References}{References}
-
-%\bibliographystyle{LUTapa}%
-
-%\bibliographystyle{LUTapa1}% %This won't shorten 4 or more author to "et al." in reference list
-
-
-%\cleardoublepage %
 
 \end{document}
