@@ -2,6 +2,8 @@
 
 > Keywords: Computational economics, experimental economics, artificial stock market
 
+![Market Depth](thesis\plots\basic_market_depth_converge_higher.png)
+
 ---
 
 ## Abstract
